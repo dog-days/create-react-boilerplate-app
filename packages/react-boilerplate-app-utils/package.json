@@ -1,0 +1,17 @@
+{
+  "name": "react-boilerplate-app-utils",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "https://github.com/dog-days/create-react-boilerplate-app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-spawn": "^5.1.0",
+    "fs-extra": "^3.0.1",
+    "semver": "^5.3.0"
+  }
+}
