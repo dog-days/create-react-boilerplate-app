@@ -1,7 +1,7 @@
 {
-  "name": "r2-js",
-  "version": "0.0.17",
-  "description": "r2",
+  "name": "react-redux-boilerplate-js",
+  "version": "0.0.1",
+  "description": "react-redux-boilerplate",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
@@ -27,7 +27,7 @@
   "jsnext:main": "es/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dog-days/r2-js.git"
+    "url": "git+https://github.com/dog-days/create-react-boilerplate-app.git"
   },
   "bugs": {
     "url": "https://github.com/dog-days/r2-js/issues"

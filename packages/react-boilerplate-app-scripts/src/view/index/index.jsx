@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Locale from 'r2-js/libs/decorator/Locale'
-import PageTitle from 'r2-js/libs/decorator/PageTitle'
+import Locale from 'react-redux-boilerplate-js/libs/decorator/Locale'
+import PageTitle from 'react-redux-boilerplate-js/libs/decorator/PageTitle'
 
-//connect to redux store,refer to redux. 
+//connect to redux store,refer to redux.
 @connect((state)=>{
   return {
   };
@@ -18,7 +18,7 @@ import PageTitle from 'r2-js/libs/decorator/PageTitle'
 //refer to the api.
 @Locale
 //the view is the second route page veiw component.
-//you can eidit `./_route.js` file to change the url path for the current page. 
+//you can eidit `./_route.js` file to change the url path for the current page.
 class IndexView extends React.Component {
 
   render() {
@@ -29,8 +29,8 @@ class IndexView extends React.Component {
         <br/>
         { this.t('When you save the file,it will be updated to the browser automatically.') }
       </div>
-    )  
+    )
   }
 }
 
-export default IndexView; 
+export default IndexView;

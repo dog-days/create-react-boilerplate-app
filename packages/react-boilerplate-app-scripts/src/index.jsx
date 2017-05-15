@@ -1,4 +1,4 @@
-import r2 from "r2-js/libs/index";
+import r2 from "react-redux-boilerplate-js/libs/index";
 import defaultLocale from 'src/locale/en_US';
 import routes from './.routes';
 import reducers from './.reducers'
@@ -9,7 +9,7 @@ render();
 if (module.hot) {
   module.hot.accept(
     './.routes',
-    () => render() 
+    () => render()
   );
   module.hot.accept(
     './.reducers',

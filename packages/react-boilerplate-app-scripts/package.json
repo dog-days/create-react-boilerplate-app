@@ -2,6 +2,13 @@
   "name": "react-boilerplate-app-scripts",
   "version": "0.0.2",
   "description": "react-boilerplate-app-scripts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dog-days/create-react-boilerplate-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dog-days/create-react-boilerplate-app/issues"
+  },
   "homepage": "https://github.com/dog-days/create-react-boilerplate-app",
   "main": "index.js",
   "engines": {

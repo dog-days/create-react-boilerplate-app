@@ -13,9 +13,9 @@ const paths = require(util.pathResolve('config/paths.js',__dirname,scriptsPackag
 const packageJson = util.getCwdPackageJson();
 function getInfo(package){
   return !!(
-    packageJson.dependencies && packageJson.dependencies[package] 
+    packageJson.dependencies && packageJson.dependencies[package]
     || packageJson.devDependencies && packageJson.devDependencies[package]
-  );  
+  );
 }
 const useSass = getInfo('sass-loader') && getInfo('node-sass');
 const useLess = getInfo('less') && getInfo('less-loader');
@@ -26,7 +26,7 @@ const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagen
 const postcssLoaderConfig = {
   loader: 'postcss-loader',
   options: {
-    ident: 'postcss', 
+    ident: 'postcss',
     plugins: () => [
       autoprefixer({
         browsers: [
@@ -34,7 +34,7 @@ const postcssLoaderConfig = {
           'last 4 versions',
           'Firefox ESR',
           // React doesn't support IE8 anyway
-          'not ie < 9', 
+          'not ie < 9',
         ],
       }),
     ],
@@ -43,16 +43,16 @@ const postcssLoaderConfig = {
 
 //webpack配置项
 var config = {
-  //任何错误立即终止 
+  //任何错误立即终止
   bail: true,
   devtool: 'source-map',
   //隐藏终端的warning信息
-  performance: { 
-    hints: false, 
+  performance: {
+    hints: false,
   },
   entry: {
     app: paths.appEntry,
-  }, 
+  },
   output: {
     filename: 'static/js/bundle.js?hash=[hash]',
     //js打包输出目录，以package.json为准，是用相对路径
@@ -69,8 +69,8 @@ var config = {
   module: {
     rules: [
       //匹配到rquire中以.css结尾的文件则直接使用指定loader
-      { 
-        test: /\.css$/, 
+      {
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -106,7 +106,7 @@ var config = {
       //limit是base64转换最大限制，小于设置值，都会转为base64格式
       //name是在css中提取图片的命名方式
       //目前设置.bmp、.git、.jpe(g)、.png、.svg、.webp转换
-      { 
+      {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/,/\.svg/,/\.webp$/],
         //[path]是以publicPath为准
         loader: 'url-loader',
@@ -115,9 +115,9 @@ var config = {
           name: '/static/media/[name].[hash].[ext]'
         }
       },
-      { 
+      {
         //匹配.js或.jsx后缀名的文件
-        test: /\.js[x]?$/, 
+        test: /\.js[x]?$/,
         loader: 'babel-loader',
         include: paths.src
       },
@@ -127,8 +127,8 @@ var config = {
   },
   resolve: {
     alias: {
-      'src': paths.src, 
-    }, 
+      'src': paths.src,
+    },
     //不可留空字符串
     extensions: ['.js', '.jsx']
   },
@@ -151,15 +151,15 @@ var config = {
       }
     }),
     new webpack.DefinePlugin({
-      'process.env.PREFIX_URL': JSON.stringify(cwdPackageJsonConfig.prefixURL), 
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV), 
-      'process.env.useImmutable': JSON.stringify(useImmutable), 
+      'process.env.PREFIX_URL': JSON.stringify(cwdPackageJsonConfig.prefixURL),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.useImmutable': JSON.stringify(useImmutable),
     }),
     // This helps ensure the builds are consistent if source hasn't changed:
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.LoaderOptionsPlugin({
       // optionally pass test, include and exclude, default affects all loaders
-      test: /\.css|.js|.jsx|.scss$/, 
+      test: /\.css|.js|.jsx|.scss$/,
       minimize: true,
       debug: false,
     }),
@@ -173,7 +173,7 @@ var config = {
     new ExtractTextPlugin({
       filename: 'static/css/styles.css?hash=[hash]',
       //最好true,要不后面加上sass-loader等时，会出现css没有提取的现象
-      allChunks: true 
+      allChunks: true
     }),
     new ProgressBarPlugin(),
   ]
@@ -181,8 +181,8 @@ var config = {
 //使用sass配置
 if(useSass) {
   config.module.rules.push(
-    { 
-      test: /\.scss$/, 
+    {
+      test: /\.scss$/,
       loader: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: [
@@ -197,8 +197,8 @@ if(useSass) {
 //使用sass配置
 if(useLess) {
   config.module.rules.push(
-    { 
-      test: /\.scss$/, 
+    {
+      test: /\.scss$/,
       loader: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: [

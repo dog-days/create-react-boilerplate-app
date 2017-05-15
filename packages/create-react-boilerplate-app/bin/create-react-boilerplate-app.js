@@ -13,7 +13,7 @@ const Basic = require('./libs/Basic');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 class CreateApp extends Basic {
-  
+
   constructor(){
     super();
     this.packageJson = {
@@ -23,7 +23,7 @@ class CreateApp extends Basic {
       devDependencies: { }
     };
     this.dependencies = [
-      'r2-js'
+      'react-redux-boilerplate-js'
     ];
     this.devDependencies = [
       'react-boilerplate-app-scripts',
@@ -78,7 +78,7 @@ class CreateApp extends Basic {
       path.resolve(this.appPath,"./package.json"),
       JSON.stringify(this.packageJson, null, 2)
     );
-  } 
+  }
   //成功安装后的的package.json
   writeResultPackageJson(){
     this.dependencies.forEach((v,k)=>{
@@ -95,7 +95,7 @@ class CreateApp extends Basic {
     );
   }
   /**
-   * 检查当前目录是否合法 
+   * 检查当前目录是否合法
    * @return { Boolean } true or false
    */
   checkPathDirIsValid(){
@@ -109,7 +109,7 @@ class CreateApp extends Basic {
     }
   }
   /**
-   * 安装完后初始化app项目 
+   * 安装完后初始化app项目
    */
   initApp(){
     try {

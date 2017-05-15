@@ -12,9 +12,9 @@ const paths = require(util.pathResolve('config/paths.js',__dirname,'react-redux-
 const packageJson = util.getCwdPackageJson();
 function getInfo(package){
   return !!(
-    packageJson.dependencies && packageJson.dependencies[package] 
+    packageJson.dependencies && packageJson.dependencies[package]
     || packageJson.devDependencies && packageJson.devDependencies[package]
-  );  
+  );
 }
 const useSass = getInfo('sass-loader') && getInfo('node-sass');
 const useLess = getInfo('less') && getInfo('less-loader');
@@ -27,7 +27,7 @@ const postcssLoaderConfig = {
   loader: 'postcss-loader',
   options: {
     sourceMap: true,
-    ident: 'postcss', 
+    ident: 'postcss',
     plugins: () => [
       autoprefixer({
         browsers: [
@@ -35,7 +35,7 @@ const postcssLoaderConfig = {
           'last 4 versions',
           'Firefox ESR',
           // React doesn't support IE8 anyway
-          'not ie < 9', 
+          'not ie < 9',
         ],
       }),
     ],
@@ -55,12 +55,12 @@ const entry =  [
 var config = {
   devtool: 'cheap-module-source-map',
   //隐藏终端的warning信息
-  performance: { 
-    hints: false, 
+  performance: {
+    hints: false,
   },
   entry: {
     app: entry,
-  }, 
+  },
   output: {
     filename: 'bundle.js?hash=[hash]',
     //js打包输出目录，以package.json为准，是用相对路径
@@ -75,13 +75,13 @@ var config = {
   module: {
     rules: [
       //匹配到rquire中以.css结尾的文件则直接使用指定loader
-      { 
-        test: /\.css$/, 
+      {
+        test: /\.css$/,
         use: [
           'style-loader',
           'css-loader',
-          postcssLoaderConfig, 
-        ] 
+          postcssLoaderConfig,
+        ]
       },
       //字体等要经过file-loader提取到指定目录
       {
@@ -110,7 +110,7 @@ var config = {
       //limit是base64转换最大限制，小于设置值，都会转为base64格式
       //name是在css中提取图片的命名方式
       //目前设置.bmp、.git、.jpe(g)、.png转换
-      { 
+      {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/,/\.svg/,/\.webp$/],
         //[path]是以publicPath为准
         loader: 'url-loader',
@@ -126,9 +126,9 @@ var config = {
         include: paths.src,
         loader: "eslint-loader",
       },
-      { 
+      {
         //匹配.js或.jsx后缀名的文件
-        test: /\.js[x]?$/, 
+        test: /\.js[x]?$/,
         loader: 'babel-loader',
         include: paths.src
       },
@@ -138,8 +138,8 @@ var config = {
   },
   resolve: {
     alias: {
-      'src': paths.src, 
-    }, 
+      'src': paths.src,
+    },
     //不可留空字符串
     extensions: ['.js', '.jsx']
   },
@@ -150,10 +150,10 @@ var config = {
       template: paths.appHtml,
     }),
     new webpack.DefinePlugin({
-      'process.env.PREFIX_URL': JSON.stringify(cwdPackageJsonConfig.prefixURL), 
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV), 
-      'useImmutable': JSON.stringify(useImmutable), 
-      'process.env.useImmutable': JSON.stringify(useImmutable), 
+      'process.env.PREFIX_URL': JSON.stringify(cwdPackageJsonConfig.prefixURL),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'useImmutable': JSON.stringify(useImmutable),
+      'process.env.useImmutable': JSON.stringify(useImmutable),
     }),
     new webpack.HotModuleReplacementPlugin(),
     // prints more readable module names in the browser console on HMR updates
@@ -164,8 +164,8 @@ var config = {
 //使用sass配置
 if(useSass) {
   config.module.rules.push(
-    { 
-      test: /\.scss$/, 
+    {
+      test: /\.scss$/,
       use: [
         'style-loader',
         'css-loader',
@@ -176,15 +176,15 @@ if(useSass) {
             sourceMap: true,
           },
         }
-      ] 
+      ]
     }
   );
 }
 //使用less配置
 if(useLess) {
   config.module.rules.push(
-    { 
-      test: /\.less$/, 
+    {
+      test: /\.less$/,
       use: [
         'style-loader',
         'css-loader',
@@ -195,7 +195,7 @@ if(useLess) {
             sourceMap: true,
           },
         }
-      ], 
+      ],
     }
   );
 }

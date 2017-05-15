@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Locale from 'r2-js/libs/decorator/Locale'
-import PageTitle from 'r2-js/libs/decorator/PageTitle'
-import BreadCrumb from 'r2-js/libs/decorator/BreadCrumb'
+import Locale from 'react-redux-boilerplate-js/libs/decorator/Locale'
+import PageTitle from 'react-redux-boilerplate-js/libs/decorator/PageTitle'
+import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
 
 //BreadCrumb must before redux @connect,it's different from layout view
 //in the array,you can custom the fields. you can also use function.
