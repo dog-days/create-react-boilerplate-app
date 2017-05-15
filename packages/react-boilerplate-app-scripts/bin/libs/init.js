@@ -15,7 +15,7 @@ class init extends Basic{
   }
 
   /**
-  * 检查当前目录是否合法 
+  * 检查当前目录是否合法
   * @return { Boolean } true or false
   */
   checkCurrentDirIsValid(){
@@ -41,22 +41,46 @@ class init extends Basic{
         var command = this.packageJson['scripts'][k];
         var match = command.match(/node.*\.\/bin\/(.*)\.js/);
         if(match && match[1]){
-          packageJson.scripts[k] = this.packageJson['scripts'][k].replace(match[0],match[1]); 
+          packageJson.scripts[k] = this.packageJson['scripts'][k].replace(match[0],match[1]);
         }
       }
     }
     packageJson.babel = this.packageJson.babel;
     packageJson[scriptsPackagename] = this.packageJson[scriptsPackagename];
+    //删除src目录的设置，使用默认的
+    if(packageJson[scriptsPackagename].appSrcPath){
+      delete packageJson[scriptsPackagename].appSrcPath;
+    }
+    var zh_CN = this.getZHCN();
+    if(zh_CN){
+      packageJson[scriptsPackagename].language = zh_CN;
+    }
+    packageJson['eslintConfig'] = this.packageJson['eslintConfig'];
     fs.writeFileSync(
       pacakgeJsonPath,
       JSON.stringify(packageJson, null, 2)
     );
   }
+  /**
+   * 获取zH_CN字符
+   * @return { string || undefined } 返回zh_CN 或者 undefined
+   */
+  getZHCN(){
+    if(process.env.LANG){
+      return process.env.LANG.split('.')[0];
+    }
+  }
 
   run(){
     var flag = this.checkCurrentDirIsValid();
     if(flag) {
-      var srcPath = path.resolve(__dirname,"../../src");
+      var zh_CN = this.getZHCN();
+      var srcPath;
+      if(zh_CN){
+        srcPath = path.resolve(__dirname,"../../template/zh_CN-src");
+      }else {
+        srcPath = path.resolve(__dirname,"../../template/en_US-src");
+      }
       fs.ensureDirSync(srcPath);
       fs.copySync(srcPath,path.resolve(process.cwd(),"src"),{
         dereference: true,

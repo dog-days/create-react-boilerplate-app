@@ -79,7 +79,7 @@ class ReadAndGenerateLocaleExeclList {
             return;
         }
         //end-------忽略处理
-        var filePath = path.resolve(c_path,v); 
+        var filePath = path.resolve(c_path,v);
         var stat =	fs.lstatSync(filePath);
         if(stat.isDirectory()){
           this.dirs.push(filePath);
@@ -128,7 +128,7 @@ class ReadAndGenerateLocaleExeclList {
     })
   }
   /**
-  * 读取excel文件内容 
+  * 读取excel文件内容
   */
   parseExcelFile(c_path){
     var data;
@@ -141,7 +141,7 @@ class ReadAndGenerateLocaleExeclList {
     return data;
   }
   /**
-  * 对比已存在的excel，获得语言最终列表 
+  * 对比已存在的excel，获得语言最终列表
   */
   compareAndGetLangList(){
     var data = this.parseExcelFile(this.config.translatedLangPath);
@@ -165,14 +165,14 @@ class ReadAndGenerateLocaleExeclList {
     //console.log(data[0].data.length,this.uniqueLangList.length,this.compareUniqueLangList.length);
   }
   /**
-  * 生成Excel，给对应人员翻译 
+  * 生成Excel，给对应人员翻译
   */
   generateExcel(){
     //console.log(this.compareUniqueLangList);
-    var buffer = xlsx.build([{name: "multi-language", data: this.compareUniqueLangList}]); 
+    var buffer = xlsx.build([{name: "multi-language", data: this.compareUniqueLangList}]);
     fs.writeFileSync(this.config.saveUniqueLangPath,buffer);
     fs.writeFileSync(this.config.translatedLangPath,buffer);
-    var buffer2 = xlsx.build([{name: "multi-language", data: this.langList}]); 
+    var buffer2 = xlsx.build([{name: "multi-language", data: this.langList}]);
     fs.writeFileSync(this.config.saveNotUniqueLangPath,buffer2)
     console.log(chalk.green('Excel created successfully in '));
     console.log(chalk.cyan(path.resolve(this.config.excelSaveDir)));
@@ -180,7 +180,7 @@ class ReadAndGenerateLocaleExeclList {
 
 }
 module.exports = ReadAndGenerateLocaleExeclList;
-var obj = new ReadAndGenerateLocaleExeclList(); 
+var obj = new ReadAndGenerateLocaleExeclList();
 //console.log(obj.langList)
 
 
