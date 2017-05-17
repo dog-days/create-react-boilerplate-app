@@ -56,7 +56,7 @@ class ReadTplInfo {
       return;
     }
     //兼容windows路径
-    this.config.path = this.config.path.replace('\\','/');
+    this.config.path = this.config.path.replace(/\\/g,'/');
 		this.setIgnoreInfo();
     return this.getDirFilesInfo();
 	}
@@ -139,7 +139,7 @@ class ReadTplInfo {
 					var contents = fs.readFileSync(filePath,{
 						encoding : 'utf-8'
 					})
-					var index = file.replace(/\..*/,'');
+					var index = file.spit('');
 					filesObj[index] = {
 						contents : contents,
 						tagsInfo : this.getTagsInfo(contents),
