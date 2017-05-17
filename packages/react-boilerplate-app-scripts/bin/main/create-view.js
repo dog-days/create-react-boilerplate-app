@@ -98,7 +98,7 @@ class createView {
     //可以通过用户的命令配置需要的功能，跟create-view的命令基本一致
     this.savePageViewFiles(filesPath[0],filesPath[1],program);
     //end--进行了自定义标签处理
-    var ac = require("./ac");
+    var ac = require("./route-reducer-creater");
     new ac();
   }
 }

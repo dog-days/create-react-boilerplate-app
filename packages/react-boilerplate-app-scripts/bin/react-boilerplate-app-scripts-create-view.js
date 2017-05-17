@@ -1,5 +1,5 @@
 #!/usr/bin/env node --harmony
 'use strict';
 
-var creactView = require('./libs/create-view');
+var creactView = require('./main/create-view');
 new creactView();

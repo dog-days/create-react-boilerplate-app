@@ -7,7 +7,7 @@ const commander = require('commander');
 const util = require('react-boilerplate-app-utils');
 const Basic = require('./Basic.js');
 const saveFilesByCustomContens = require('./decorator/SaveFilesByCustomContens');
-const FindSpecificFileByDir = require('../main/libs/script/FindSpecificFileByDir');
+const FindFilesPathByDir = require('react-boilerplate-app-utils/FindFilesPathByDir');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 class init extends Basic{
@@ -83,13 +83,16 @@ class init extends Basic{
       JSON.stringify(packageJson, null, 2)
     );
   }
-
+  /**
+   * 获取指定文件夹中的所有文件绝对路径（所有的js和jsx文件，包括所有的后代子文件）
+   */
   getSavedSrcDirFilesPath(savePath){
-    var findSpecificFileByDir = new FindSpecificFileByDir({
-      path: [savePath],
+    var filesPath = FindFilesPathByDir({
+      path: savePath,
       fileName: '*'
     });
-    var files = findSpecificFileByDir.filesPath.filter((v,k)=>{
+    //只要js、jsx后缀的文件路径
+    var files = filesPath.filter((v,k)=>{
       if(v.indexOf('.js') !== -1){
         return true;
       }
@@ -120,7 +123,7 @@ class init extends Basic{
     this.saveByFilesPath(filesPath,filesPath,this.program);
     //end--进行了自定义标签处理
     this.writePackageJson();
-    var ac = require("./ac.js");
+    var ac = require("./route-reducer-creater.js");
     new ac();
   }
 }

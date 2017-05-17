@@ -2,7 +2,7 @@
 
 const path = require("path")
 const fs = require("fs-extra")
-const util = require('react-boilerplate-app-utils');
+const util = require('./index');
 
 /**
  * @param {object} config
@@ -12,10 +12,8 @@ const util = require('react-boilerplate-app-utils');
  * 		fileName:"",//查找的文件名
  *    //如果fileName="*",代表所有文件
  * }
- * @this {Array} dirs 查找后的指定文件所有文件夹路径
- * @this {Array} filesPath 查找后的指定文件的所有文件路径
  */
-class Script {
+class FindFilesPathByDir {
 	constructor(config){
     if(Object.prototype.toString.apply(config.path) === '[object String]'){
       //转换成数组
@@ -27,6 +25,7 @@ class Script {
 		//查找所指定文件后的路径
 		this.filesPath = [];
 		this.run();
+    return this.filesPath;
 	}
   run(){
 		this.config.path.forEach(v=>{
@@ -56,7 +55,6 @@ class Script {
           }
         }
 			})
-//console.log(this.filesPath)
 		}catch(e){
 			console.log(e);
       process.exit()
@@ -87,8 +85,9 @@ class Script {
 
 }
 
-module.exports = Script;
-
+module.exports = function (config) {
+  return new FindFilesPathByDir(config);
+};
 
 
 

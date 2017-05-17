@@ -1,63 +1,65 @@
 'use strict';
 
-var fs = require("fs")
-var path = require("path")
-var chalk = require('chalk');
-var ReadDirTpl = require("../libs/script/ReadDirTpl")
-var FindSpecificFileByDir = require("../libs/script/FindSpecificFileByDir")
-var getRoutes = require("../libs/script/getRoutes")
-var r2Common = "";
+const fs = require("fs-extra")
+const path = require("path")
+const chalk = require('chalk');
+const ReadTplInfo = require("react-boilerplate-app-utils/ReadTplInfo")
+const FindFilesPathByDir = require("react-boilerplate-app-utils/FindFilesPathByDir")
+const relative = require('relative');
+const util = require('react-boilerplate-app-utils');
+const scriptsPackagename = 'react-boilerplate-app-scripts';
+const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
+
 class Script {
   constructor(config){
     this.config = config;
     this.run();
-  }  
+  }
 
   run(){
     try{
-      this.setTpls();
-    var findSpecificFileByDir = new FindSpecificFileByDir(this.config)
-    this.filesPath = findSpecificFileByDir.filesPath;
-    this.getRoutesName();
-    if(!this.error){
-      this.writeRouteFile();
-      // console.log(this.routes)
-    }
-    // console.log(this.filesPath)
+      var tpls = this.getTpls();
+      var filesPath = new FindFilesPathByDir(this.config)
+      var routesInfo = this.getRoutesInfo(filesPath);
+      this.writeRouteFile(routesInfo,tpls);
     }catch(e){
       console.log(e);
     }
   }
 
-  setTpls(){
-    var tplObj = new ReadDirTpl({
+  getTpls(){
+    return ReadTplInfo({
       path : this.config.tplPath,
     });
-    var tplInfo = tplObj.getDirFilesInfo();
-    this.tpls = tplInfo;
-    // console.log(this.tpls)
   }
-
   /**
-   * getRoutesName 获取所有的reducers名 
+   * 获取_route.js的所有文件信息
    */
-  getRoutesName(){
-    var routesObj = new getRoutes(this.filesPath,this.config.path)
-    this.routes = routesObj.routes;
-    this.error = routesObj.error;
-  }
+  getRoutesInfo(filesPath){
+    var routesInfo = [];
+    filesPath.forEach(v=>{
+      var sp = v.split("/")
+      var name = sp[sp.length-2]
+			routesInfo.push({
+				name: name,
+				path: './' + relative(cwdPackageJsonConfig.routesPath,v),
+				absolutePath: v,
+			})
+    })
+    return routesInfo;
+	}
 
-  writeRouteFile(){
+  writeRouteFile(routesInfo,tpls){
     var _this = this,
       name = "routes" ;
-    var tpl = this.tpls[name],  
-      content = tpl.contents;  
+    var tpl = tpls[name],
+      content = tpl.contents;
     var im = "",
       index = "";
     //指定layout是否是第一次
     var state = {};
     //处理一级route，判别方式为每个_route.js中是否有layout变量。
-    this.routes.forEach(v=>{
+    routesInfo.forEach(v=>{
       var routes_file_contents = fs.readFileSync(v.absolutePath,{
         encoding : 'utf-8'
       })
@@ -75,7 +77,7 @@ class Script {
               .replace(/\$\{path\}/g,v.path)
         }
       }else{
-        var layout_path = path.resolve(this.config.layoutPath,layout) 
+        var layout_path = path.resolve(this.config.layoutPath,layout)
         if(!fs.existsSync(layout_path)){
           console.error(chalk.red(`layout：${ layout }，${ layout_path }不存在`));
           this.error = true;
@@ -100,12 +102,9 @@ class Script {
         }else{
           console.error(v.absolutePath + "：不存在layout---"+layout)
         }
-        
+
       }
     })
-    if(this.error){
-      return;
-    }
     content = content.replace(tpl.tagsInfo.tagRegex['require'],im)
     content = content.replace(tpl.tagsInfo.tagRegex['index'],index)
     // console.log(content)
