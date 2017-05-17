@@ -42,7 +42,6 @@ class Script {
       var name = sp[sp.length-2]
 			routesInfo.push({
 				name: name,
-				path: './' + relative(cwdPackageJsonConfig.routesPath,v),
 				absolutePath: v,
 			})
     })
@@ -64,17 +63,19 @@ class Script {
         encoding : 'utf-8'
       })
       var routes_match = routes_file_contents.match(/layout.*\:.*("|')(.*)("|')/i);
-      var layout;
+      var layout,route_require_path;
       if(routes_match && routes_match[2]){
         layout = routes_match[2];
       }
       if(!layout){
+        //获取相对位置，require使用
+        var route_require_path = ('./' + relative(cwdPackageJsonConfig.routesPath,v.absolutePath)).replace(/\\/g,'/');
         if(v.name != "index"){
           im += tpl.tagsInfo.tagContents['require']
-              .replace(/\$\{path\}/g,v.path)
+              .replace(/\$\{path\}/g,route_require_path)
         }else{
           index += tpl.tagsInfo.tagContents['index']
-              .replace(/\$\{path\}/g,v.path)
+              .replace(/\$\{path\}/g,route_require_path)
         }
       }else{
         var layout_path = path.resolve(this.config.layoutPath,layout)
@@ -84,6 +85,8 @@ class Script {
           return;
         }
         var child_routesPath = path.resolve(layout_path,'.child_routes.js');
+        //获取相对位置，require使用
+        var route_require_path = ('./' + relative(child_routesPath,v.absolutePath)).replace(/\\/g,'/');
         //.child_routes.js文件不存在，创建新的
         if(!fs.existsSync(child_routesPath)){
           fs.writeFileSync(child_routesPath,"export default [\n\r  //routes//\n\r]")
@@ -97,7 +100,7 @@ class Script {
           var child_routes = fs.readFileSync(child_routesPath,{
             encoding : 'utf-8'
           })
-          child_routes = child_routes.replace(/\/\/routes\/\//g,'require("'+v.path+'").default, \n\r  //routes//')
+          child_routes = child_routes.replace(/\/\/routes\/\//g,'require("'+route_require_path+'").default, \n\r  //routes//')
           fs.writeFileSync(child_routesPath,child_routes)
         }else{
           console.error(v.absolutePath + "：不存在layout---"+layout)

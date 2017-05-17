@@ -55,7 +55,7 @@ class createReducerFile {
 				reducersName.push(r);
 				reducersInfo.push({
 					name: r,
-					path: './' + relative(cwdPackageJsonConfig.reducersPath,v),
+          path: ('./' + relative(cwdPackageJsonConfig.reducersPath,v)).replace(/\\/g,'/'),
 					absolutePath: v,
 				})
 			})
