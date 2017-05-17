@@ -2,6 +2,8 @@ var fs = require('fs');
 var path = require('path')
 /**
  * 读取指定模板，获取所有符合规则的匹配信息，方便处理。
+ * 文件名格式为xxxx.tpl.xx，tagName获取为xxxx
+ * 或者文件名格式为fileNamexxx.xx，tagName获取为fileNamexxx
  *@param { object } config 构造函数配置参数
  *  config.path { string } 绝对路径，必填，如果是文件读取当前文件，如果是文件夹读取所有文件夹中的文件
  *  config.ignoreFiles { array } path为数组时，忽略的文件名。
@@ -139,7 +141,7 @@ class ReadTplInfo {
 					var contents = fs.readFileSync(filePath,{
 						encoding : 'utf-8'
 					})
-					var index = file.spit('');
+					var index = file.replace(/\..*/,'');
 					filesObj[index] = {
 						contents : contents,
 						tagsInfo : this.getTagsInfo(contents),
