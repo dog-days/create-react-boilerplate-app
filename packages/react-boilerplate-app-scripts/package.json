@@ -24,6 +24,7 @@
     "build": "node ./bin/react-boilerplate-app-scripts.js build",
     "view-locale-to-excel": "node ./bin/react-boilerplate-app-scripts.js view-locale-to-excel",
     "excel-to-locale-config": "node ./bin/react-boilerplate-app-scripts.js excel-to-locale-config",
+    "create-view": "node ./bin/react-boilerplate-app-scripts.js create-view",
     "ac": "node ./bin/react-boilerplate-app-scripts.js ac"
   },
   "keywords": [
