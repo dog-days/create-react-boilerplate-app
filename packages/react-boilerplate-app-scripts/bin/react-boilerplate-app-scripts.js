@@ -16,6 +16,7 @@ commander
   .command('start', 'start dev server')
   .command('build', 'production building')
   .command('ac', 'routes and reducers atuo creater')
+  .command('create-view', 'create page view template')
   .command('view-locale-to-excel', 'generate view locale string to Excel lists')
   .command('excel-to-locale-config', 'generate locale string to config file from excel')
   .parse(process.argv);

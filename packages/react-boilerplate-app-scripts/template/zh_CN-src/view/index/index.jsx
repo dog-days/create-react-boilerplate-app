@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+//≤Locale--begin
 import Locale from 'react-redux-boilerplate-js/libs/decorator/Locale'
+//≤Locale--end
 import PageTitle from 'react-redux-boilerplate-js/libs/decorator/PageTitle'
 
 //connect to redux store,refer to redux.
@@ -10,6 +12,7 @@ import PageTitle from 'react-redux-boilerplate-js/libs/decorator/PageTitle'
 })
 //set page title
 @PageTitle("主页")
+//≤Locale--begin
 //muti-language decorator,it's different from the first route layout view component.
 //it provides `this.t(xxx)` to the component.
 //if you want the locale function worked,you must use this to pass the string.
@@ -17,6 +20,7 @@ import PageTitle from 'react-redux-boilerplate-js/libs/decorator/PageTitle'
 //you can use `npm run excel-to-locale-config` to generate the default language javascirpts array lists.
 //refer to the api.
 @Locale
+//≤Locale--end
 //the view is the second route page veiw component.
 //you can eidit `./_route.js` file to change the url path for the current page.
 class IndexView extends React.Component {

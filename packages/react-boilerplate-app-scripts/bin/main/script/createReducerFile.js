@@ -11,18 +11,18 @@ class Script {
   constructor(config){
     this.config = config;
     this.run();
-  }  
+  }
 
   run(){
     try{
       this.setTpls();
-    var findSpecificFileByDir = new FindSpecificFileByDir(this.config)
-    this.filesPath = findSpecificFileByDir.filesPath;
-    this.getReducersName();
-    if(!this.error){
-      this.writeReducerFile();
-      // console.log(this.reducers)
-    }
+      var findSpecificFileByDir = new FindSpecificFileByDir(this.config)
+      this.filesPath = findSpecificFileByDir.filesPath;
+      this.getReducersName();
+      if(!this.error){
+        this.writeReducerFile();
+        // console.log(this.reducers)
+      }
     }catch(e){
       console.log(e);
     }
@@ -38,7 +38,7 @@ class Script {
   }
 
   /**
-   * getReducersName 获取所有的reducers名 
+   * getReducersName 获取所有的reducers名
    */
   getReducersName(){
     var reducersObj = new getReducers(this.filesPath,this.config.path)
@@ -49,8 +49,8 @@ class Script {
   writeReducerFile(){
     var _this = this,
       name = "reducers" ;
-    var tpl = this.tpls[name],  
-      content = tpl.contents;  
+    var tpl = this.tpls[name],
+      content = tpl.contents;
     var require = "",
       reducer = "";
     this.reducers.forEach(v=>{

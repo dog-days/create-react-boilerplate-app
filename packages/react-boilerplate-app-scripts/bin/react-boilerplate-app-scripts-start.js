@@ -8,6 +8,7 @@ const scriptsPackagename = 'react-boilerplate-app-scripts';
 const path = require('path');
 const fs = require('fs-extra');
 const chalk = require('chalk');
+const openBrowser = require('react-dev-utils/openBrowser');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const detect = require('detect-port');
@@ -28,7 +29,7 @@ const compiler = webpack(config);
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
 const host = cwdPackageJsonConfig.host;
 //port 可以被修改，会被占用
-var port = cwdPackageJsonConfig.port; 
+var port = cwdPackageJsonConfig.port;
 //经过转换后的historyApiFallback rewrites
 if(cwdPackageJsonConfig.historyApiFallback){
   var rewrites = util.historyApiFallbackRewiriteAdapter(cwdPackageJsonConfig.historyApiFallback.rewrites);
@@ -42,13 +43,13 @@ function runDevServer(host, port) {
     // 开启gzip功能
     compress: true,
     // 关闭WebpackDevServer繁琐的输出信息
-    // 但警告和错误信息不会被关闭 
+    // 但警告和错误信息不会被关闭
     clientLogLevel: 'none',
     //静态文件
     contentBase: paths.appPublic,
     //开启热替换server
     hot: true,
-    //跟webpack.config中publicPath相等，内存文件输出目录 
+    //跟webpack.config中publicPath相等，内存文件输出目录
     publicPath: config.output.publicPath,
     //会关闭WebpackDevServer编译后所有的信息（包括错误警告信息），后续通过compiler.plugin('done',null)自定义信息
     quiet: true,
@@ -79,6 +80,10 @@ var isFirstCompile = true;
 compiler.plugin('done', function(stats) {
   var messages = stats.toJson({}, true);
   var isError = messages.errors.length || messages.warnings.length;
+  if(!isError){
+    console.log(chalk.green('Compiled successfully!'));
+    console.log();
+  }
 
   if (!isError && isFirstCompile) {
     console.info(chalk.cyan("==> 🌎  Listening on port %s. Open up http://"+host+":%s/ in your browser."), port, port);
@@ -86,9 +91,10 @@ compiler.plugin('done', function(stats) {
     console.log('Production building,please use ' + chalk.cyan("`npm || yarn" + ' run build`') + '.');
     console.log();
     isFirstCompile = false;
+    openBrowser(`http://${ host }:${ port }/${ cwdPackageJsonConfig.prefixURL }`);
   }
 
-  // 展示错误信息 
+  // 展示错误信息
   if (messages.errors.length) {
     console.log(chalk.red('faild to compile!'));
     console.log();
@@ -99,7 +105,7 @@ compiler.plugin('done', function(stats) {
     return;
   }
 
-  //展示警告信息 
+  //展示警告信息
   if (messages.warnings.length) {
     console.log(chalk.yellow('Compiled with warnings.'));
     console.log();
@@ -124,7 +130,10 @@ detect(port, (err, _port) => {
   if (port == _port) {
     runDevServer(host,port);
   } else {
-    console.log(chalk.cyan(`port: ${port} was occupied, try port: ${_port}`));
+    console.log(chalk.yellow(`port: ${port} was occupied, try port: ${_port}`));
+    console.log()
+    console.log(chalk.cyan(`It's recommended to add 'port: ${ _port }' in package.json's field 'react-boilerplate-app-scripts'.`));
+    console.log()
     port = _port;
     runDevServer(host,_port);
   }

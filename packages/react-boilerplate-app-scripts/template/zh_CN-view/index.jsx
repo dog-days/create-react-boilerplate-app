@@ -16,9 +16,9 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
 //BreadCrumb.create must be used in second route page view component or it works nothing.
 @BreadCrumb.create([
   {
-    label: '关于',
+    label: '${pageNameFirstLetter}',
     //the field depends on you.
-    link: '/about',
+    link: '/${pageName}',
   },
 ])
 //≤BreadCrumb--end
@@ -28,7 +28,7 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
   };
 })
 //set page title
-@PageTitle("关于")
+@PageTitle('${pageNameFirstLetter}')
 //≤Locale--begin
 //muti-language decorator,it's different from the first route layout view component.
 //it provides `this.t(xxx)` to the component.
@@ -40,13 +40,13 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
 //≤Locale--end
 //the view is the second route page veiw component.
 //you can eidit `./_route.js` file to change the url path for the current page.
-class AboutView extends React.Component {
+class ${pageNameFirstLetter}View extends React.Component {
 
   render() {
     return (
       <div>
-        <h1>{ this.t('关于') }</h1>
-        { this.t('开始编写, 请编辑 src/view/about/index.jsx.') }
+        <h1>{ this.t('${pageNameFirstLetter}') }</h1>
+        { this.t('开始编写, 编辑src/view/${pageName}/index.jsx.') }
         <br/>
         { this.t('保存文件时，将自动更新到浏览器。') }
       </div>
@@ -54,4 +54,4 @@ class AboutView extends React.Component {
   }
 }
 
-export default AboutView;
+export default ${pageNameFirstLetter}View;

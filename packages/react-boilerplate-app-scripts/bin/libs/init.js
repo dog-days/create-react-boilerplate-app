@@ -3,25 +3,45 @@
 const fs = require('fs-extra');
 const path = require("path");
 const chalk = require('chalk');
+const commander = require('commander');
 const util = require('react-boilerplate-app-utils');
 const Basic = require('./Basic.js');
+const saveFilesByCustomContens = require('./decorator/SaveFilesByCustomContens');
+const FindSpecificFileByDir = require('../main/libs/script/FindSpecificFileByDir');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 class init extends Basic{
-
-  constructor(){
+  /**
+   * @param { object } program commander对象
+   */
+  constructor(program){
     super();
+    if(program){
+      this.program = program;
+    }else {
+      this.program = this.getCommander();
+    }
     this.run();
+  }
+
+  getCommander(){
+    var program = commander
+      .option('-a, --all', 'create view with all features')
+      .option('-i, --i18n', 'create view with locale feature(i18n)')
+      .option('-b, --breadcrumb', 'create view with breadcrumb feature')
+      .parse(process.argv);
+    return program;
   }
 
   /**
   * 检查当前目录是否合法
-  * @return { Boolean } true or false
+  * 如果src目录存在将提示并退出程序
   */
   checkCurrentDirIsValid(){
     try {
       if(fs.existsSync(util.resolveCwd("src"))){
         console.error(chalk.red("The project should not contain src folder!"))
+        process.exit(1);
         return false;
       }else {
         return true;
@@ -51,9 +71,11 @@ class init extends Basic{
     if(packageJson[scriptsPackagename].appSrcPath){
       delete packageJson[scriptsPackagename].appSrcPath;
     }
-    var zh_CN = this.getZHCN();
+    var zh_CN = util.getZHCN();
     if(zh_CN){
       packageJson[scriptsPackagename].language = zh_CN;
+    }else {
+      packageJson[scriptsPackagename].language = 'en_US';
     }
     packageJson['eslintConfig'] = this.packageJson['eslintConfig'];
     fs.writeFileSync(
@@ -61,35 +83,47 @@ class init extends Basic{
       JSON.stringify(packageJson, null, 2)
     );
   }
-  /**
-   * 获取zH_CN字符
-   * @return { string || undefined } 返回zh_CN 或者 undefined
-   */
-  getZHCN(){
-    if(process.env.LANG){
-      return process.env.LANG.split('.')[0];
-    }
+
+  getSavedSrcDirFilesPath(savePath){
+    var findSpecificFileByDir = new FindSpecificFileByDir({
+      path: [savePath],
+      fileName: '*'
+    });
+    var files = findSpecificFileByDir.filesPath.filter((v,k)=>{
+      if(v.indexOf('.js') !== -1){
+        return true;
+      }
+      if(v.indexOf('.jsx') !== -1){
+        return true;
+      }
+    });
+    return files;
   }
 
   run(){
-    var flag = this.checkCurrentDirIsValid();
-    if(flag) {
-      var zh_CN = this.getZHCN();
-      var srcPath;
-      if(zh_CN){
-        srcPath = path.resolve(__dirname,"../../template/zh_CN-src");
-      }else {
-        srcPath = path.resolve(__dirname,"../../template/en_US-src");
-      }
-      fs.ensureDirSync(srcPath);
-      fs.copySync(srcPath,path.resolve(process.cwd(),"src"),{
-        dereference: true,
-      });
-      this.writePackageJson();
-      var ac = require("./ac.js");
-      new ac();
+    this.checkCurrentDirIsValid();
+    var zh_CN = util.getZHCN();
+    var srcPath;
+    if(zh_CN){
+      srcPath = path.resolve(__dirname,"../../template/zh_CN-src");
+    }else {
+      srcPath = path.resolve(__dirname,"../../template/en_US-src");
     }
+    fs.ensureDirSync(srcPath);
+    var savePath = path.resolve(process.cwd(),"src");
+    fs.copySync(srcPath,savePath,{
+      dereference: true,
+    });
+    //beign--进行了自定义标签处理
+    //可以通过用户的命令配置需要的功能，跟create-view的命令基本一致
+    var filesPath = this.getSavedSrcDirFilesPath(savePath);
+    this.saveByFilesPath(filesPath,filesPath,this.program);
+    //end--进行了自定义标签处理
+    this.writePackageJson();
+    var ac = require("./ac.js");
+    new ac();
   }
 }
-module.exports = init;
+//这里使用了高阶组件
+module.exports = saveFilesByCustomContens(init);
 

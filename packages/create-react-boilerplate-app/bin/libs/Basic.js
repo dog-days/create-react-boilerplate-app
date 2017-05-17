@@ -20,7 +20,7 @@ class Basic {
   */
   readPackageJSON(){
     var json = fs.readJsonSync(path.resolve(__dirname,"../../package.json"));
-    this.packageInfo = json; 
+    this.packageJson = json;
   }
 }
 

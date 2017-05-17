@@ -21,8 +21,8 @@ class Basic {
   readPackageJSON(){
     this.packageJsonPath = path.resolve(__dirname,"../../package.json");
     var json = fs.readJsonSync(this.packageJsonPath);
-    this.packageInfo = json; 
-    this.packageJson = json; 
+    this.packageInfo = json;
+    this.packageJson = json;
   }
 }
 

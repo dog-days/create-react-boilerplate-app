@@ -14,8 +14,8 @@ module.exports = {
    * 会根据当前项目，或者当前文件路径，或者当前项目指定的node_modules中的packageName路径
    * 依次查找文件
    * @param { string } relativePath 相对路径
-   * @param { string } dirname __dirname 
-   * @param { string } packageName node_modules中的packageName文件夹名 
+   * @param { string } dirname __dirname
+   * @param { string } packageName node_modules中的packageName文件夹名
    * @return { string || undefined }返回优先匹配的路径
    */
   pathResolve(relativePath,dirname,packageName){
@@ -31,9 +31,9 @@ module.exports = {
       console.error(chalk.red("Please do not change the node_modules folder name!"));
       return;
     }
-    var entryOfCwdPath = this.resolveCwd(relativePath); 
-    var entryOfDirnamePath = path.resolve(dirname,`../${ relativePath }`); 
-    var entryOfPackagePath = this.resolveCwd(`node_modules/${ packageName }/${ relativePath }`); 
+    var entryOfCwdPath = this.resolveCwd(relativePath);
+    var entryOfDirnamePath = path.resolve(dirname,`../${ relativePath }`);
+    var entryOfPackagePath = this.resolveCwd(`node_modules/${ packageName }/${ relativePath }`);
     if(fs.existsSync(entryOfCwdPath)){
       return entryOfCwdPath;
     }else if(fs.existsSync(entryOfDirnamePath)){
@@ -43,7 +43,7 @@ module.exports = {
     }
   },
   /**
-   * 打印数组类型 
+   * 打印数组类型
    * @param { array } results 结果数组
    * @param { string } type 信息类型success、waring、error
    */
@@ -69,7 +69,7 @@ module.exports = {
   },
   /**
    * 是否应该使用yarn
-   * @return { boolean } true or false 
+   * @return { boolean } true or false
    */
   shouldUseYarn() {
     try {
@@ -80,9 +80,9 @@ module.exports = {
     }
   },
   /**
-   * 获取package.json的路径，前提路径是在npm项目根目录运行 
+   * 获取package.json的路径，前提路径是在npm项目根目录运行
    * @param { string } packageName node_modules中的包名
-   * @return { string } path 
+   * @return { string } path
    */
   getPackageJsonPathOfNodeModules(packageName){
     return path.resolve(
@@ -98,7 +98,7 @@ module.exports = {
   getCwdPackageJson(){
     //防止重复读取
     if(!this.cwdPackageJson){
-      this.cwdPackageJson = fs.readJsonSync(path.resolve(process.cwd(),'package.json')); 
+      this.cwdPackageJson = fs.readJsonSync(path.resolve(process.cwd(),'package.json'));
     }
     return this.cwdPackageJson;
   },
@@ -116,9 +116,14 @@ module.exports = {
       routesPath: "${src}/.routes.js",
       reducersPath: "${src}/.reducers.js",
       appSrcPath: "src",
+      appEntryPath: "${src}/index.jsx",
       appLocalePath: "${src}/locale",
     },config)
-    //替换${src}为config.appSrcPath的值 
+    if(config.host === 'localhost'){
+      config.ip = '127.0.0.1';
+    }
+    config.prot = parseInt(config.port,10);
+    //替换${src}为config.appSrcPath的值
     for(var k in config) {
       if(Object.prototype.toString.apply(config[k]) === '[object String]'){
         config[k] = config[k].replace(/\${.*src.*}/,config.appSrcPath);
@@ -127,7 +132,7 @@ module.exports = {
     //prefix url 兼容适配处理
     if(config.prefixURL){
       var prefixUrl = config.prefixURL;
-      var prefixUrlLength = prefixUrl.length; 
+      var prefixUrlLength = prefixUrl.length;
       if(prefixUrl[prefixUrlLength - 1] !== '/'){
         prefixUrl = prefixUrl + "/";
       }else if(prefixUrl === '/'){
@@ -143,7 +148,7 @@ module.exports = {
   },
   /**
    * 检测输入node版本是否大于等于跟当前运行的版本
-   * 如果不是将提示并推出程序
+   * 如果不是将提示并退出程序
    * @param { string } version eg. v6.0.0
    */
   checkNodeVersion(version) {
@@ -161,8 +166,8 @@ module.exports = {
     }
   },
   /**
-   * 检测npm版本是否大于等于3.0.0 
-   * @return { boolean } true or false 
+   * 检测npm版本是否大于等于3.0.0
+   * @return { boolean } true or false
    */
   checkNpmVersion() {
     var isNpm2 = false;
@@ -186,7 +191,7 @@ module.exports = {
   },
   /**
    * 安装的dependences
-   * @return { boolean } true or false 
+   * @return { boolean } true or false
    */
   installPackages(dependencies){
     console.log('Installing packages. This might take a couple minutes.');
@@ -216,11 +221,11 @@ module.exports = {
     });
   },
   /**
-   * 根据包名获取node_modules中包版本 
-   * @return { string } version 
+   * 根据包名获取node_modules中包版本
+   * @return { string } version
    */
   getVersionOfPackage(packageName){
-    const packageJsonPath = this.getPackageJsonPathOfNodeModules(packageName); 
+    const packageJsonPath = this.getPackageJsonPathOfNodeModules(packageName);
     var packageJson = fs.readJsonSync(packageJsonPath);
     return packageJson.version;
   },
@@ -242,5 +247,43 @@ module.exports = {
       })
     })
     return rules;
+  },
+  /**
+   * 获取zH_CN字符
+   * @return { string || undefined } 返回zh_CN 或者 undefined
+   */
+  getZHCN(){
+    if(process.env.LANG && process.env.LANG.indexOf('zh_CN') !== -1){
+      return process.env.LANG.split('.')[0];
+    }
+  },
+  /**
+   * 根据位置，小写转大写
+   * @param  {String} string 传进来的字符串
+   * @param  {Int}  start  开始位置，默认0
+   * @param  {Int}  end  介绍位置，默认1
+   * @return {string}
+   */
+  toUpperCaseByPosition(string,start=0,end=1){
+    var str1 = string.substr(start,end).toUpperCase();
+    var str2 = string.substr(end);
+    return str1 + str2;
+  },
+  readdirSync(dirPath){
+    var files = fs.readdirSync(dirPath);
+    //过滤苹果系统无用的文件
+    files = files.filter((v,k)=>{
+      if(v === '.DS_Store'){
+        return;
+      }
+      if(v.indexOf('.swp') !== -1){
+        return;
+      }
+      if(v.indexOf('.swo') !== -1){
+        return;
+      }
+      return true;
+    })
+    return files;
   },
 }

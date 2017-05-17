@@ -34,10 +34,13 @@ class CreateApp extends Basic {
   }
 
   commandSetting(){
-    this.program = new commander.Command(this.packageInfo.name)
-      .version(this.packageInfo.version)
+    this.program = new commander.Command(this.packageJson.name)
+      .version(this.packageJson.version)
       .arguments('<project-directory>')
       .usage(`${chalk.green('<project-directory>')} [options]`)
+      .option('-a, --all', 'create view with all features')
+      .option('-i, --i18n', 'create view with locale feature(i18n)')
+      .option('-b, --breadcrumb', 'create view with breadcrumb feature')
       .action(name => {
         this.appName = name;
       })
@@ -122,7 +125,7 @@ class CreateApp extends Basic {
       );
       console.log(initPath)
       const init = require(initPath);
-      new init();
+      new init(this.program);
     }catch(e){
       console.error(e)
     }

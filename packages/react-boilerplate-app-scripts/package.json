@@ -63,6 +63,7 @@
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
     "progress-bar-webpack-plugin": "^1.9.3",
+    "react-dev-utils": "^0.5.2",
     "react-hot-loader": "3.0.0-beta.6",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
