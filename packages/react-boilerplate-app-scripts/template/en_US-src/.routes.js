@@ -1,6 +1,6 @@
 var childRoutes = [
   
-  require('src/view/layout/main/_route.js').default,
+  require('./view/layout/main/_route.js').default,
   
   {
     path: '*',
