@@ -120,13 +120,13 @@ class CreateApp extends Basic {
         process.cwd(),
         'node_modules',
         scriptsPackagename,
-        'bin/libs',
+        'bin/main',
         'init.js'
       );
-      console.log(initPath)
       const init = require(initPath);
-      new init(this.program);
+      new init(this.program,this.appName);
     }catch(e){
+      process.exit(1);
       console.error(e)
     }
   }
@@ -140,7 +140,8 @@ class CreateApp extends Basic {
     //进入app文件夹中
     process.chdir(this.appPath);
     console.log();
-    console.log(`Creating a new react-boilerplate-app in ${chalk.green(this.appPath)}.`);
+    console.log(`Creating a new react-boilerplate-app in `);
+    console.log(`${chalk.green(this.appPath)}.`)
     console.log();
     this.writeInitialPackageJson();
     util.installPackages(this.allDependencies).then(()=>{
