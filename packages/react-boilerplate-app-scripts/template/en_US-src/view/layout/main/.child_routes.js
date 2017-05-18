@@ -1,5 +1,5 @@
 export default [
-  require("src/view/about/_route.js").default, 
-  require("src/view/index/_route.js").default, 
+  require("./../../about/_route.js").default, 
+  require("./../../index/_route.js").default, 
   //routes//
 ]

@@ -51,6 +51,8 @@ function saveByFilesPath(readFilesPath,saveFilesPath,program,showLogs){
     all,
   } = program;
   readFilesPath.forEach((v,k)=>{
+    //兼容windwos平台路径1
+    v = v.replace(/\\/g,'/');
     var contents = fs.readFileSync(v,{
       encoding : 'utf-8'
     })

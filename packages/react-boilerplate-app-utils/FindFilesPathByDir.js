@@ -2,26 +2,30 @@
 
 const path = require("path")
 const fs = require("fs-extra")
-const util = require('react-boilerplate-app-utils');
+const util = require('./index');
 
 /**
  * @param {object} config
  * {
  * 		path: [],//数组,查找的路径
+ * 		//path: 'xxx',//或者字符，查找的路径
  * 		fileName:"",//查找的文件名
  *    //如果fileName="*",代表所有文件
  * }
- * @this {Array} dirs 查找后的指定文件所有文件夹路径
- * @this {Array} filesPath 查找后的指定文件的所有文件路径
  */
-class Script {
+class FindFilesPathByDir {
 	constructor(config){
+    if(Object.prototype.toString.apply(config.path) === '[object String]'){
+      //转换成数组
+      config.path = [config.path];
+    }
 		this.config = config;
 		//所有找到的文件夹路径数组
 		this.dirs = [];
 		//查找所指定文件后的路径
 		this.filesPath = [];
 		this.run();
+    return this.filesPath;
 	}
   run(){
 		this.config.path.forEach(v=>{
@@ -35,6 +39,7 @@ class Script {
           var files = util.readdirSync(v);
           files.forEach((v2,k2)=>{
             var f_path = path.resolve(v,v2)
+            //兼容处理
             //replace是处理windows的反斜杠，网页上都是使用斜杠
             //生成routes和reducers时要处理
             this.filesPath.push(f_path.replace(/\\/g,"/"));
@@ -43,13 +48,13 @@ class Script {
           //判断指定文件是否存在
           var f_path = path.resolve(v,this.config.fileName)
           if(fs.existsSync(f_path)){
+            //兼容处理
             //replace是处理windows的反斜杠，网页上都是使用斜杠
             //生成routes和reducers时要处理
             this.filesPath.push(f_path.replace(/\\/g,"/"));
           }
         }
 			})
-//console.log(this.filesPath)
 		}catch(e){
 			console.log(e);
       process.exit()
@@ -80,8 +85,9 @@ class Script {
 
 }
 
-module.exports = Script;
-
+module.exports = function (config) {
+  return new FindFilesPathByDir(config);
+};
 
 
 

@@ -7,31 +7,25 @@ const commander = require('commander');
 const util = require('react-boilerplate-app-utils');
 const Basic = require('./Basic');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
+const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
 
-class ac extends Basic {
+class RouteReducerCreater extends Basic {
   constructor(){
     super();
     this.run();
-    //当前输入目录中的packageJson config子段
-    this.cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
   }
 
   commandSetting(){
     commander
-      .version(this.packageInfo.version)
+      .version(this.packageJson.version)
       .option('-w, --watch', 'watch to create route and reducers')
-      .option('-m, --viewModel', 'render src/page/.viewModel')
       .parse(process.argv);
     if(commander){
-      var r2Path = path.resolve(__dirname,"../main/script");
+      var r2Path = path.resolve(__dirname,"../main/libs");
       this.createRoute = require(path.resolve(r2Path,"createRouteFile.js"));
       this.createReducer = require(path.resolve(r2Path,"createReducerFile.js"));
       this.r2Path = r2Path;
     }
-  }
-
-  getCwdPackageJson(){
-    return fs.readJsonSync(path.resolve('package.json'));
   }
 
   run(){
@@ -58,18 +52,18 @@ class ac extends Basic {
   //watch监听
   watch(){
     if(commander.watch){
-      var watcher = watch.watch(path.resolve(process.cwd(),"src/page"), {
+      var watcher = watch.watch(path.resolve(process.cwd(),cwdPackageJsonConfig.appSrcPath), {
         ignored: /[\/\\]\./,
         persistent: true,
         ignoreInitial: true,
-      }); 
+      });
       watcher.on('add', path => {
         this.watchRun(path);
       }).on('change', path => {
         this.watchRun(path);
       }).on('unlink', path => {
         this.watchRun(path);
-      }); 
+      });
     }
   }
   // 获取view和layout文件夹相对路径
@@ -77,9 +71,9 @@ class ac extends Basic {
     var viewPath,layoutPath;
     if(!commander.viewModel){
       viewPath = [
-        this.cwdPackageJsonConfig.appSrcPath,
+        cwdPackageJsonConfig.appSrcPath,
       ];
-      layoutPath = this.cwdPackageJsonConfig.appSrcPath + "/view/layout";
+      layoutPath = cwdPackageJsonConfig.appSrcPath + "/view/layout";
     }
     return {
       viewPath,
@@ -88,28 +82,28 @@ class ac extends Basic {
   }
   //生成routes和reducers文件
   create(){
-    var viewAndLayoutDirPaths = this.getViewAndLayoutDirPaths(), 
+    var viewAndLayoutDirPaths = this.getViewAndLayoutDirPaths(),
       viewPath = viewAndLayoutDirPaths.viewPath,
       layoutPath = viewAndLayoutDirPaths.layoutPath,
       createRoute = this.createRoute;
     new createRoute({
       path: viewPath,
-      tplPath: path.resolve(this.r2Path, "route_tpl"),
+      tplPath: path.resolve(this.r2Path, "tpl/routes.tpl.js"),
       fileName: "_route.js",
-      savePath: this.cwdPackageJsonConfig.routesPath,
+      savePath: cwdPackageJsonConfig.routesPath,
       layoutPath,
     });
 
     var createReducer = this.createReducer;
     new createReducer({
       path: viewPath,
-      tplPath: path.resolve(this.r2Path, "reducer_tpl"),
+      tplPath: path.resolve(this.r2Path, "tpl/reducers.tpl.js"),
       fileName:"reducer.js",
-      savePath: this.cwdPackageJsonConfig.reducersPath,
+      savePath: cwdPackageJsonConfig.reducersPath,
     });
   }
 }
-module.exports = ac;
+module.exports = RouteReducerCreater;
 
 
 

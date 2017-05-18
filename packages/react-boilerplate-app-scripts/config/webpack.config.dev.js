@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
@@ -159,6 +160,7 @@ var config = {
     // prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),
     new ProgressBarPlugin(),
+    new CaseSensitivePathsPlugin(),
   ],
 };
 //使用sass配置
