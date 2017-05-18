@@ -143,7 +143,10 @@ class init extends Basic{
       displayedCommand = 'yarn';
     }
     console.log();
-    console.log(`Created ${appName} at ${appPath} Successfully! `);
+    console.log(chalk.green('Success!'));
+    console.log(`Created ${chalk.cyan(appName)} at `);
+    console.log(`${appPath}`)
+    console.log();
     console.log('Inside that directory, you can run several commands:');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} start`));

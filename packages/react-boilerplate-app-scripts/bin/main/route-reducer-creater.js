@@ -29,14 +29,14 @@ class RouteReducerCreater extends Basic {
   }
 
   run(){
-    fs.ensureDir(path.resolve(process.cwd(),"src"),(err)=>{
-      if(!err){
-        this.create();
-        this.watch();
-      }else{
-        console.log(color.red(err))
-      }
-    })
+    try {
+      fs.ensureDirSync(path.resolve(process.cwd(),"src"));
+      this.create();
+      this.watch();
+    }catch(e){
+      console.error(e);
+      process.exit(1);
+    }
   }
 
   //watch生成routes和reducer文件
