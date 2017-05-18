@@ -22,9 +22,11 @@ class CreateApp extends Basic {
       dependencies: { },
       devDependencies: { }
     };
+    // 生产依赖
     this.dependencies = [
       'react-redux-boilerplate-js'
     ];
+    // 开发依赖
     this.devDependencies = [
       'react-boilerplate-app-scripts',
       'react-boilerplate-app-utils',

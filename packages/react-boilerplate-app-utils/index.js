@@ -1,7 +1,7 @@
 const path = require('path');
-const chalk = require('chalk');
+const chalk = require('chalk');// 命令行颜色工具
 const fs = require('fs-extra');
-const semver = require('semver');
+const semver = require('semver');// node 版本判断工具
 const execSync = require('child_process').execSync;
 const spawn = require('cross-spawn');
 
