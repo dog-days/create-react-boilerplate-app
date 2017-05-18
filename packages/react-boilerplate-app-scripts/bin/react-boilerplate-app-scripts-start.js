@@ -79,7 +79,7 @@ function runDevServer(host, port) {
 var isFirstCompile = true;
 compiler.plugin('done', function(stats) {
   var messages = stats.toJson({}, true);
-  var isError = messages.errors.length || messages.warnings.length;
+  var isError = messages.errors.length;
   if(!isError){
     console.log(chalk.green('Compiled successfully!'));
     console.log();
