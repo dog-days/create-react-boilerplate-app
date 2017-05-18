@@ -14,13 +14,18 @@ class init extends Basic{
   /**
    * @param { object } program commander对象
    */
-  constructor(program){
+  constructor(program,appName){
     super();
     if(program){
       this.program = program;
     }else {
       this.program = this.getCommander();
     }
+    if(!appName){
+      //避免报错
+      appName = 'test';
+    }
+    this.appName = appName;
     this.run();
   }
 
@@ -123,8 +128,44 @@ class init extends Basic{
     this.saveByFilesPath(filesPath,filesPath,this.program);
     //end--进行了自定义标签处理
     this.writePackageJson();
+    console.log()
     var ac = require("./route-reducer-creater.js");
     new ac();
+    this.instruction();
+  }
+
+  instruction(){
+    var appPath = path.resolve(process.cwd(),'../');
+    var appName = this.appName;
+    var useYarn = util.shouldUseYarn();
+    var displayedCommand = 'npm';
+    if(useYarn){
+      displayedCommand = 'yarn';
+    }
+    console.log();
+    console.log(`Created ${appName} at ${appPath} Successfully! `);
+    console.log('Inside that directory, you can run several commands:');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} start`));
+    console.log('    Starts the development server.');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} create-view(cv for short)`));
+    console.log('    Creates new page view.');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} create-route-reducer(ac for short)`));
+    console.log('    Creates routes and reducers base on the _route.js and reducer.js files.');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} view-locale-to-excel(vlte for short)`));
+    console.log('    Creates i18n excel by reading src path,which passing string by `this.t("xx")`');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} excel-to-locale-config(etlc for short)`));
+    console.log('    Creates i18n config .js by reading excel witch is translated.');
+    console.log();
+    console.log(
+      chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`)
+    );
+    console.log('    Bundles the app into static files for production.');
+    console.log();
   }
 }
 //这里使用了高阶组件

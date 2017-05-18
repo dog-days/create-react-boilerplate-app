@@ -1,6 +1,6 @@
 {
   "name": "react-boilerplate-app-scripts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "react-boilerplate-app-scripts",
   "repository": {
     "type": "git",
@@ -19,12 +19,15 @@
   },
   "scripts": {
     "init": "node ./bin/init.js",
-    "help": "node ./bin/react-boilerplate-app-scripts.js -h",
     "start": "node ./bin/react-boilerplate-app-scripts.js start",
     "build": "node ./bin/react-boilerplate-app-scripts.js build",
     "view-locale-to-excel": "node ./bin/react-boilerplate-app-scripts.js view-locale-to-excel",
+    "vlte": "node ./bin/react-boilerplate-app-scripts.js view-locale-to-excel",
     "excel-to-locale-config": "node ./bin/react-boilerplate-app-scripts.js excel-to-locale-config",
+    "etlc": "node ./bin/react-boilerplate-app-scripts.js excel-to-locale-config",
     "create-view": "node ./bin/react-boilerplate-app-scripts.js create-view",
+    "cv": "node ./bin/react-boilerplate-app-scripts.js create-view",
+    "create-route-reducer": "node ./bin/react-boilerplate-app-scripts.js ac",
     "ac": "node ./bin/react-boilerplate-app-scripts.js ac"
   },
   "keywords": [

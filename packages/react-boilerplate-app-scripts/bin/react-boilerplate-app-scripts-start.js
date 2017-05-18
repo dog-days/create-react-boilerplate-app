@@ -35,6 +35,7 @@ if(cwdPackageJsonConfig.historyApiFallback){
   var rewrites = util.historyApiFallbackRewiriteAdapter(cwdPackageJsonConfig.historyApiFallback.rewrites);
   cwdPackageJsonConfig.historyApiFallback.rewrites = rewrites;
 }
+const useYarn = util.shouldUseYarn();
 
 function runDevServer(host, port) {
   var devServer = new WebpackDevServer(compiler, {
@@ -88,7 +89,11 @@ compiler.plugin('done', function(stats) {
   if (!isError && isFirstCompile) {
     console.info(chalk.cyan("==> 🌎  Listening on port %s. Open up http://"+host+":%s/ in your browser."), port, port);
     console.log();
-    console.log('Production building,please use ' + chalk.cyan("`npm || yarn" + ' run build`') + '.');
+    var displayedCommand = 'npm run build';
+    if(useYarn){
+      displayedCommand = 'yarn build';
+    }
+    console.log('Production building,please use ' + chalk.cyan(displayedCommand) + '.');
     console.log();
     isFirstCompile = false;
     openBrowser(`http://${ host }:${ port }/${ cwdPackageJsonConfig.prefixURL }`);

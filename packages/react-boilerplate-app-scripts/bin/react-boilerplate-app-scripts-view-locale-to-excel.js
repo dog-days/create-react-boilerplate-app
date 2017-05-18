@@ -9,7 +9,7 @@ const util = require('react-boilerplate-app-utils');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 /**
- * 读取并生产多excel语言列表，同时会对比翻译后的ecxel（如果有新的文案，会列在最后）
+ * 读取指定文件夹并生成多excel语言列表，同时会对比翻译后的ecxel（如果有新的文案，会列在最后）
  * @property dirs 指定文件夹中的所有子文件夹（子子孙孙）
  * @property allFiles 指定文件夹中的所有文件（子子孙孙）
  * @property langList 提取的语言文案列（文案可能重复）
