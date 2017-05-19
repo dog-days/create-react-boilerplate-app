@@ -1,6 +1,6 @@
 {
   "name": "create-react-boilerplate-app",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "an tool for creating react boilerplate app",
   "bin": {
     "create-react-boilerplate-app": "./bin/index.js"
