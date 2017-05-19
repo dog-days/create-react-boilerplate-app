@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 'use strict';
 const util = require('react-boilerplate-app-utils');
 //检测node版本

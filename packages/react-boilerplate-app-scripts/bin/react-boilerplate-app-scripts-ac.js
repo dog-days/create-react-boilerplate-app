@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 'use strict';
 
 var ac = require('./main/route-reducer-creater.js');

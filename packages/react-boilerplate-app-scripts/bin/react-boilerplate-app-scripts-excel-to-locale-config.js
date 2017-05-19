@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 'use strict';
 
 const path = require("path");
@@ -32,14 +32,14 @@ class ReadExecelAndCreateLocaleJS {
     var contents = this.formatContents(data[0].data);
     this.saveFiles(contents);
     //console.log(contents[0].title)
-    
+
   }
   /**
    * 格式化读取的语言列表
    */
   formatContents(data){
     var prifix = "export default [ \r\n";
-    var localeList = []; 
+    var localeList = [];
     data.forEach((v,k)=>{
       v.forEach((v2,k2)=>{
         if(k != 0 && v2 != "") {
@@ -64,7 +64,7 @@ class ReadExecelAndCreateLocaleJS {
     return localeList;
   }
   /**
-   * 读取excel 
+   * 读取excel
    */
   parseFile(){
     var data;
@@ -94,7 +94,7 @@ class ReadExecelAndCreateLocaleJS {
   }
 }
 module.exports = ReadExecelAndCreateLocaleJS;
-var obj = new ReadExecelAndCreateLocaleJS(); 
+var obj = new ReadExecelAndCreateLocaleJS();
 
 
 
