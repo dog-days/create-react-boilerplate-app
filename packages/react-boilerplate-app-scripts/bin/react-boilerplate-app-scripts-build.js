@@ -7,6 +7,7 @@ const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 const path = require('path');
 const fs = require('fs-extra');
+const chalk = require('chalk');
 const util = require('react-boilerplate-app-utils');
 const paths = require(util.pathResolve('config/paths.js',__dirname,scriptsPackagename));
 const webpack = require('webpack');
@@ -21,7 +22,7 @@ console.log('This might take a couple minutes.');
 console.log()
 webpack(config).run(function(err,stats){
   if (err) {
-    console.log(chalk.red('Failed to compile.'));
+    console.log(chalk.red('Failed to build.'));
     console.error(err.stack || err);
     if (err.details) {
       console.error(err.details);
@@ -47,11 +48,11 @@ webpack(config).run(function(err,stats){
   const info = stats.toJson();
 
   if (stats.hasErrors()) {
-    console.error(info.errors);
+    util.printValidationResults(info.errors,"error");
   }
 
   if (stats.hasWarnings()) {
-    console.warn(info.warnings)
+    util.printValidationResults(info.warnings,"warning");
   }
   console.log(stats.toString({
     chunks: false,  // 使构建过程更静默无输出

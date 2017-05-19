@@ -47,24 +47,24 @@ module.exports = {
    * @param { array } results 结果数组
    * @param { string } type 信息类型success、waring、error
    */
-  printValidationResults(results){
+  printValidationResults(results,type){
     if(!type){
       type = "success";
     }
     var colors;
     switch(type){
       case "success":
-        colors = chalk.green();
+        colors = chalk.green;
       break;
       case "warning":
-        colors = chalk.yellow();
+        colors = chalk.yellow;
       break;
       case "error":
-        colors = chalk.red();
+        colors = chalk.red;
       break;
     }
     results && results.forEach(error => {
-      console.error(chalk.red(`  *  ${error}`));
+      console.error(colors(error));
     });
   },
   /**
