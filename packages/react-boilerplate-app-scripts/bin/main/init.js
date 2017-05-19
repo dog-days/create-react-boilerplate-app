@@ -71,11 +71,7 @@ class init extends Basic{
       }
     }
     packageJson.babel = this.packageJson.babel;
-    packageJson[scriptsPackagename] = this.packageJson[scriptsPackagename];
-    //删除src目录的设置，使用默认的
-    if(packageJson[scriptsPackagename].appSrcPath){
-      delete packageJson[scriptsPackagename].appSrcPath;
-    }
+    packageJson[scriptsPackagename] = {};
     var zh_CN = util.getZHCN();
     if(zh_CN){
       packageJson[scriptsPackagename].language = zh_CN;
@@ -108,23 +104,38 @@ class init extends Basic{
     return files;
   }
 
-  run(){
-    this.checkCurrentDirIsValid();
+  /**
+   * 复制template中的文件夹
+   * @param { string } partDirName 共同部分的文件名，复制的后创建文件夹名，存放复制文件
+   * @return { string } 复制保存后的文件夹路径
+   */
+  coypDir(partDirName){
     var zh_CN = util.getZHCN();
-    var srcPath;
+    var dirPath;
     if(zh_CN){
-      srcPath = path.resolve(__dirname,"../../template/zh_CN-src");
+      dirPath = path.resolve(__dirname,`../../template/zh_CN-${ partDirName }`);
     }else {
-      srcPath = path.resolve(__dirname,"../../template/en_US-src");
+      dirPath = path.resolve(__dirname,`../../template/en_US-${ partDirName }`);
     }
-    fs.ensureDirSync(srcPath);
-    var savePath = path.resolve(process.cwd(),"src");
-    fs.copySync(srcPath,savePath,{
+    if(!fs.existsSync(dirPath)){
+      console.error(chalk.yellow(dirPath + ' is not exist.'));
+      process.exit(1);
+    }
+    fs.ensureDirSync(dirPath);
+    var savePath = path.resolve(process.cwd(),partDirName);
+    fs.copySync(dirPath,savePath,{
       dereference: true,
     });
+    return savePath;
+  }
+
+  run(){
+    this.checkCurrentDirIsValid();
+    this.coypDir('public');
+    var srcSavePath = this.coypDir('src');
     //beign--进行了自定义标签处理
     //可以通过用户的命令配置需要的功能，跟create-view的命令基本一致
-    var filesPath = this.getSavedSrcDirFilesPath(savePath);
+    var filesPath = this.getSavedSrcDirFilesPath(srcSavePath);
     this.saveByFilesPath(filesPath,filesPath,this.program);
     //end--进行了自定义标签处理
     this.writePackageJson();

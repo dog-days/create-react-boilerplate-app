@@ -7,15 +7,19 @@ function pathResolve(relativePath){
   return util.pathResolve(relativePath,__dirname,scriptsPackagename);
 }
 
+//pathResolve使用相对路径，不要使用绝对路径
 var paths = {
   webpackDevConfig: pathResolve("config/webpack.config.dev.js"),
   webpackProdConfig: pathResolve("config/webpack.config.prod.js"),
+  //app 程序入口js文件
   appEntry: pathResolve(cwdPackageJsonConfig.appEntryPath),
-  //because not all the web app is in web root dir,it might be in the root child dir.
-  //for example,PREFIX_URL = `/demo`，访问网站根目录demo文件中的web app
-  appPublic: pathResolve('public'),
-  appHtml: pathResolve('public/index.html'),
+  //dev server静态资源访问目录
+  appPublic: pathResolve(cwdPackageJsonConfig.appPublicPath),
+  //app 入口html文件
+  appHtml: path.resolve(process.cwd(),cwdPackageJsonConfig.appPublicPath,cwdPackageJsonConfig.index),
+  //程序打包目录，根据prefixURL变化
   appBuild: path.resolve(process.cwd(),'build',cwdPackageJsonConfig.prefixURL),
+  //app 程序目录
   src: path.resolve(cwdPackageJsonConfig.appSrcPath),
 }
 

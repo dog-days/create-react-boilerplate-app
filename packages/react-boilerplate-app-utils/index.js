@@ -13,10 +13,10 @@ module.exports = {
   /**
    * 会根据当前项目，或者当前文件路径，或者当前项目指定的node_modules中的packageName路径
    * 依次查找文件
-   * @param { string } relativePath 相对路径
+   * @param { string } relativePath 相对路径，跟path.resolve的参数一致，如果使用绝对路径，直接返回绝对路径
    * @param { string } dirname __dirname
    * @param { string } packageName node_modules中的packageName文件夹名
-   * @return { string || undefined }返回优先匹配的路径
+   * @return { string || undefined } 返回优先匹配的路径
    */
   pathResolve(relativePath,dirname,packageName){
     if(!packageName){
@@ -110,14 +110,22 @@ module.exports = {
       packageName = 'react-boilerplate-app-scripts';
     }
     var config = this.getCwdPackageJson()[packageName];
+    //默认值，路径都是相对npm项目根目录
     config =  Object.assign({},{
       host: 'localhost',
       port: 8888,
       routesPath: "${src}/.routes.js",
       reducersPath: "${src}/.reducers.js",
+      //app 程序目录
       appSrcPath: "src",
+      //app 程序入口js文件
       appEntryPath: "${src}/index.jsx",
+      //dev server静态资源访问目录
+      appPublicPath: "public",
+      //多语言文件夹
       appLocalePath: "${src}/locale",
+      //app 入口html文件名，在上面appPublicPath的文件夹下。
+      index: "index.html",
     },config)
     if(config.host === 'localhost'){
       config.ip = '127.0.0.1';
