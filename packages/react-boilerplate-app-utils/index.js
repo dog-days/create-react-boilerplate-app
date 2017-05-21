@@ -198,7 +198,8 @@ module.exports = {
     console.log();
   },
   /**
-   * 安装的dependences
+   * 安装的dependences，dependences为undefined时安装全部依赖包
+   * @param { array } dependencies 依赖包
    * @return { boolean } true or false
    */
   installPackages(dependencies){
@@ -209,12 +210,18 @@ module.exports = {
       var args;
       if (useYarn) {
         command = 'yarnpkg';
-        args = ['add', '--exact'];
-        [].push.apply(args, dependencies);
+        if(dependencies){
+          args = ['add', '--exact'];
+          [].push.apply(args, dependencies);
+        }
       } else {
         this.checkNpmVersion();
         command = 'npm';
-        args = ['install', '--save', '--save-exact'].concat(dependencies);
+        if(dependencies){
+          args = ['install', '--save', '--save-exact'].concat(dependencies);
+        }else {
+          args = ['install'];
+        }
       }
       const child = spawn(command, args, { stdio: 'inherit' });
       child.on('close', code => {
@@ -234,6 +241,10 @@ module.exports = {
    */
   getVersionOfPackage(packageName){
     const packageJsonPath = this.getPackageJsonPathOfNodeModules(packageName);
+    if(!fs.existsSync(packageJsonPath)){
+      console.error(chalk.red(packageName + ' is not existed in current node_modules folder.'));
+      process.exit(1);
+    }
     var packageJson = fs.readJsonSync(packageJsonPath);
     return packageJson.version;
   },

@@ -1,21 +1,22 @@
 # Create React Boilerplate App 
 
-Create React apps with redux and react-router boilerplate(less configuration or no configuration).
+Create React Boilerplate apps with redux and react-router boilerplate(less configuration or no configuration).
 
 Create React App works on macOS, Windows, and Linux.
 
-If something doesn’t work please [file an issue](https://github.com/dog-days/create-react-boilerplate-app/issues/new).
+React boilerplate is based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router) for rapid application development.
 
 ## Why Use This?
 
 - no webpack config.
-- no route config ,route generate by command automatically.
+- no route configuration ,route generate by command automatically.
 - optional package.json config like proxy and history historyApiFallback(use for mock service).
+- configuration override function.
 - no redux reducer config.
 - optional less-loader.
 - optional sass-loader.
 - optional Immutable.js.
-- React, JSX ,ES6 and ES7 decorator syntax support.
+- React,Redux,React-Router, JSX ,ES6 and ES7 decorator syntax support.
 - optional breadcrumbs feature.
 - optional i18n feature.
 
@@ -156,7 +157,7 @@ options is same as `create-react-boilerplate-app xxxx [options]`.
 
 Creates routes and reducers base on the _route.js and reducer.js files.\_route.js and reducer.js rules refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) .
 
-`npm run ac -w` is watch mode.
+`npm run ac -- -w` is watch mode.
 
 #### npm || yarn run excel-to-locale-config(etlc for short)
 
@@ -193,10 +194,10 @@ After installation,run `npm start` and it will works.
 
 ### Use Immutable.js
 
-Run command below and must use with `--save`.
+Run command below and must use with `--save` and version.
 
 ```sh
-npm install --save immutable redux-immutable
+npm install --save immutable@3.8.1  redux-immutable@3.0.6 -E
 ```
 
 After installation,run `npm start` and it will works.
@@ -239,32 +240,43 @@ rewrites: [
 ]
 ```
 
+Want more config,we can create `config/historyApiFallback.js`.The format is same as webpack-dev-server [historyApiFallback](https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback).
+
+```js
+module.exports = {
+  "/api": "http://www.githumb.com"
+}
+```
+
 Please refor to [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback#rewrites).
 
 ### Proxy
 
 In development mode ,the api link provided by back-end,will encountered cross-domain issues.Proxy can solve the problem.
 
-Proxy is base on webpack-dev-server' proxy.For example,there is a api link `http://www.github.com/api/test` witch did work.We proxy `www.github.com`.We can use the config in package.json below.
+Proxy is base on webpack-dev-server' proxy.For example,there is a api link `http://www.github.com/api/test` witch did work.We proxy `www.github.com`.We can use the config in package.json below.Because of package.json we only can use string to proxy config.
 
 ```json
 {
   "name": "app",
   "version": "0.0.1",
   "react-boilerplate-app-scripts": {
-    "historyApiFallback": {
-      "rewrites": [
-        {
-          "from": "/api/(.*)",
-          "to": "/mock/$1.json"
-        }
-      ]
-    }
+   	"proxy": {
+      "/api": "http://www.githumb.com"
+   	}
   }
 }
 ```
 
 After the development  environment started,then you can visit `http://localhost:8888/api/test.js` to get api json contents.
+
+Want more config,we can create `config/proxy.js`.The format is same as webpack-dev-server [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy).
+
+```js
+module.exports = {
+  "/api": "http://www.githumb.com"
+}
+```
 
 ## Philosophy
 
@@ -272,11 +284,13 @@ After the development  environment started,then you can visit `http://localhost:
 
   React Boilerplate App can work with no configuration. Reasonably good configuration of both development and production builds is handled for you so you can focus on writing code.
 
--  **Package.json Configuration**
+- **Package.json Configuration**
 
   package.json configuration is optional.
 
+- **Configuration Override**
 
+  We can custom all the config file.For example you can only override webpack.config.dev.js.
 
 
 

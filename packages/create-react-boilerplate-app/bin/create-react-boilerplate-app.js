@@ -150,4 +150,7 @@ class CreateApp extends Basic {
   }
 
 }
-new CreateApp();
+
+module.exports = function(){
+  new CreateApp();
+}
