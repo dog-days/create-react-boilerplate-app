@@ -148,7 +148,7 @@ class init extends Basic{
     var appPath = path.resolve(process.cwd(),'../');
     var appName = this.appName;
     var useYarn = util.shouldUseYarn();
-    var displayedCommand = 'npm';
+    var displayedCommand = 'npm run';
     if(useYarn){
       displayedCommand = 'yarn';
     }
@@ -163,7 +163,7 @@ class init extends Basic{
     console.log('    Starts the development server.');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} create-view(cv for short)`));
-    console.log('    Creates new page view.');
+    console.log('    Creates a new page view template.');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} create-route-reducer(ac for short)`));
     console.log('    Creates routes and reducers base on the _route.js and reducer.js files.');
