@@ -32,6 +32,7 @@ class createView {
       console.log();
       console.error(chalk.red('Page name (view-directory) is required.'));
       program.outputHelp();
+      process.exit(1);
       return;
     }
     return program;

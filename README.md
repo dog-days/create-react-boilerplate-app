@@ -174,10 +174,8 @@ The build is minified and the filenames include the hashes.
 
 ### Use Less
 
-Run command below and must use with `--save`.
-
 ```sh
-npm install --save-dev less less-loader
+create-react-boilerpalte-app use less
 ```
 
 After installation,run `npm start` and it will works.
@@ -187,7 +185,7 @@ After installation,run `npm start` and it will works.
 Run command below and must use with `--save`.
 
 ```sh
-npm install --save-dev node-sass sass-loader
+create-react-boilerpalte-app use sass
 ```
 
 After installation,run `npm start` and it will works.
@@ -197,14 +195,14 @@ After installation,run `npm start` and it will works.
 Run command below and must use with `--save` and version.
 
 ```sh
-npm install --save immutable@3.8.1  redux-immutable@3.0.6 -E
+create-react-boilerpalte-app use immutable
 ```
 
 After installation,run `npm start` and it will works.
 
 ### Mock
 
-Mock is base on webpack-dev-server' historyApiFallback.For example,there is a api link `http://www.github.com/api/test`.But at the very beginning,the link is not work .We want it be mocked in `./public/mock`.We can use the config in package.json below.
+Mock is base on webpack-dev-server' historyApiFallback.For example,there is a api link `http://www.github.com/api/test`.But at the very beginning,the link is not valid .We want it be mocked in `./public/mock`.We can use the config in package.json below.
 
 ```json
 {

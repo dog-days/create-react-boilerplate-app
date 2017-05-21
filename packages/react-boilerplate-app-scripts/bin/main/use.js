@@ -5,9 +5,7 @@ const path = require("path");
 const util = require('react-boilerplate-app-utils');
 const commander = require('commander');
 const chalk = require('chalk');
-const Basic = require('./libs/Basic');
-
-const scriptsPackagename = 'react-boilerplate-app-scripts';
+const Basic = require('./Basic');
 
 class Use extends Basic {
 
@@ -17,15 +15,23 @@ class Use extends Basic {
   }
 
   commandSetting(){
-    this.program = new commander.Command(this.packageJson.name)
+    var program = new commander.Command(this.packageJson.name)
       .version(this.packageJson.version)
-      .arguments('<use> <feature-name>')
+      .arguments('<feature-name>')
       .usage(`${chalk.green('<feature-name>')}`)
-      .action((use,name) => {
+      .option('-l, --list', 'lists the feature lists.')
+      .action((name) => {
         this.featureName = name;
       })
       .parse(process.argv);
-    var program = this.program;
+    this.program = program;
+    if(program.list){
+      console.log();
+      console.log(" " + 'less');
+      console.log(" " + 'sass');
+      console.log(" " + 'immutable');
+      process.exit(1);
+    }
     if (!this.featureName) {
       console.error('Please specify the feature name:');
       console.log(
@@ -62,6 +68,13 @@ class Use extends Basic {
         dependencies = [];
         devDependencies = ['immutable@3.8.1','redux-immutable@3.0.6'];
       break;
+      default:
+        console.log()
+        console.log(chalk.red('unknown feature name'))
+        console.log()
+        console.log(`use ${ chalk.cyan(this.program.name() + ' use -l ') } to see the feature lists.`)
+        process.exit(1);
+      break;
     }
     return [
       dependencies,
@@ -97,6 +110,8 @@ class Use extends Basic {
     var packageJson = util.getCwdPackageJson();
     util.installPackages(allDependencies).then(()=>{
       this.writeNewPackageJson(packageJson,dependencies[0],dependencies[1]);
+      console.log();
+      console.log('Restart the dev server,then it will work.');
     }).catch(function(e){
       console.error(e);
       process.exit(1);

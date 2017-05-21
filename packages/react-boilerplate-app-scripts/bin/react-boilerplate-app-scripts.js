@@ -18,4 +18,5 @@ commander
   .command('create-view', 'create page view template')
   .command('view-locale-to-excel', 'generate view locale string to Excel lists')
   .command('excel-to-locale-config', 'generate locale string to config file from excel')
+  .command('use', 'use a feature like less,sass and immutable.js.')
   .parse(process.argv);

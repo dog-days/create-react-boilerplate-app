@@ -28,7 +28,8 @@
     "create-view": "node ./bin/react-boilerplate-app-scripts.js create-view",
     "cv": "node ./bin/react-boilerplate-app-scripts.js create-view",
     "create-route-reducer": "node ./bin/react-boilerplate-app-scripts.js ac",
-    "ac": "node ./bin/react-boilerplate-app-scripts.js ac"
+    "ac": "node ./bin/react-boilerplate-app-scripts.js ac",
+    "use": "node ./bin/react-boilerplate-app-scripts.js use"
   },
   "keywords": [
     "react",
