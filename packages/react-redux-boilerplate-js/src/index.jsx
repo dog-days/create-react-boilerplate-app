@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { syncHistoryWithStore } from 'react-router-redux' 
+import { syncHistoryWithStore } from 'react-router-redux'
 import { browserHistory } from 'react-router'
 import './polyfill'
 import configureStore from './store'
@@ -30,13 +30,7 @@ function app(routes,reducers,defaultLocale,domContainer){
       locale: localeReducer,
     },reducers);
   }
-  if(process.env.useImmutable) {
-    var Immutable = require('immutable');
-    var initialState = Immutable.Map();
-  }else {
-    var initialState = {};
-  }
-  const store = configureStore(initialState,browserHistory,reducers);
+  const store = configureStore({},browserHistory,reducers);
   var history = syncHistoryWithStore(browserHistory, store,{
     selectLocationState (state) {
       if(process.env.useImmutable){
@@ -44,8 +38,8 @@ function app(routes,reducers,defaultLocale,domContainer){
       }else{
         return state.routing;
       }
-    } 
-  }); 
+    }
+  });
   function renderApp() {
     const target = domContainer || document.getElementById('root');
     if (target) {
@@ -56,7 +50,7 @@ function app(routes,reducers,defaultLocale,domContainer){
     }
   }
 
-  return renderApp; 
+  return renderApp;
 }
 
 export default app;

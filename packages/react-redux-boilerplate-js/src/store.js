@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import { 
+import {
   LOCATION_CHANGE,
   routerMiddleware,
   routerReducer
@@ -10,9 +10,7 @@ export default function configureStore(initialState,browserHistory,rootReducer) 
   if(process.env.useImmutable){
     var Immutable =  require('immutable');
     var combineReducers = require('redux-immutable').combineReducers;
-    var initialState = Immutable.fromJS({
-        locationBeforeTransitions: null
-    });
+    initialState = Immutable.fromJS({});
     var routing = function(state, action){
       if(!state){
         state = initialState
