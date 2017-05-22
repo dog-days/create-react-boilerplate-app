@@ -19,4 +19,5 @@ commander
   .command('view-locale-to-excel', 'generate view locale string to Excel lists')
   .command('excel-to-locale-config', 'generate locale string to config file from excel')
   .command('use', 'use a feature like less,sass and immutable.js.')
+  .command('cover', 'cover file like webpack.config.dev.js.')
   .parse(process.argv);
