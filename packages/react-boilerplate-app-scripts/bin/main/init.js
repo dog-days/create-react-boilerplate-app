@@ -162,7 +162,7 @@ class init extends Basic{
     console.log(chalk.cyan(`  ${displayedCommand} start`));
     console.log('    Starts the development server.');
     console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} create-view(cv for short)`));
+    console.log(chalk.cyan(`  ${displayedCommand} create-view(cv for short) <view-name>`));
     console.log('    Creates a new page view template.');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} create-route-reducer(ac for short)`));
@@ -173,6 +173,9 @@ class init extends Basic{
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} excel-to-locale-config(etlc for short)`));
     console.log('    Creates i18n config .js by reading excel witch is translated.');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} use <feature-name>`));
+    console.log('    use a feature like less,sass and immutable.js.');
     console.log();
     console.log(
       chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`)

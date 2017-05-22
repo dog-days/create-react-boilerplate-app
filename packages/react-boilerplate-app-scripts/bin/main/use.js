@@ -30,7 +30,8 @@ class Use extends Basic {
       console.log(" " + 'less');
       console.log(" " + 'sass');
       console.log(" " + 'immutable');
-      process.exit(1);
+      console.log();
+      process.exit();
     }
     if (!this.featureName) {
       console.error('Please specify the feature name:');
@@ -40,6 +41,8 @@ class Use extends Basic {
       console.log();
       console.log('For example:');
       console.log(`  ${chalk.cyan(program.name())} use ${chalk.green('less')}`);
+      console.log();
+      console.log(`use ${ chalk.cyan(this.program.name() + ' use -l ') } to see the feature lists.`)
       console.log();
       process.exit(1);
     }
