@@ -202,7 +202,7 @@ After installation,run `npm start` and it will works.
 
 ### Mock
 
-Mock is base on webpack-dev-server' historyApiFallback.For example,there is a api link `http://www.github.com/api/test`.But at the very beginning,the link is not valid .We want it be mocked in `./public/mock`.We can use the config in package.json below.
+Mock is base on webpack-dev-server historyApiFallback.For example,there is a api link `http://www.github.com/api/test`.But at the very beginning,the link is not valid .We want it be mocked in `./public/mock`.We can use the config in package.json below.
 
 ```json
 {
@@ -238,7 +238,9 @@ rewrites: [
 ]
 ```
 
-Want more config,we can create `config/historyApiFallback.js`.The format is same as webpack-dev-server [historyApiFallback](https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback).
+Want more config,we can create `config/historyApiFallback.js` by running `yarn || npm run cover historyApiFallback.js` or create the file manually.
+
+The format is same as webpack-dev-server [historyApiFallback](https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback).
 
 ```js
 module.exports = {
@@ -252,7 +254,7 @@ Please refor to [connect-history-api-fallback](https://github.com/bripkens/conne
 
 In development mode ,the api link provided by back-end,will encountered cross-domain issues.Proxy can solve the problem.
 
-Proxy is base on webpack-dev-server' proxy.For example,there is a api link `http://www.github.com/api/test` witch did work.We proxy `www.github.com`.We can use the config in package.json below.Because of package.json we only can use string to proxy config.
+Proxy is base on webpack-dev-server proxy.For example,there is a api link `http://www.github.com/api/test` witch did work.We proxy `www.github.com`.We can use the config in package.json below.Because of package.json we only can use string to proxy config.
 
 ```json
 {
@@ -268,7 +270,9 @@ Proxy is base on webpack-dev-server' proxy.For example,there is a api link `http
 
 After the development  environment started,then you can visit `http://localhost:8888/api/test.js` to get api json contents.
 
-Want more config,we can create `config/proxy.js`.The format is same as webpack-dev-server [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy).
+Want more config,we can create `config/proxy.js` by running `yarn || npm run cover proxy.js`  or create the file manually.
+
+The format is same as webpack-dev-server [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy).
 
 ```js
 module.exports = {
