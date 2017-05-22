@@ -1,42 +1,23 @@
 {
-  "name": "react-boilerplate-app-scripts",
-  "version": "0.0.10",
-  "description": "react-boilerplate-app-scripts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dog-days/create-react-boilerplate-app.git"
-  },
-  "bugs": {
-    "url": "https://github.com/dog-days/create-react-boilerplate-app/issues"
-  },
-  "homepage": "https://github.com/dog-days/create-react-boilerplate-app",
+  "name": "test",
+  "version": "1.0.2",
+  "private": true,
+  "description": "",
   "main": "index.js",
-  "engines": {
-    "node": ">=6"
-  },
-  "bin": {
-    "react-boilerplate-app-scripts": "./bin/react-boilerplate-app-scripts.js"
-  },
   "scripts": {
-    "init": "node ./bin/init.js",
-    "start": "node ./bin/react-boilerplate-app-scripts.js start",
-    "build": "node ./bin/react-boilerplate-app-scripts.js build",
-    "view-locale-to-excel": "node ./bin/react-boilerplate-app-scripts.js view-locale-to-excel",
-    "vlte": "node ./bin/react-boilerplate-app-scripts.js view-locale-to-excel",
-    "excel-to-locale-config": "node ./bin/react-boilerplate-app-scripts.js excel-to-locale-config",
-    "etlc": "node ./bin/react-boilerplate-app-scripts.js excel-to-locale-config",
-    "create-view": "node ./bin/react-boilerplate-app-scripts.js create-view",
-    "cv": "node ./bin/react-boilerplate-app-scripts.js create-view",
-    "create-route-reducer": "node ./bin/react-boilerplate-app-scripts.js ac",
-    "ac": "node ./bin/react-boilerplate-app-scripts.js ac",
-    "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
-    "use": "node ./bin/react-boilerplate-app-scripts.js use"
+    "start": "react-boilerplate-app-scripts start",
+    "build": "react-boilerplate-app-scripts build",
+    "view-locale-to-excel": "react-boilerplate-app-scripts view-locale-to-excel",
+    "vlte": "react-boilerplate-app-scripts view-locale-to-excel",
+    "excel-to-locale-config": "react-boilerplate-app-scripts excel-to-locale-config",
+    "etlc": "react-boilerplate-app-scripts excel-to-locale-config",
+    "create-view": "react-boilerplate-app-scripts create-view",
+    "cv": "react-boilerplate-app-scripts create-view",
+    "create-route-reducer": "react-boilerplate-app-scripts ac",
+    "ac": "react-boilerplate-app-scripts ac",
+    "use": "react-boilerplate-app-scripts use"
   },
-  "keywords": [
-    "react",
-    "react-boilerplate-app-scripts"
-  ],
-  "author": "Samo",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-core": "^6.24.1",
@@ -70,6 +51,7 @@
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
     "progress-bar-webpack-plugin": "^1.9.3",
+    "react-boilerplate-app-scripts": "^0.0.10",
     "react-boilerplate-app-utils": "^0.0.7",
     "react-dev-utils": "^0.5.2",
     "react-hot-loader": "3.0.0-beta.6",
@@ -95,20 +77,6 @@
     "redux-thunk": "^1.0.3",
     "whatwg-fetch": "^2.0.3"
   },
-  "react-boilerplate-app-scripts": {
-    "language": "en_US",
-    "appSrcPath": "template/en_US-src",
-    "appPublicPath": "template/en_US-public",
-    "historyApiFallback": {
-      "verbose": true,
-      "rewrites": [
-        {
-          "from": "/api/(.*)",
-          "to": "/mock/$1"
-        }
-      ]
-    }
-  },
   "babel": {
     "presets": [
       "react",
@@ -130,6 +98,9 @@
         ]
       }
     }
+  },
+  "react-boilerplate-app-scripts": {
+    "language": "zh_CN"
   },
   "eslintConfig": {
     "extends": "react-app"
