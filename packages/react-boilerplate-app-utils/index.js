@@ -11,16 +11,15 @@ module.exports = {
     return path.resolve(process.cwd(),relativePath);
   },
   /**
-   * 会根据当前项目，或者当前文件路径，或者当前项目指定的node_modules中的packageName路径
+   * 会根据当前项目，或者当前项目指定的node_modules中的packageName路径
    * 依次查找文件
    * @param { string } relativePath 相对路径，跟path.resolve的参数一致，如果使用绝对路径，直接返回绝对路径
-   * @param { string } dirname __dirname
    * @param { string } packageName node_modules中的packageName文件夹名
    * @return { string || undefined } 返回优先匹配的路径
    */
-  pathResolve(relativePath,dirname,packageName){
+  pathResolve(relativePath,packageName){
     if(!packageName){
-      packageName="react-redux-app-scripts"
+      packageName="react-boilerplate-app-scripts"
     }
     if(!relativePath){
       return;
@@ -32,12 +31,9 @@ module.exports = {
       return;
     }
     var entryOfCwdPath = this.resolveCwd(relativePath);
-    var entryOfDirnamePath = path.resolve(dirname,`../${ relativePath }`);
     var entryOfPackagePath = this.resolveCwd(`node_modules/${ packageName }/${ relativePath }`);
     if(fs.existsSync(entryOfCwdPath)){
       return entryOfCwdPath;
-    }else if(fs.existsSync(entryOfDirnamePath)){
-      return entryOfDirnamePath;
     }else if(fs.existsSync(entryOfPackagePath)){
       return entryOfPackagePath;
     }

@@ -8,7 +8,7 @@ const fs = require('fs-extra');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const util = require('react-boilerplate-app-utils');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
-const paths = require(util.pathResolve('config/paths.js',__dirname,scriptsPackagename));
+const paths = require(util.pathResolve('config/paths.js',scriptsPackagename));
 
 //bebin-----------packageJson信息获取
 const packageJson = util.getCwdPackageJson();

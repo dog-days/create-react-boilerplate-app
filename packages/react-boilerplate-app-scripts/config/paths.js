@@ -4,7 +4,7 @@ const scriptsPackagename = 'react-boilerplate-app-scripts';
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
 
 function pathResolve(relativePath){
-  return util.pathResolve(relativePath,__dirname,scriptsPackagename);
+  return util.pathResolve(relativePath,scriptsPackagename);
 }
 
 //pathResolve使用相对路径，不要使用绝对路径

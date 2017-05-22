@@ -13,13 +13,13 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const detect = require('detect-port');
 const util = require('react-boilerplate-app-utils');
-const paths = require(util.pathResolve('config/paths.js',__dirname,scriptsPackagename));
+const paths = require(util.pathResolve('config/paths.js',scriptsPackagename));
 var proxy;
-var proxyPath = util.pathResolve('config/proxy.js',__dirname,scriptsPackagename);
+var proxyPath = util.pathResolve('config/proxy.js',scriptsPackagename);
 if(proxyPath){
   proxy = require(proxyPath);
 }
-var historyApiFallbackPath = util.pathResolve('config/historyApiFallback.js',__dirname,scriptsPackagename);
+var historyApiFallbackPath = util.pathResolve('config/historyApiFallback.js',scriptsPackagename);
 var historyApiFallback;
 if(historyApiFallbackPath){
   historyApiFallback = require(historyApiFallbackPath);

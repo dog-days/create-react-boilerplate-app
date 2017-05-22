@@ -7,7 +7,8 @@ const path = require('path');
 const fs = require('fs-extra');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const util = require('react-boilerplate-app-utils');
-const paths = require(util.pathResolve('config/paths.js',__dirname,'react-redux-app-scripts'));
+const scriptsPackagename = 'react-boilerplate-app-scripts';
+const paths = require(util.pathResolve('config/paths.js',scriptsPackagename));
 
 //bebin-----------packageJson信息获取
 const packageJson = util.getCwdPackageJson();
@@ -21,7 +22,6 @@ const useSass = getInfo('sass-loader') && getInfo('node-sass');
 const useLess = getInfo('less') && getInfo('less-loader');
 const useImmutable = getInfo('immutable') && getInfo('redux-immutable');
 //end  -----------packageJson信息获取
-const scriptsPackagename = 'react-boilerplate-app-scripts';
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
 
 const postcssLoaderConfig = {
