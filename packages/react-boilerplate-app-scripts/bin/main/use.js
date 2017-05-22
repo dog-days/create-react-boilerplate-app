@@ -34,15 +34,20 @@ class Use extends Basic {
       process.exit();
     }
     if (!this.featureName) {
+      var useYarn = util.shouldUseYarn();
+      var displayedCommand = 'npm run';
+      if(useYarn){
+        displayedCommand = 'yarn';
+      }
       console.error('Please specify the feature name:');
       console.log(
-        `  ${chalk.cyan(program.name())} use ${chalk.green('<feature-name>')}`
+        `  ${chalk.cyan(displayedCommand)} use ${chalk.green('<feature-name>')}`
       );
       console.log();
       console.log('For example:');
-      console.log(`  ${chalk.cyan(program.name())} use ${chalk.green('less')}`);
+      console.log(`  ${chalk.cyan(displayedCommand)} use ${chalk.green('less')}`);
       console.log();
-      console.log(`use ${ chalk.cyan(this.program.name() + ' use -l ') } to see the feature lists.`)
+      console.log(`use ${ chalk.cyan(displayedCommand + ' use -- -l ') } to see the feature lists.`)
       console.log();
       process.exit(1);
     }
