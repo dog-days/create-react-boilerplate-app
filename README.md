@@ -8,21 +8,28 @@ React boilerplate is based on [React](https://facebook.github.io/react/), [Redux
 
 ## Why Use This?
 
-- no webpack config.
+- no webpack configuration.
 - no route configuration ,route generate by command automatically.
-- optional package.json config like proxy and history historyApiFallback(use for mock service).
-- configuration override function.
 - no redux reducer config.
 - optional less-loader.
 - optional sass-loader.
 - optional Immutable.js.
+- optional package.json config such as proxy and history historyApiFallback(use for mock service).
+- configuration override function.
 - React,Redux,React-Router, JSX ,ES6 and ES7 decorator syntax support.
 - optional breadcrumbs feature.
 - optional i18n feature.
+- development  mock services
+- development proxy services
+
+## Doc
+
+- [中文](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README-zh_CN.md)
+- [English](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README.md)
 
 ## Simple Use
 
-### use with nam
+### use with npm
 
 ```sh
 npm install -g create-react-boilerplate-app
@@ -138,11 +145,11 @@ Runs the app in development mode.
 Open [http://localhost:8888](http://localhost:8888/) to view it in the browser.
 
 The page will be hot reloaded with no refresh if you make edits.
-You will see the build success or errors info and lint warnings info in the terminal and console.
+You will see the build success or errors info and lint warnings info in the terminal and browser console.
 
 #### npm || yarn run create-view(cv for short) 
 
-Creates a new page view template.
+Generate a new page view template in the `view` folder.
 
 options is same as `create-react-boilerplate-app xxxx [options]`.
 
@@ -159,50 +166,221 @@ Creates routes and reducers base on the _route.js and reducer.js files.\_route.j
 
 `npm run ac -- -w` is watch mode.
 
+#### npm || yarn run view-locale-to-excel(vlte for short)
+
+Create an i18n excel by reading the files in the src folder (matching xx characters via this.t ("xx")).
+
 #### npm || yarn run excel-to-locale-config(etlc for short)
 
 The command is base on `npm run create-route-reducer`.
 
-Creates i18n to xx .js(like en_US.js) by reading excel witch is translated.
+Generate xx.js (such as en_US.js) by reading the translated excel.
+
+#### npm || yarn run use `<feature-name`>
+
+Use a feature such as less,sass and immutable.js.
+
+Run `npm run use -- -l` to see the available feature lists..
+
+#### npm || yarn run cover `<file-name`>
+
+Overwrite the configuration file, such as webpack.config.dev.js.
+
+Run `npm run cover -- -l` to see the file lists which can be covered.
 
 #### npm || yarn run build
 
 Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.
+The build is minified and the filenames include the hashes(prevent each version of the old version cache problem).
 
-### Use Less
+### Use optional features
+
+#### Use Less
 
 ```sh
-create-react-boilerpalte-app use less
+npm run use less
+#or
+#yarn use less
 ```
+
+Command above will install `less` and `less-loader`.
 
 After installation,run `npm start` and it will works.
 
-### Use Sass
-
-Run command below and must use with `--save`.
+#### Use Sass
 
 ```sh
-create-react-boilerpalte-app use sass
+npm run use sass
+#or
+#yarn use sass
 ```
+
+Command above will install `node-sass` and `sass-loader`.
 
 After installation,run `npm start` and it will works.
 
-### Use Immutable.js
-
-Run command below and must use with `--save` and version.
+#### Use Immutable.js
 
 ```sh
-create-react-boilerpalte-app use immutable
+npm run use immutable
+#or
+#yarn use immutable
 ```
 
-After installation,run `npm start` and it will works.
+Command above will install `immutable@3.8.1` and `redux-immutable@3.0.6`.
+
+After installation,run `npm start` and it will works(see the output information of the redux-logger in the browser console).
+
+### Package.json of react-boilerplate-app-scripts Configuration
+
+In creating a new app project, package.json will have the react-boilerplate-app-scripts default configuration.
+
+```json
+...
+"react-boilerplate-app-scripts": {
+  "language": "en_US"
+},
+...
+```
+
+React-boilerplate-app-scripts has the following configuration options:
+
+- appSrcPath
+
+  App program directory (relative to the root directory), the default value is `src`. 
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- language
+
+  It will be used in the `npm run view-to-locale-excel` to generate the first line of excel characters.
+
+  If our default language is in Chinese, that `language` should be `zh_xx `(such as zh_CN).
+
+  `language` characters  generation is based on the terminal language package.(Windows defaults to en_US, currently incompatible).
+
+- host
+
+  Development service host, the default value is localhost.
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- port
+
+  Development service listening port, default value 8888.
+
+  If the port conflicts, the program will automatically change to other ports.
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- routesPath
+
+  Route configuration file path, `npm run ac` command will read the path. The default value is `${src}/.routes.js`, where `${src}` is replaced with the `appSrcPath` value above.
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- reducersPath
+
+  The reducers configuration file path which passed to the rudux store, `npm run ac` command will read the path. The default value is `${src}/.routes.js`, where `${src}` is replaced with the `appSrcPath` value above.
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- appEntryPath
+
+  App program js entry file path, the default value is `${src}/index.jsx`。
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- appPublicPath
+
+  Webpack-dev-server static resource access directory (relative to the root directory), the default value is `public`。
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- appLocalePath
+
+  Multi-language folder path, `npm run view-to-locale-excel` will read the path.
+
+  If not necessary, it is recommended not to change.it can be ignored.
+
+- index
+
+  App entry html file in the `appPublicPath` folder above.
+
+- proxy
+
+  Please refer to the follow-up **Proxy**, the default value is undefined, this function may be more commonly used.
+
+- historyApiFallback
+
+  Please refer to the follow-up **Mock**, the default value is undefined, this function may be more commonly used.
+
+### Configuration Override
+
+In the current creation of the app, we can also cover the configuration.The following configuration file can be covered:
+
+- webpack.config.dev.js
+
+  Developmen webpack configuration file.
+
+- webpack.config.prod.js
+
+  Production webpack configuration file.
+
+- paths.js
+
+  The path configuration file is roughly as follows:
+
+  ```js
+  const path = require('path');
+  const util = require('react-boilerplate-app-utils');
+  const scriptsPackagename = 'react-boilerplate-app-scripts';
+  const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
+  function pathResolve(relativePath){
+    return util.pathResolve(relativePath,scriptsPackagename);
+  }
+  //pathResolve使用相对路径，不要使用绝对路径
+  var paths = {
+    webpackDevConfig: pathResolve("config/webpack.config.dev.js"),
+    webpackProdConfig: pathResolve("config/webpack.config.prod.js"),
+    //app 程序入口js文件
+    appEntry: pathResolve(cwdPackageJsonConfig.appEntryPath),
+    //dev server静态资源访问目录
+    appPublic: pathResolve(cwdPackageJsonConfig.appPublicPath),
+    //app 入口html文件
+    appHtml: path.resolve(process.cwd(),cwdPackageJsonConfig.appPublicPath,cwdPackageJsonConfig.index),
+    //程序打包目录，根据prefixURL变化
+    appBuild: path.resolve(process.cwd(),'build',cwdPackageJsonConfig.prefixURL),
+    //app 程序目录
+    src: path.resolve(cwdPackageJsonConfig.appSrcPath),
+  }
+  module.exports = paths;
+  ```
+
+- proxy.js
+
+  Please refer to the following **Proxy** function.
+
+- historyApiFallback.js
+
+  Please refer to the following **Mock** function.
+
+We can run `npm run cover - -l` to see a list of files that can be overwritten.
+
+We can run the following command to create:
+
+```sh
+npm run cover <file-name>
+#yarn use <file-name>
+```
 
 ### Mock
 
 Mock is base on webpack-dev-server historyApiFallback.For example,there is a api link `http://www.github.com/api/test`.But at the very beginning,the link is not valid .We want it be mocked in `./public/mock`.We can use the config in package.json below.
+
+The public folder is the default set of webpack-dev-server static resource access directories.
 
 ```json
 {
@@ -225,7 +403,7 @@ Make a test.json file in `./public/mock`.
 
 After the development  environment started,then you can visit `http://localhost:8888/api/test.js` to get api json contents.
 
-the `rewrites` is a little different to webpack-dev-server.It will be convered to the code below.
+The `rewrites` is a little different to webpack-dev-server（package.json can only use string.）.It will be convered to the code below.
 
 ```js
 rewrites: [
@@ -242,19 +420,15 @@ Want more config,we can create `config/historyApiFallback.js` by running `yarn |
 
 The format is same as webpack-dev-server [historyApiFallback](https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback).
 
-```js
-module.exports = {
-  "/api": "http://www.githumb.com"
-}
-```
-
-Please refor to [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback#rewrites).
+Please refer to [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback#rewrites).
 
 ### Proxy
 
 In development mode ,the api link provided by back-end,will encountered cross-domain issues.Proxy can solve the problem.
 
-Proxy is base on webpack-dev-server proxy.For example,there is a api link `http://www.github.com/api/test` witch did work.We proxy `www.github.com`.We can use the config in package.json below.Because of package.json we only can use string to proxy config.
+Proxy is base on webpack-dev-server proxy.For example,there is a api link `http://www.github.com/api/test` witch did work.We proxy `www.github.com`.We can use the configuration in package.json below.Because of package.json we only can use string to proxy configuration.
+
+The public folder is the default set of webpack-dev-server static resource access directories.
 
 ```json
 {
@@ -274,13 +448,7 @@ Want more config,we can create `config/proxy.js` by running `yarn || npm run cov
 
 The format is same as webpack-dev-server [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy).
 
-```js
-module.exports = {
-  "/api": "http://www.githumb.com"
-}
-```
-
-## Philosophy
+## Concept
 
 - **No Configuration Required**
 
@@ -288,11 +456,11 @@ module.exports = {
 
 - **Package.json Configuration**
 
-  package.json configuration is optional.
+  package.json configuration is optional,but it is convenient.
 
 - **Configuration Override**
 
-  We can custom all the config file.For example you can only override webpack.config.dev.js.
+  We can custom all the config file.For example, you can cover only webpack.config.dev.js.
 
 
 
