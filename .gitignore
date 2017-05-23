@@ -2,7 +2,6 @@
 .vscode/
 node_modules/
 build/
-app-test/
 .DS_Store
 *.tgz
 *.swp
