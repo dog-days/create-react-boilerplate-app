@@ -175,7 +175,10 @@ class init extends Basic{
     console.log('    Creates i18n config .js by reading excel witch is translated.');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} use <feature-name>`));
-    console.log('    use a feature like less,sass and immutable.js.');
+    console.log('    Use a feature such as less,sass and immutable.js.');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} cover <file-name>`));
+    console.log('    Overwrite the configuration file, such as webpack.config.dev.js.');
     console.log();
     console.log(
       chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`)

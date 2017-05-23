@@ -12,12 +12,12 @@ const packageJson = path.resolve(__dirname,"../package.json");
 
 commander
   .version(packageJson.version)
-  .command('start', 'start dev server')
-  .command('build', 'production building')
-  .command('ac', 'routes and reducers atuo creater')
-  .command('create-view', 'create page view template')
-  .command('view-locale-to-excel', 'generate view locale string to Excel lists')
-  .command('excel-to-locale-config', 'generate locale string to config file from excel')
-  .command('use', 'use a feature like less,sass and immutable.js.')
-  .command('cover', 'cover file like webpack.config.dev.js.')
+  .command('start', 'Start dev server')
+  .command('build', 'Production building')
+  .command('ac', 'Routes and Reducers atuo creater')
+  .command('create-view', 'Create page view template')
+  .command('view-locale-to-excel', 'Generate view locale string to Excel lists')
+  .command('excel-to-locale-config', 'Generate locale string to config file from excel')
+  .command('use', 'Use a feature such as less,sass and immutable.js.')
+  .command('cover', 'Overwrite the configuration file, such as webpack.config.dev.js.')
   .parse(process.argv);

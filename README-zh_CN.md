@@ -6,6 +6,8 @@
 
 React样板基于React，Redux，React Router，用于快速应用开发。
 
+如果有什么问题，请[提交个issue](https://github.com/dog-days/create-react-boilerplate-app/issues/new)。
+
 ## Why Use This?
 
 - 没有webpack配置。
@@ -117,7 +119,7 @@ my-app/
     favicon.ico
     index.html
   src/
-  	#自动创建
+    #自动创建
     .redcers.js
     #自动创建
     .routes.js
@@ -126,7 +128,7 @@ my-app/
     #根据选项创建。
     #i18n文件夹
     locale/
-	#css and image
+    #css and image
     style/ 
     #layout和页面视图，您的主要编码位置。
     view/

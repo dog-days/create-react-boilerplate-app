@@ -108,12 +108,12 @@ module.exports = {
     var config = this.getCwdPackageJson()[packageName];
     //默认值，路径都是相对npm项目根目录
     config =  Object.assign({},{
+      //app 程序目录
+      appSrcPath: "src",
       host: 'localhost',
       port: 8888,
       routesPath: "${src}/.routes.js",
       reducersPath: "${src}/.reducers.js",
-      //app 程序目录
-      appSrcPath: "src",
       //app 程序入口js文件
       appEntryPath: "${src}/index.jsx",
       //dev server静态资源访问目录
