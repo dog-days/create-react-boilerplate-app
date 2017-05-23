@@ -6,6 +6,8 @@ Create React App works on macOS, Windows, and Linux.
 
 React boilerplate is based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router) for rapid application development.
 
+If something doesn’t work please [file an issue](https://github.com/facebookincubator/create-react-app/issues/new).
+
 ## Why Use This?
 
 - no webpack configuration.
@@ -112,7 +114,7 @@ my-app/
     favicon.ico
     index.html
   src/
-  	#created automatically
+    #created automatically
     .redcers.js
     #created automatically
     .routes.js
@@ -121,7 +123,7 @@ my-app/
     #created according to options.
     #i18n folder
     locale/
-	#css and image
+    #css and image
     style/ 
     #layout and page view,you main coding palce.
     view/
