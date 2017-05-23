@@ -1,6 +1,6 @@
 # Create React Boilerplate App 
 
-使用redux和反应路由器样板创建React应用程序（没有配置或更少的配置这取决于您）。
+使用redux和反应路由器样板创建React应用程序（没有配置或更少的配置，这取决于您）。
 
 创建React应用程序适用于MacOS，Windows和Linux。
 
@@ -8,7 +8,7 @@ React样板基于React，Redux，React Router，用于快速应用开发。
 
 如果有什么问题，请[提交个issue](https://github.com/dog-days/create-react-boilerplate-app/issues/new)。
 
-## Why Use This?
+## 为什么使用这个
 
 - 没有webpack配置。
 - 没有路由配置，路由自动生成命令。
@@ -164,12 +164,12 @@ yarn 命令可以省略`run`关键字。
 
 options is same as `create-react-boilerplate-app xxxx [options]`.
 
-| short | option       | explain                               |
-| ----- | ------------ | ------------------------------------- |
-| -h    | --help       | output help message information       |
-| -a    | --all        | create view with all features         |
-| -i    | --i18n       | create view with locale feature(i18n) |
-| -b    | --breadcrumb | create view with breadcrumb feature   |
+| short | option       | explain          |
+| ----- | ------------ | ---------------- |
+| -h    | --help       | 输出帮助消息信息         |
+| -a    | --all        | 创建具有所有功能的视图      |
+| -i    | --i18n       | 创建具有多语言的视图（i18n） |
+| -b    | --breadcrumb | 创建具有面包屑功能的视图     |
 
 #### npm || yarn run create-route-reducer(ac for short)
 
@@ -369,7 +369,7 @@ npm run use immutable
 
 ````sh
 npm run cover <file-name>
-#yarn use <file-name>
+#yarn cover <file-name>
 ````
 
 ### Mock（模拟）

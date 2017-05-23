@@ -1,6 +1,6 @@
 # Create React Boilerplate App 
 
-Create React Boilerplate apps with redux and react-router boilerplate(less configuration or no configuration).
+Create React Boilerplate apps with redux and react-router boilerplate(no configuration or less configuration ,that depends on you).
 
 Create React App works on macOS, Windows, and Linux.
 
