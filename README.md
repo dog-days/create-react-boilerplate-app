@@ -6,6 +6,8 @@ Create React App works on macOS, Windows, and Linux.
 
 React boilerplate is based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router) for rapid application development.
 
+If something doesn’t work please 
+
 ## Why Use This?
 
 - no webpack configuration.
@@ -83,6 +85,8 @@ nvm isntall 6.0.0
 #switch node to v6.0.0
 nvm use 6.0.0
 ```
+
+In the windows platform,you should download [nvm-setup.zip](https://github.com/coreybutler/nvm-windows/releases/download/1.1.4/nvm-setup.zip) from [https://github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases).
 
 ### Creating an App
 

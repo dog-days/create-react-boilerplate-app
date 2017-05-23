@@ -86,6 +86,8 @@ nvm isntall 6.0.0
 nvm use 6.0.0
 ```
 
+Windows平台使用者，请从 [https://github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases)下载 [nvm-setup.zip](https://github.com/coreybutler/nvm-windows/releases/download/1.1.4/nvm-setup.zip)。
+
 ### 创建React App
 
 ```sh
