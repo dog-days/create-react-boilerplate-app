@@ -6,7 +6,7 @@ Create React App works on macOS, Windows, and Linux.
 
 React boilerplate is based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router) for rapid application development.
 
-If something doesn’t work please [file an issue](https://github.com/facebookincubator/create-react-app/issues/new).
+If something doesn’t work please [file an issue](https://github.com/dog-days/create-react-boilerplate-app/issues/new).
 
 ## Why Use This?
 
