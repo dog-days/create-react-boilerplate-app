@@ -1,10 +1,10 @@
 # Create React Boilerplate App 
 
-使用redux和反应路由器样板创建React应用程序（没有配置或更少的配置，这取决于您）。
+使用redux和反应路由器样板创建React应用程序（没有配置或更少的配置）。
 
 创建React应用程序适用于MacOS，Windows和Linux。
 
-React样板基于React，Redux，React Router，用于快速应用开发。
+React样板基于 [React@15.5.4](https://facebook.github.io/react/)，[Redux@3.5.2](https://github.com/reactjs/redux)， [React Router@3.0.0](https://github.com/reactjs/react-router) ，用于快速应用开发。
 
 如果有什么问题，请[提交个issue](https://github.com/dog-days/create-react-boilerplate-app/issues/new)。
 
@@ -28,6 +28,7 @@ React样板基于React，Redux，React Router，用于快速应用开发。
 
 - [中文 README](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README-zh_CN.md)
 - [English README](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README.md)
+- [react-redux-pieplate-js](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js)
 
 ## 简单使用
 
@@ -42,7 +43,7 @@ npm start
 
 npm可能很慢，镜像链接解决问题。推荐使用[**nrm**](https://github.com/Pana/nrm) 。
 
-nrm可以帮助您轻松快速地切换不同的npm镜像链接，现在包括：npm，cnpm，taobao，nj（nodejitsu），rednpm.使用哪个镜像链接取决于你。
+nrm可以帮助您轻松快速地切换不同的npm镜像链接，现在包括：npm，cnpm，taobao，nj（nodejitsu），rednpm。
 
 ```sh
 npm install -g nrm
@@ -73,8 +74,6 @@ npm install -g create-react-boilerplate-app
 # or 
 # yarn global add create-react-boilerplate-app
 ```
-
-**You’ll need to have Node >= 6 on your machine**. You can use [nvm](https://github.com/creationix/nvm#usage) to easily switch Node versions between different projects.
 
 **您的机器上需要Node> = 6**。 您可以使用[nvm](https://github.com/creationix/nvm#usage) 轻松地切换不同项目之间的Node版本。
 
@@ -132,13 +131,130 @@ my-app/
     style/ 
     #layout和页面视图，您的主要编码位置。
     view/
+      layout/
+        main/
+          index.jsx
+          _route.js
+          #自动生成
+          .child_routes.js
+      #for example
+      about/
+        index.jsx
+        _route.js
+        #redux reducer编码区
+        #通过npm run ac，reducer函数会被读取到src/.reducers.js。
+        reducer.js
 ```
 
 没有配置或复杂的文件夹结构。
 
-You need to refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) to learn how to just file inside view folder which is your main coding place.
+您需要参考[react-redux-pieplate-js](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js)来了解如何调整view文件夹中的代码，view文件夹是您以后的主要编码区。
 
-您需要参考react-redux-pieplate-js来了解如何调整view文件夹中的代码，view是您以后的主要编码区。
+### View使用
+
+#### Layout模式
+
+layout是特殊的一种view，在这里是react-router中的第一层组件，view是其子组件。以一种layout文件夹为例：
+
+layout包括以下必要文件
+
+- `_route.js`，用作单个路由配置，可自行修改，但务必按照以下格式。
+
+```jsx
+export default {
+  path: '/',
+  //layout组件
+  component: require('./index').default,
+  //默认主页设置
+  indexRoute: require('src/view/index/_route.js').default,
+  //子路由组件，即view组件
+  childRoutes: require('./.child_routes.js').default,
+}
+```
+
+- `src/view/index.jsx`，在上面的_route.js使用。
+
+```jsx
+import React from 'react'
+
+class LayoutView extends React.Component {
+  render(){
+  }
+}
+export default LayoutView; 
+```
+
+- .child_routes.js
+
+  `.child_routes.js`是个隐藏文件，自动生成。
+
+#### Page View模式
+
+view是我们代码开发主要地方，以下是必要文件，`action.js`和`reducer.js`看需要。
+
+- `_route.js`，二级路由（如果没有layout就是一级路由），可自行修改，但务必按照以下格式。
+
+```jsx
+export default {
+  // 它是react-router的业务，请参考react-router@3.x.x
+  //它只是为了绑定layout，当使用`npm run ac'时，会读取该值。
+  //这是唯一跟react-router不同的地方，是我们自定义的。
+  layout: 'main',
+  path: 'about',
+  component: require('src/view/about/index.jsx').default,
+}
+```
+
+- `src/view/about/index.jsx`
+
+```jsx
+import React from 'react'
+
+class View extends React.Component {
+  render(){
+  }
+}
+export default View; 
+```
+
+### Redux Reducer
+
+reducer写法跟Redux的一致，但是因为项目需要使用到`npm run ac`提取并保存reducer方法。所以定义了以下规则：
+
+reducer.js格式如下（export格式）:
+
+```jsx
+export function origin(state = {}, action) {
+  switch (action.type) {
+    case RECIEVEORIGIN:     
+    default:
+      return state;
+  }
+}
+```
+
+不要使用下面这样的格式,虽然是没错，但目前还不支持智能识别这种格式。
+
+```jsx
+module.exports = {
+  origin(state,action){}
+}
+```
+
+这种也不行，请确保`export`跟`function`关键字在一行。
+
+```js
+function origin(state = {}, action) {
+  switch (action.type) {
+    case RECIEVEORIGIN:     
+    default:
+      return state;
+  }
+}
+export {
+  origin
+}
+```
 
 ### 命令使用
 
@@ -173,7 +289,9 @@ options is same as `create-react-boilerplate-app xxxx [options]`.
 
 #### npm || yarn run create-route-reducer(ac for short)
 
-Creates routes and reducers base on the _route.js and reducer.js files.\_route.js and reducer.js rules refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) .
+基于_route.js和reducer.js文件创建路由和redux reducers（绑定reducer）。
+
+_route.js和reducer.js规则请参考[react-redux-pieplate-js](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js)。
 
 `npm run ac -- -w` 是监控生成模式.
 
@@ -312,6 +430,11 @@ npm run use immutable
 - historyApiFallback
 
   请参考后续的**Mock**，默认值为undefined，这个功能或许比较常用。
+
+- prefixURL
+
+  因为有些网站访问web app不是在根目录，可能是根目录中的的文件夹，`prefixURL`是用来设置这种情况的。
+  例如`/demo`，访问网站根目录demo文件中的web app。
 
 ### 配置覆盖
 

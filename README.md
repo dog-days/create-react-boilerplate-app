@@ -1,10 +1,10 @@
 # Create React Boilerplate App 
 
-Create React Boilerplate apps with redux and react-router boilerplate(no configuration or less configuration ,that depends on you).
+Create React Boilerplate apps with redux and react-router boilerplate(no configuration or less configuration).
 
 Create React App works on macOS, Windows, and Linux.
 
-React boilerplate is based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router) for rapid application development.
+React boilerplate is based on [React@15.5.4](https://facebook.github.io/react/), [Redux@3.5.2](https://github.com/reactjs/redux), [React Router@3.0.0](https://github.com/reactjs/react-router) for rapid application development.
 
 If something doesn’t work please [file an issue](https://github.com/dog-days/create-react-boilerplate-app/issues/new).
 ## Why Use This?
@@ -23,10 +23,11 @@ If something doesn’t work please [file an issue](https://github.com/dog-days/c
 - development  mock services
 - development proxy services
 
-## Doc
+## Docs
 
-- [中文](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README-zh_CN.md)
-- [English](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README.md)
+- [中文 README](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README-zh_CN.md)
+- [English README](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README.md)
+- [react-redux-pieplate-js](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js)
 
 ## Simple Use
 
@@ -41,7 +42,7 @@ npm start
 
 npm may be slow ,use mirror to solve the problem.[**nrm**](https://github.com/Pana/nrm) is recommended.
 
-nrm can help you easy and fast switch between different npm registries, now include: npm, cnpm, taobao,nj(nodejitsu),rednpm.It depends on you.
+nrm can help you easy and fast switch between different npm registries, now include: npm, cnpm, taobao,nj(nodejitsu),rednpm.
 
 ```sh
 npm install -g nrm
@@ -128,11 +129,134 @@ my-app/
     style/ 
     #layout and page view,you main coding palce.
     view/
+      layout/
+        main/
+          index.jsx
+          _route.js
+          #generated automatically
+          .child_routes.js
+      #for example
+      about/
+        index.jsx
+        _route.js
+        #redux reducer coding place
+        #After runing `npm run ac`, the reducer function will be read to `src/.reducers.js`.
+        reducer.js
 ```
 
 No configuration or complicated folder structures.
 
 You need to refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) to learn how to just file inside view folder which is your main coding place.
+
+### Usage of View
+
+#### Layout Mode
+
+Layout is a special kind of view, here is the first layer of react-router components, view is its sub-components. Take a layout folder as an example:
+
+The layout includes the following necessary files.
+
+- _route.js, used as a single route configuration, can be modified, but must follow the following format.
+
+```jsx
+export default {
+  path: '/',
+  //layout component
+  component: require('./index').default,
+  //default hompage setting
+  indexRoute: require('src/view/index/_route.js').default,
+  //child route component，the view component.
+  childRoutes: require('./.child_routes.js').default,
+}
+```
+
+- `src/view/index.jsx`，used in _route.js above.
+
+```jsx
+import React from 'react'
+
+class LayoutView extends React.Component {
+  render(){
+  }
+}
+export default LayoutView; 
+```
+
+- .child_routes.js
+
+  `.child_routes.js ` is a hidden file, automatically generated.
+
+#### Page View Mode
+
+View is the main place where we code, the following files are necessary, you can also use action.js and reducer.js if necessary.
+
+- `_route.js`，二级路由（如果没有layout就是一级路由），可自行修改，但务必按照以下格式。
+
+```jsx
+//react-router configuration,please refer to react-router@3.x.x.
+export default {
+  //It' just for binding layout,when using `npm run ac`.
+  //It's only one palce different from react-router.
+  layout: 'main',
+  path: 'about',
+  component: require('src/view/about/index.jsx').default,
+}
+```
+
+- `src/view/about/index.jsx`
+
+```jsx
+import React from 'react'
+
+class View extends React.Component {
+  render(){
+  }
+}
+export default View; 
+```
+
+### Redux Reducer
+
+reducer写法跟Redux的一致，但是因为项目需要使用到`npm run ac`自动保定reducer方法。所以定义了以下规则：
+
+reducer.js格式如下（export格式）:
+
+Reducer written with Redux consistent, but because the project needs to use `npm run ac` extract and save the reducer method. So the following rules are defined:
+
+Reducer.js format is as follows (`export function` format):
+
+```jsx
+export function origin(state = {}, action) {
+  switch (action.type) {
+    case RECIEVEORIGIN:     
+    default:
+      return state;
+  }
+}
+```
+
+Do not use the following format, although it is valid, but it does not support the intelligent identification of this format.
+
+```jsx
+module.exports = {
+  origin(state,action){}
+}
+```
+
+This does not work too, please make sure that `export ` is in line with the `function` keyword.
+
+```js
+function origin(state = {}, action) {
+  switch (action.type) {
+    case RECIEVEORIGIN:     
+    default:
+      return state;
+  }
+}
+export {
+  origin
+}
+```
 
 ### Use with Command
 
@@ -165,7 +289,9 @@ options is same as `create-react-boilerplate-app xxxx [options]`.
 
 #### npm || yarn run create-route-reducer(ac for short)
 
-Creates routes and reducers base on the _route.js and reducer.js files.\_route.js and reducer.js rules refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) .
+Creates routes and reducers( combine reducers) base on the _route.js and reducer.js files.
+
+\_route.js and reducer.js rules refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) .
 
 `npm run ac -- -w` is watch mode.
 
@@ -319,6 +445,11 @@ React-boilerplate-app-scripts has the following configuration options:
 - historyApiFallback
 
   Please refer to the follow-up **Mock**, the default value is undefined, this function may be more commonly used.
+
+- prefixURL
+
+  Because some sites visit the web app is not in the root directory, may be the root directory of the folder, `prefixUR` is used to set this situation.
+  For example, `/demo` visits the web app in the web directory demo file.
 
 ### Configuration Override
 
