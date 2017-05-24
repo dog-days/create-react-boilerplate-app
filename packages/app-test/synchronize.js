@@ -1,9 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
-const util = require('react-boilerplate-app-utils');
 
-var cwdPackageJson = util.getCwdPackageJson();
+var cwdPackageJson = fs.readJsonSync(path.resolve(__dirname,'package.json'));
 var scriptsPackageJson = fs.readJsonSync(path.resolve('../react-boilerplate-app-scripts','package.json'));
 var jsPackageJson = fs.readJsonSync(path.resolve('../react-redux-boilerplate-js','package.json'));
 
@@ -31,7 +30,7 @@ for(var k in cwdPackageJson.scripts){
   }
 }
 cwdPackageJson.scripts['sync'] = 'node ./synchronize.js';
-cwdPackageJson.scripts['init'] = 'node ./node_modules/react-boilerplate-app-scripts/bin/init.js';
+cwdPackageJson.scripts['init'] = 'node ./node_modules/react-boilerplate-app-scripts/bin/init.js && node ./synchronize.js';
 
 fs.writeFileSync(
   path.resolve('./package.json'),
