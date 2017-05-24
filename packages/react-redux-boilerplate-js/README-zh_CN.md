@@ -1,4 +1,4 @@
-# React-Redux-Boilerplate
+# React-Redux-Boilerplate 
 
 > 对外提供的接口是在libs文件夹，而不是src文件夹。
 
@@ -172,7 +172,7 @@ class View {}
 
 面包屑修饰器，layout和page view的用法也是不同的。
 
-#### 一级路由Layout View BreadCrumb Decorator
+#### 一级路由Layout View BreadCrumb Decorator 
 
 先看列子：
 
@@ -217,6 +217,7 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
 ])
 class LayoutView {}
 ```
+
 
 
 
