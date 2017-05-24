@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 //<Link to={ path('/about') } />
 import Link from 'react-redux-boilerplate-js/libs/components/Link'
 //≤Locale--begin
-import { localeLayout }from 'react-redux-boilerplate-js/libs/decorator/Locale'
+import { localeLayout } from 'react-redux-boilerplate-js/libs/decorator/Locale'
 //≤Locale--end
 //≤BreadCrumb--begin
 import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
@@ -17,39 +17,43 @@ import logo from 'src/style/img/logo.svg'
 import 'src/style/css/bootstrap.css'
 import 'src/style/css/layout-main.css'
 
-//connect to redux store,refer to redux.
+//Connect to redux store,refer to redux.
+//This decorator returns not the current component, but the new component.
+//So the modifier above the modifier passes the method.
+//It can not be used in the current component.
+//You need to pay attention!
 @connect((state)=>{
   return {
-//≤BreadCrumb--begin
-    //use with the decorator @localeLayout
-    //pass the change language lists to the current layout component.
-    //if you use the locale function，it must be deliveried.
-    //it's undefined fist time.
+//≤Locale--begin
+    //Use with the decorator `@localeLayout`.
+    //Pass the list of switched languages
+    //If you use this `i18n` function, this must be passed.
+    //At the time of initialization, state.locale.change Locale is undefined.
     changedLocale: state.locale.changedLocale,
-    //pass default language lists.
-    //the default language lists is fist deliveried in `src/index.jsx` to the `r2-js` module.
-    //refer to `r2-js` in `create-react-boilerplate-app/packages/r2-js`
+    //Use with the decorator `@localeLayout`.
+    //Pass the list of default language.
+    //The initialization value of `state.locale.defaultLocale` is passed through the interface provided
+    //by `react-redux-boilerplate-js/libs/index.jsx`.
     defaultLocale: state.locale.defaultLocale,
-//≤BreadCrumb--end
+//≤Locale--end
   };
 })
 //≤BreadCrumb--begin
-//the decorator provides `this.getBreadCrumbs()`
-//`this.getBreadCrumbs()` returns breadcrumb lists.
-//in layout view BreadCrumb must after redux @connect
+//The decorator provides `this.getBreadCrumbs()`
+//`this.getBreadCrumbs()` returns the list of breadcrumb.
+//In layout view `@BreadCrumb` must be placed after redux `@connect`.
 @BreadCrumb
 //≤BreadCrumb--end
 //≤Locale--begin
-//muti-language decorator,it's different from the second route view component.
-//it provides `this.t(xxx)` to the component.
-//if you want the locale function worked,you must use this to pass the string.
-//you can use `npm run view-locale-to-excel` to generate the default language excel lists.
-//you can use `npm run excel-to-locale-config` to generate the default language javascirpts array lists.
-//refer to the api.
+//Muti-language decorator,it's different from the second route view component.
+//It provides `this.t(xxx)` to the component.
+//if you want the i18n function worked,you must use `this.t` to pass the string.
+//You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
+//You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
 @localeLayout()
 //≤Locale--end
-//layout view is the first route component.
-//you can eidit `./_route.js` file to change index page and index page url path.
+//Layout view is the first route component.
+//You can eidit `./_route.js` file to change index page and index page url path.
 class LayoutView extends React.Component {
 
   render() {

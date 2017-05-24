@@ -9,10 +9,9 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
 //≤BreadCrumb--end
 
 //≤BreadCrumb--begin
-//BreadCrumb must before redux @connect,it's different from layout view
-//in the array,you can custom the fields. you can also use function.
-//you can get the breadcrumb lists in layout view by 'this.getBreadCrumbs()'
-//when using @BreadCrumb decorator
+//BreadCrumb must be placed before redux @connect,it's different from layout view
+//In the array,you can custom the fields. you can also use function.
+//You can get the list of breadcrumb in layout view by using 'this.getBreadCrumbs()'.
 //BreadCrumb.create must be used in second route page view component or it works nothing.
 @BreadCrumb.create([
   {
@@ -30,16 +29,15 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
 //set page title
 @PageTitle("About")
 //≤Locale--begin
-//muti-language decorator,it's different from the first route layout view component.
-//it provides `this.t(xxx)` to the component.
-//if you want the locale function worked,you must use `this.t(xxx)` to pass the string.
-//you can use `npm run view-locale-to-excel` to generate the default language excel lists.
-//you can use `npm run excel-to-locale-config` to generate the default language javascirpts array lists.
-//refer to the api.
+//Muti-language decorator,it's different from the first route layout view component.
+//It provides `this.t(xxx)` to the component.
+//if you want the i18n function worked,you must use `this.t` to pass the string.
+//You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
+//You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
 @Locale
 //≤Locale--end
-//the view is the second route page veiw component.
-//you can eidit `./_route.js` file to change the url path for the current page.
+//The view is the second route page veiw component.
+//You can eidit `./_route.js` file to change the url path for the current page.
 class AboutView extends React.Component {
 
   render() {

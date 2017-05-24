@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 //<Link to={ path('/about') } />
 import Link from 'react-redux-boilerplate-js/libs/components/Link'
 //≤Locale--begin
-import { localeLayout }from 'react-redux-boilerplate-js/libs/decorator/Locale'
+import { localeLayout } from 'react-redux-boilerplate-js/libs/decorator/Locale'
 //≤Locale--end
 //≤BreadCrumb--begin
 import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb'
@@ -17,35 +17,38 @@ import logo from 'src/style/img/logo.svg'
 import 'src/style/css/bootstrap.css'
 import 'src/style/css/layout-main.css'
 
-//connect to redux store,refer to redux.
+//连接redux store，请参考redux.
+//这个修饰器返回的不是当前的组件，而是新的组件，所以在这个修饰器上面的修饰器传递的方法，
+//在当前组件都无法使用。
+//需要留意！
 @connect((state)=>{
   return {
-//≤BreadCrumb--begin
-    //use with the decorator @localeLayout
-    //pass the change language lists to the current layout component.
-    //if you use the locale function，it must be deliveried.
-    //it's undefined fist time.
+//≤Locale--begin
+    //配合修饰器`@localeLayout`使用
+    //传递切换后的语言列表
+    //如果使用这个`i18n`功能，这个是必须传递的。
+    //初始化的时候，state.locale.changedLocale为undifined。
     changedLocale: state.locale.changedLocale,
-    //pass default language lists.
-    //the default language lists is fist deliveried in `src/index.jsx` to the `r2-js` module.
-    //refer to `r2-js` in `create-react-boilerplate-app/packages/r2-js`
+    //配合修饰器`@localeLayout`使用
+    //传递默认语言列表
+    //state.locale.defaultLocale初始化值是通过`react-redux-boilerplate-js/libs/index.jsx`提供的接口传递的。
     defaultLocale: state.locale.defaultLocale,
-//≤BreadCrumb--end
+//≤Locale--end
   };
 })
 //≤BreadCrumb--begin
-//the decorator provides `this.getBreadCrumbs()`
-//`this.getBreadCrumbs()` returns breadcrumb lists.
-//in layout view BreadCrumb must after redux @connect
+//这个修饰器提供了`this.getBreadCrumbs()`方法。
+//`this.getBreadCrumbs()`返回面包屑数组列表。
+//在Layout View中`@BreadCrumb`必须在`@connect`后面。
 @BreadCrumb
 //≤BreadCrumb--end
 //≤Locale--begin
-//muti-language decorator,it's different from the second route view component.
-//it provides `this.t(xxx)` to the component.
-//if you want the locale function worked,you must use this to pass the string.
-//you can use `npm run view-locale-to-excel` to generate the default language excel lists.
-//you can use `npm run excel-to-locale-config` to generate the default language javascirpts array lists.
-//refer to the api.
+//多语言修饰器,这跟二级路由view compoent是不一样的。
+//这个修饰器给当前组件提供了`this.t(xxx)`方法。
+//如果要保证i18n功能生效必须使用`this.t`传递字符串。
+//这个修饰器给当前组件提供了`this.changeLanguage(xx)`方法，切换语言使用。
+//你可以使用`npm run view-locale-to-excel`生成默认的excel语言列表.
+//你可以使用`npm run excel-to-locale-config`生成不同的语言的javascirpt数组列表文件（需要读取翻译后的excel）。
 @localeLayout()
 //≤Locale--end
 //layout view is the first route component.
@@ -123,13 +126,12 @@ class LayoutView extends React.Component {
         }
         <div className="main-contents">
           {
-            //Use cloneElement to pass some props to children.
+            //使用cloneElement传递props到子组件.
             React.cloneElement(this.props.children,{
 //≤BreadCrumb--begin
-              //When using internationalization,defaultLocale and changeLanguage
-              //must be passed to the children's props.
-              //You also can use redux connect to pass defaultLocale and changedLocale.
-              //But it's not recommended.
+              //如果使用了i18n功能，必须确保changedLocale和defaultLocale从Layout父组件中传递下来。
+              //当然可以通过redux connect传递defaultLocale和changedLocale。
+              //但不推荐。
               defaultLocale: this.props.defaultLocale,
               changedLocale: this.props.changedLocale,
 //≤BreadCrumb--end
