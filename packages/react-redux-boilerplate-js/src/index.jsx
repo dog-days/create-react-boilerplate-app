@@ -6,6 +6,12 @@ import './polyfill'
 import configureStore from './store'
 import Container from './container'
 
+/**
+ * @param { object } routes 请参考react-router@3.x.x的配置模式，必填
+ * @param { array } reduers 传递给redux combineReducers，详细请参考redux@3.x.x，必填
+ * @param { array } defaultLocale 默认的语言列表，可空
+ * @param { object } domContainer dom节点对象，默认值是document.getElementById('root')
+ */
 function app(routes,reducers,defaultLocale,domContainer){
   if(defaultLocale){
     //多语言切换reducer

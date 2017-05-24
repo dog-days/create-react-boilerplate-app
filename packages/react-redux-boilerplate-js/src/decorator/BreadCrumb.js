@@ -1,5 +1,9 @@
 import util from '../util'
 
+
+/**
+ * @return { array } 面包写数组列表。
+ */
 function getBreadCrumbs(){
   var breadcrumbs = [];
   if(this.props && this.props.children){
