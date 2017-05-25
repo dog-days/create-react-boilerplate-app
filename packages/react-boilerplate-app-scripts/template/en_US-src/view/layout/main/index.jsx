@@ -22,20 +22,27 @@ import 'src/style/css/layout-main.css';
 //So the modifier above the modifier passes the method.
 //It can not be used in the current component.
 //You need to pay attention!
+@connect(state => {
+  return {
 //≤Locale--begin
-//Use with the decorator `@localeLayout`.
-//Pass the list of switched languages
-//If you use this `i18n` function, this must be passed.
-//At the time of initialization, state.locale.change Locale is undefined.
-//Use with the decorator `@localeLayout`.
-//Pass the list of default language.
-//The initialization value of `state.locale.defaultLocale` is passed through the interface provided
-//by `react-redux-boilerplate-js/libs/index.jsx`.
+    //Use with the decorator `@localeLayout`.
+    //Pass the list of switched languages
+    //If you use this `i18n` function, this must be passed.
+    //At the time of initialization, state.locale.change Locale is undefined.
+    changedLocale: state.locale.changedLocale,
+    //Use with the decorator `@localeLayout`.
+    //Pass the list of default language.
+    //The initialization value of `state.locale.defaultLocale` is passed through the interface provided
+    //by `react-redux-boilerplate-js/libs/index.jsx`.
+    defaultLocale: state.locale.defaultLocale,
 //≤Locale--end
+  };
+})
 //≤BreadCrumb--begin
 //The decorator provides `this.getBreadCrumbs()`
 //`this.getBreadCrumbs()` returns the list of breadcrumb.
 //In layout view `@BreadCrumb` must be placed after redux `@connect`.
+@BreadCrumb
 //≤BreadCrumb--end
 //≤Locale--begin
 //Muti-language decorator,it's different from the second route view component.
@@ -43,17 +50,10 @@ import 'src/style/css/layout-main.css';
 //if you want the i18n function worked,you must use `this.t` to pass the string.
 //You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
 //You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
+@localeLayout()
 //≤Locale--end
 //Layout view is the first route component.
 //You can eidit `./_route.js` file to change index page and index page url path.
-@connect(state => {
-  return {
-    changedLocale: state.locale.changedLocale,
-    defaultLocale: state.locale.defaultLocale,
-  };
-})
-@BreadCrumb
-@localeLayout()
 class LayoutView extends React.Component {
   render() {
     //≤BreadCrumb--begin
@@ -84,7 +84,7 @@ class LayoutView extends React.Component {
                   {this.t('About')}
                 </Link>
               </li>
-              //≤BreadCrumb--begin
+//≤BreadCrumb--begin
               <li className="language">
                 <Link onClick={this.changeLanguage('zh_CN')}>
                   中文
@@ -95,39 +95,50 @@ class LayoutView extends React.Component {
                   English
                 </Link>
               </li>
-              //≤BreadCrumb--end
+//≤BreadCrumb--end
             </ul>
           </div>
         </nav>
-        {//≤BreadCrumb--begin
-        breadcrumbs &&
+//≤BreadCrumb--begin
+        {
+          breadcrumbs &&
           <ol className="breadcrumb">
-            {breadcrumbs.map((v, k) => {
-              return (
-                <li key={k}>
-                  {v.link &&
-                    <Link to={v.link}>
-                      {this.t(v.label)}
-                    </Link>}
-                  {!v.link && this.t(v.label)}
-                </li>
-              );
-            })}
+            {
+              breadcrumbs.map((v, k) => {
+                return (
+                  <li key={k}>
+                    {
+                      v.link &&
+                      <Link to={v.link}>
+                        {this.t(v.label)}
+                      </Link>
+                    }
+                    {
+                      !v.link &&
+                      this.t(v.label)
+                    }
+                  </li>
+                );
+              })
+            }
           </ol>
-        //≤BreadCrumb--end
         }
+//≤BreadCrumb--end
         <div className="main-contents">
-          {//Use cloneElement to pass some props to children.
-          React.cloneElement(this.props.children, {
-            //≤BreadCrumb--begin
-            //When using internationalization,defaultLocale and changeLanguage
-            //must be passed to the children's props.
-            //You also can use redux connect to pass defaultLocale and changedLocale.
-            //But it's not recommended.
-            defaultLocale: this.props.defaultLocale,
-            changedLocale: this.props.changedLocale,
-            //≤BreadCrumb--end
-          })}
+          {
+            //Use cloneElement to pass some props to children.
+            React.cloneElement(this.props.children, {
+//≤BreadCrumb--begin
+                //When using internationalization,defaultLocale and changeLanguage
+                //must be passed to the children's props.
+                //You also can use redux connect to pass defaultLocale and changedLocale.
+                //But it's not recommended.
+                defaultLocale: this.props.defaultLocale,
+                changedLocale: this.props.changedLocale,
+//≤BreadCrumb--end
+              }
+            )
+          }
         </div>
       </div>
     );

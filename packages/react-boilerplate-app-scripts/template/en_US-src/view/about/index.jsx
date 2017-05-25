@@ -14,29 +14,29 @@ import BreadCrumb from 'react-redux-boilerplate-js/libs/decorator/BreadCrumb';
 //You can get the list of breadcrumb in layout view by using 'this.getBreadCrumbs()'.
 //BreadCrumb.create must be used in second route page view component or it works nothing.
 //the field depends on you.
-//≤BreadCrumb--end
-//connect to redux store,refer to redux.
-//set page title
-//≤Locale--begin
-//Muti-language decorator,it's different from the first route layout view component.
-//It provides `this.t(xxx)` to the component.
-//if you want the i18n function worked,you must use `this.t` to pass the string.
-//You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
-//You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
-//≤Locale--end
-//The view is the second route page veiw component.
-//You can eidit `./_route.js` file to change the url path for the current page.
 @BreadCrumb.create([
   {
     label: 'About',
     link: '/about',
   },
 ])
+//≤BreadCrumb--end
+//connect to redux store,refer to redux.
 @connect(state => {
   return {};
 })
+//set page title
 @PageTitle('About')
+//≤Locale--begin
+//Muti-language decorator,it's different from the first route layout view component.
+//It provides `this.t(xxx)` to the component.
+//if you want the i18n function worked,you must use `this.t` to pass the string.
+//You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
+//You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
 @Locale
+//≤Locale--end
+//The view is the second route page veiw component.
+//You can eidit `./_route.js` file to change the url path for the current page.
 class AboutView extends React.Component {
   render() {
     return (
