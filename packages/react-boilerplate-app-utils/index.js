@@ -7,8 +7,8 @@ const spawn = require('cross-spawn');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
-  resolveCwd(relativePath){
-    return path.resolve(process.cwd(),relativePath);
+  resolveCwd(relativePath) {
+    return path.resolve(process.cwd(), relativePath);
   },
   /**
    * 会根据当前项目，或者当前项目指定的node_modules中的packageName路径
@@ -17,24 +17,28 @@ module.exports = {
    * @param { string } packageName node_modules中的packageName文件夹名
    * @return { string || undefined } 返回优先匹配的路径
    */
-  pathResolve(relativePath,packageName){
-    if(!packageName){
-      packageName="react-boilerplate-app-scripts"
+  pathResolve(relativePath, packageName) {
+    if (!packageName) {
+      packageName = 'react-boilerplate-app-scripts';
     }
-    if(!relativePath){
+    if (!relativePath) {
       return;
     }
-    if(!fs.existsSync(this.resolveCwd("node_modules"))){
-      console.error(chalk.red("This project must have node_modules folder! "));
+    if (!fs.existsSync(this.resolveCwd('node_modules'))) {
+      console.error(chalk.red('This project must have node_modules folder! '));
       console.log();
-      console.error(chalk.red("Please do not change the node_modules folder name!"));
+      console.error(
+        chalk.red('Please do not change the node_modules folder name!')
+      );
       return;
     }
     var entryOfCwdPath = this.resolveCwd(relativePath);
-    var entryOfPackagePath = this.resolveCwd(`node_modules/${ packageName }/${ relativePath }`);
-    if(fs.existsSync(entryOfCwdPath)){
+    var entryOfPackagePath = this.resolveCwd(
+      `node_modules/${packageName}/${relativePath}`
+    );
+    if (fs.existsSync(entryOfCwdPath)) {
       return entryOfCwdPath;
-    }else if(fs.existsSync(entryOfPackagePath)){
+    } else if (fs.existsSync(entryOfPackagePath)) {
       return entryOfPackagePath;
     }
   },
@@ -43,25 +47,26 @@ module.exports = {
    * @param { array } results 结果数组
    * @param { string } type 信息类型success、waring、error
    */
-  printValidationResults(results,type){
-    if(!type){
-      type = "success";
+  printValidationResults(results, type) {
+    if (!type) {
+      type = 'success';
     }
     var colors;
-    switch(type){
-      case "success":
+    switch (type) {
+      case 'success':
         colors = chalk.green;
-      break;
-      case "warning":
+        break;
+      case 'warning':
         colors = chalk.yellow;
-      break;
-      case "error":
+        break;
+      case 'error':
         colors = chalk.red;
-      break;
+        break;
     }
-    results && results.forEach(error => {
-      console.error(colors(error));
-    });
+    results &&
+      results.forEach(error => {
+        console.error(colors(error));
+      });
   },
   /**
    * 是否应该使用yarn
@@ -80,7 +85,7 @@ module.exports = {
    * @param { string } packageName node_modules中的包名
    * @return { string } path
    */
-  getPackageJsonPathOfNodeModules(packageName){
+  getPackageJsonPathOfNodeModules(packageName) {
     return path.resolve(
       process.cwd(),
       'node_modules',
@@ -91,61 +96,67 @@ module.exports = {
   /**
    * 获取当前输入目前package.json对象
    */
-  getCwdPackageJson(){
+  getCwdPackageJson() {
     //防止重复读取
-    if(!this.cwdPackageJson){
-      this.cwdPackageJson = fs.readJsonSync(path.resolve(process.cwd(),'package.json'));
+    if (!this.cwdPackageJson) {
+      this.cwdPackageJson = fs.readJsonSync(
+        path.resolve(process.cwd(), 'package.json')
+      );
     }
     return this.cwdPackageJson;
   },
   /**
    * 获取当前输入目前package.json对象指定的package config
    */
-  getDefaultCwdPackageJsonConfig(packageName){
-    if(!packageName){
+  getDefaultCwdPackageJsonConfig(packageName) {
+    if (!packageName) {
       packageName = 'react-boilerplate-app-scripts';
     }
     var config = this.getCwdPackageJson()[packageName];
     //默认值，路径都是相对npm项目根目录
-    config =  Object.assign({},{
-      //app 程序目录
-      appSrcPath: "src",
-      host: 'localhost',
-      port: 8888,
-      routesPath: "${src}/.routes.js",
-      reducersPath: "${src}/.reducers.js",
-      //app 程序入口js文件
-      appEntryPath: "${src}/index.jsx",
-      //dev server静态资源访问目录
-      appPublicPath: "public",
-      //多语言文件夹
-      appLocalePath: "${src}/locale",
-      //app 入口html文件名，在上面appPublicPath的文件夹下。
-      index: "index.html",
-    },config)
-    if(config.host === 'localhost'){
+    config = Object.assign(
+      {},
+      {
+        //app 程序目录
+        appSrcPath: 'src',
+        host: 'localhost',
+        port: 8888,
+        routesPath: '${src}/.routes.js',
+        reducersPath: '${src}/.reducers.js',
+        //app 程序入口js文件
+        appEntryPath: '${src}/index.jsx',
+        //dev server静态资源访问目录
+        appPublicPath: 'public',
+        //多语言文件夹
+        appLocalePath: '${src}/locale',
+        //app 入口html文件名，在上面appPublicPath的文件夹下。
+        index: 'index.html',
+      },
+      config
+    );
+    if (config.host === 'localhost') {
       config.ip = '127.0.0.1';
     }
-    config.prot = parseInt(config.port,10);
+    config.prot = parseInt(config.port, 10);
     //替换${src}为config.appSrcPath的值
-    for(var k in config) {
-      if(Object.prototype.toString.apply(config[k]) === '[object String]'){
-        config[k] = config[k].replace(/\${.*src.*}/,config.appSrcPath);
+    for (var k in config) {
+      if (Object.prototype.toString.apply(config[k]) === '[object String]') {
+        config[k] = config[k].replace(/\${.*src.*}/, config.appSrcPath);
       }
     }
     //prefix url 兼容适配处理
-    if(config.prefixURL){
+    if (config.prefixURL) {
       var prefixUrl = config.prefixURL;
       var prefixUrlLength = prefixUrl.length;
-      if(prefixUrl[prefixUrlLength - 1] !== '/'){
-        prefixUrl = prefixUrl + "/";
-      }else if(prefixUrl === '/'){
+      if (prefixUrl[prefixUrlLength - 1] !== '/') {
+        prefixUrl = prefixUrl + '/';
+      } else if (prefixUrl === '/') {
         prefixUrl = '';
-      }else if(prefixUrl && prefixUrl[0] === '/' && prefixUrl !== '/'){
-        prefixUrl = prefixUrl.slice(1,prefixUrlLength);
+      } else if (prefixUrl && prefixUrl[0] === '/' && prefixUrl !== '/') {
+        prefixUrl = prefixUrl.slice(1, prefixUrlLength);
       }
       config.prefixURL = prefixUrl;
-    }else {
+    } else {
       config.prefixURL = '';
     }
     return config;
@@ -156,7 +167,7 @@ module.exports = {
    * @param { string } version eg. v6.0.0
    */
   checkNodeVersion(version) {
-    if (!semver.satisfies(process.version,">=" + version)) {
+    if (!semver.satisfies(process.version, '>=' + version)) {
       console.error(
         chalk.red(
           'You are running Node %s.\n' +
@@ -198,7 +209,7 @@ module.exports = {
    * @param { array } dependencies 依赖包
    * @return { boolean } true or false
    */
-  installPackages(dependencies){
+  installPackages(dependencies) {
     console.log('Installing packages. This might take a couple minutes.');
     var useYarn = this.shouldUseYarn();
     return new Promise((resolve, reject) => {
@@ -206,16 +217,16 @@ module.exports = {
       var args;
       if (useYarn) {
         command = 'yarnpkg';
-        if(dependencies){
+        if (dependencies) {
           args = ['add', '--exact'];
           [].push.apply(args, dependencies);
         }
       } else {
         this.checkNpmVersion();
         command = 'npm';
-        if(dependencies){
+        if (dependencies) {
           args = ['install', '--save', '--save-exact'].concat(dependencies);
-        }else {
+        } else {
           args = ['install'];
         }
       }
@@ -235,10 +246,14 @@ module.exports = {
    * 根据包名获取node_modules中包版本
    * @return { string } version
    */
-  getVersionOfPackage(packageName){
+  getVersionOfPackage(packageName) {
     const packageJsonPath = this.getPackageJsonPathOfNodeModules(packageName);
-    if(!fs.existsSync(packageJsonPath)){
-      console.error(chalk.red(packageName + ' is not existed in current node_modules folder.'));
+    if (!fs.existsSync(packageJsonPath)) {
+      console.error(
+        chalk.red(
+          packageName + ' is not existed in current node_modules folder.'
+        )
+      );
       process.exit(1);
     }
     var packageJson = fs.readJsonSync(packageJsonPath);
@@ -247,28 +262,28 @@ module.exports = {
   /**
    * package中rewrite的规则，适配为 historyApiFallback的正确格式
    */
-  historyApiFallbackRewiriteAdapter(rewriteConfig){
+  historyApiFallbackRewiriteAdapter(rewriteConfig) {
     var rules = [];
-    rewriteConfig.forEach((v,k)=>{
+    rewriteConfig.forEach((v, k) => {
       rules.push({
         from: new RegExp(v.from),
-        to: function(context){
+        to: function(context) {
           var re = v.to;
-          context.match.forEach((v2,k2)=>{
-            re = re.replace(`$${k2}`,v2);
-          })
+          context.match.forEach((v2, k2) => {
+            re = re.replace(`$${k2}`, v2);
+          });
           return re;
         },
-      })
-    })
+      });
+    });
     return rules;
   },
   /**
    * 获取zH_CN字符
    * @return { string || undefined } 返回zh_CN 或者 undefined
    */
-  getZHCN(){
-    if(process.env.LANG && process.env.LANG.indexOf('zh_CN') !== -1){
+  getZHCN() {
+    if (process.env.LANG && process.env.LANG.indexOf('zh_CN') !== -1) {
       return process.env.LANG.split('.')[0];
     }
   },
@@ -279,26 +294,26 @@ module.exports = {
    * @param  {Int}  end  介绍位置，默认1
    * @return {string}
    */
-  toUpperCaseByPosition(string,start=0,end=1){
-    var str1 = string.substr(start,end).toUpperCase();
+  toUpperCaseByPosition(string, start = 0, end = 1) {
+    var str1 = string.substr(start, end).toUpperCase();
     var str2 = string.substr(end);
     return str1 + str2;
   },
-  readdirSync(dirPath){
+  readdirSync(dirPath) {
     var files = fs.readdirSync(dirPath);
     //过滤苹果系统无用的文件
-    files = files.filter((v,k)=>{
-      if(v === '.DS_Store'){
+    files = files.filter((v, k) => {
+      if (v === '.DS_Store') {
         return;
       }
-      if(v.indexOf('.swp') !== -1){
+      if (v.indexOf('.swp') !== -1) {
         return;
       }
-      if(v.indexOf('.swo') !== -1){
+      if (v.indexOf('.swo') !== -1) {
         return;
       }
       return true;
-    })
+    });
     return files;
   },
-}
+};

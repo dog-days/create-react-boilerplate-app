@@ -1,42 +1,41 @@
 'use strict';
 
 const fs = require('fs-extra');
-const path = require("path");
+const path = require('path');
 const util = require('react-boilerplate-app-utils');
 const commander = require('commander');
 const chalk = require('chalk');
 const Basic = require('./Basic');
 
 class Use extends Basic {
-
-  constructor(){
+  constructor() {
     super();
     this.run();
   }
 
-  commandSetting(){
+  commandSetting() {
     var program = new commander.Command(this.packageJson.name)
       .version(this.packageJson.version)
       .arguments('<feature-name>')
       .usage(`${chalk.green('<feature-name>')}`)
       .option('-l, --list', 'lists the feature lists.')
-      .action((name) => {
+      .action(name => {
         this.featureName = name;
       })
       .parse(process.argv);
     this.program = program;
-    if(program.list){
+    if (program.list) {
       console.log();
-      console.log(" " + 'less');
-      console.log(" " + 'sass');
-      console.log(" " + 'immutable');
+      console.log(' ' + 'less');
+      console.log(' ' + 'sass');
+      console.log(' ' + 'immutable');
       console.log();
       process.exit();
     }
     if (!this.featureName) {
       var useYarn = util.shouldUseYarn();
       var displayedCommand = 'npm run';
-      if(useYarn){
+      if (useYarn) {
         displayedCommand = 'yarn';
       }
       console.error('Please specify the feature name:');
@@ -45,9 +44,13 @@ class Use extends Basic {
       );
       console.log();
       console.log('For example:');
-      console.log(`  ${chalk.cyan(displayedCommand)} use ${chalk.green('less')}`);
+      console.log(
+        `  ${chalk.cyan(displayedCommand)} use ${chalk.green('less')}`
+      );
       console.log();
-      console.log(`use ${ chalk.cyan(displayedCommand + ' use -- -l ') } to see the feature lists.`)
+      console.log(
+        `use ${chalk.cyan(displayedCommand + ' use -- -l ')} to see the feature lists.`
+      );
       console.log();
       process.exit(1);
     }
@@ -60,34 +63,33 @@ class Use extends Basic {
    *    devDependencies,
    *  ]
    */
-  getDependencies(type){
+  getDependencies(type) {
     var dependencies = [];
     var devDependencies = [];
-    switch(type){
+    switch (type) {
       case 'less':
         dependencies = [];
-        devDependencies = ['less','less-loader'];
-      break;
+        devDependencies = ['less', 'less-loader'];
+        break;
       case 'sass':
         dependencies = [];
-        devDependencies = ['node-sass','sass-loader'];
-      break;
+        devDependencies = ['node-sass', 'sass-loader'];
+        break;
       case 'immutable':
         dependencies = [];
-        devDependencies = ['immutable@3.8.1','redux-immutable@3.0.6'];
-      break;
+        devDependencies = ['immutable@3.8.1', 'redux-immutable@3.0.6'];
+        break;
       default:
-        console.log()
-        console.log(chalk.red('unknown feature name'))
-        console.log()
-        console.log(`use ${ chalk.cyan(this.program.name() + ' use -l ') } to see the feature lists.`)
+        console.log();
+        console.log(chalk.red('unknown feature name'));
+        console.log();
+        console.log(
+          `use ${chalk.cyan(this.program.name() + ' use -l ')} to see the feature lists.`
+        );
         process.exit(1);
-      break;
+        break;
     }
-    return [
-      dependencies,
-      devDependencies,
-    ]
+    return [dependencies, devDependencies];
   }
   /**
    * 保存新增的包信息到package.json
@@ -95,38 +97,40 @@ class Use extends Basic {
    * @param { array } dependencies
    * @param { array } devDependencies
    */
-  writeNewPackageJson(packageJson,dependencies,devDependencies){
-    dependencies.forEach((v,k)=>{
-      var v = v.replace(/@.*/,'');
+  writeNewPackageJson(packageJson, dependencies, devDependencies) {
+    dependencies.forEach((v, k) => {
+      var v = v.replace(/@.*/, '');
       let version = util.getVersionOfPackage(v);
-      packageJson.dependencies[v] = "^" + version;
-    })
-    devDependencies.forEach((v,k)=>{
-      var v = v.replace(/@.*/,'');
+      packageJson.dependencies[v] = '^' + version;
+    });
+    devDependencies.forEach((v, k) => {
+      var v = v.replace(/@.*/, '');
       let version = util.getVersionOfPackage(v);
-      packageJson.devDependencies[v] = "^" + version;
-    })
+      packageJson.devDependencies[v] = '^' + version;
+    });
     fs.writeFileSync(
-      path.resolve(process.cwd(),"package.json"),
+      path.resolve(process.cwd(), 'package.json'),
       JSON.stringify(packageJson, null, 2)
     );
   }
 
-  run(){
+  run() {
     var dependencies = this.getDependencies(this.featureName);
     var allDependencies = [].concat(dependencies[0]).concat(dependencies[1]);
     var packageJson = util.getCwdPackageJson();
-    util.installPackages(allDependencies).then(()=>{
-      this.writeNewPackageJson(packageJson,dependencies[0],dependencies[1]);
-      console.log();
-      console.log('Restart the dev server,then it will work.');
-    }).catch(function(e){
-      console.error(e);
-      process.exit(1);
-    });
+    util
+      .installPackages(allDependencies)
+      .then(() => {
+        this.writeNewPackageJson(packageJson, dependencies[0], dependencies[1]);
+        console.log();
+        console.log('Restart the dev server,then it will work.');
+      })
+      .catch(function(e) {
+        console.error(e);
+        process.exit(1);
+      });
   }
-
 }
-module.exports = function(){
+module.exports = function() {
   new Use();
-}
+};

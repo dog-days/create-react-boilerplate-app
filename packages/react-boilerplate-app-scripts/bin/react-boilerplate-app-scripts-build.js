@@ -2,4 +2,3 @@
 'use strict';
 
 require('./main/build');
-

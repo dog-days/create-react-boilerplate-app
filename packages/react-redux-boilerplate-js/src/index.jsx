@@ -1,10 +1,10 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { syncHistoryWithStore } from 'react-router-redux'
-import { browserHistory } from 'react-router'
-import './polyfill'
-import configureStore from './store'
-import Container from './container'
+import React from 'react';
+import { render } from 'react-dom';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { browserHistory } from 'react-router';
+import './polyfill';
+import configureStore from './store';
+import Container from './container';
 
 /**
  * @param { object } routes 请参考react-router@3.x.x的配置模式，必填
@@ -12,45 +12,49 @@ import Container from './container'
  * @param { array } defaultLocale 默认的语言列表，可空
  * @param { object } domContainer dom节点对象，默认值是document.getElementById('root')
  */
-function app(routes,reducers,defaultLocale,domContainer){
-  if(defaultLocale){
+function app(routes, reducers, defaultLocale, domContainer) {
+  if (defaultLocale) {
     //多语言切换reducer
-    function localeReducer(state,action){
-      if(!state){
+    function localeReducer(state, action) {
+      if (!state) {
         state = {
-          defaultLocale
+          defaultLocale,
         };
       }
-      switch(action.type){
+      switch (action.type) {
         case '@@locale/CHANGE':
-          return Object.assign({},state,{
+          return Object.assign({}, state, {
             changedLocale: action.locale,
           });
-        break;
+          break;
         default:
           return state;
       }
     }
     //reducers整合
-    reducers = Object.assign({},{
-      locale: localeReducer,
-    },reducers);
+    reducers = Object.assign(
+      {},
+      {
+        locale: localeReducer,
+      },
+      reducers
+    );
   }
-  const store = configureStore({},browserHistory,reducers);
-  var history = syncHistoryWithStore(browserHistory, store,{
-    selectLocationState (state) {
-      if(process.env.useImmutable){
+  const store = configureStore({}, browserHistory, reducers);
+  var history = syncHistoryWithStore(browserHistory, store, {
+    selectLocationState(state) {
+      if (process.env.useImmutable) {
         return state.get('routing').toJS();
-      }else{
+      } else {
         return state.routing;
       }
-    }
+    },
   });
   function renderApp() {
     const target = domContainer || document.getElementById('root');
     if (target) {
       render(
-        <Container store={store} history={history} routes={routes}/>,
+        <Container store={store} history={history} routes={routes} />,
         target
       );
     }

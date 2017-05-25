@@ -1,20 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-export default function (componentDisplayName){
+export default function(componentDisplayName) {
   class EmptyComponent extends React.Component {
     static displayName = componentDisplayName;
 
-    constructor(props){
+    constructor(props) {
       super(props);
-    } 
-
-    render(){
-      return null;
     }
 
+    render() {
+      return null;
+    }
   }
   return EmptyComponent;
 }
-
-
-

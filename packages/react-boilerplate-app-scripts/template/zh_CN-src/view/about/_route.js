@@ -1,6 +1,6 @@
 'use strict';
 //处理prefix url
-import path from 'react-redux-boilerplate-js/libs/path'
+import path from 'react-redux-boilerplate-js/libs/path';
 
 //route配置请参考react-router@3.x.x
 let routeConfig = {
@@ -15,15 +15,19 @@ let routeConfig = {
   path: path('/about'),
   //代码分离
   getComponent(location, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./index').default)
-    },'about')//代码分离命名.
+    require.ensure(
+      [],
+      require => {
+        cb(null, require('./index').default);
+      },
+      'about'
+    ); //代码分离命名.
   },
-}
+};
 //热替换在react-router中代码分离并不生效。
 //所以就有了下面的代码。
 //上面的getComponent会被覆盖。
-if(module.hot) {
+if (module.hot) {
   routeConfig.component = require('./index').default;
 }
 export default routeConfig;

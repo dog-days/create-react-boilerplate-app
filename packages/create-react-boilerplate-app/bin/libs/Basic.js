@@ -2,7 +2,7 @@
 
 'use strict';
 const fs = require('fs-extra');
-const path = require("path");
+const path = require('path');
 
 /**
  * r2命令基类，
@@ -11,15 +11,15 @@ const path = require("path");
  * @property `packageInfo` 当前项目的package.json信息json对象
  */
 class Basic {
-  constructor(){
+  constructor() {
     this.readPackageJSON();
     this.commandSetting && this.commandSetting();
   }
   /**
   * 读取r2-cli项目package.json
   */
-  readPackageJSON(){
-    var json = fs.readJsonSync(path.resolve(__dirname,"../../package.json"));
+  readPackageJSON() {
+    var json = fs.readJsonSync(path.resolve(__dirname, '../../package.json'));
     this.packageJson = json;
   }
 }

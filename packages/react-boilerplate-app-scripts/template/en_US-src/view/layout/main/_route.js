@@ -1,6 +1,6 @@
 'use strict';
 //deal with prefix url
-import path from 'react-redux-boilerplate-js/libs/path'
+import path from 'react-redux-boilerplate-js/libs/path';
 
 //The config is the same as react-router@3.x.x.
 //If you do not understand,please refer to react-router.
@@ -20,4 +20,4 @@ export default {
   //.child_routes.js is is hidden file which is created automatically.
   //So you should not eidit the .child_routes.js.
   childRoutes: require('./.child_routes.js').default,
-}
+};

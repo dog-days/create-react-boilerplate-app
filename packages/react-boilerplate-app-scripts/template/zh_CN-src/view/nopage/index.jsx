@@ -1,9 +1,8 @@
-import React from 'react'
-import { Link }from 'react-router'
-import './style.css'
+import React from 'react';
+import { Link } from 'react-router';
+import './style.css';
 
 class NoPage extends React.Component {
-
   render() {
     return (
       <section className="center nopage-con">
@@ -17,7 +16,7 @@ class NoPage extends React.Component {
           </ul>
         </article>
       </section>
-    )  
+    );
   }
 }
-export default NoPage; 
+export default NoPage;

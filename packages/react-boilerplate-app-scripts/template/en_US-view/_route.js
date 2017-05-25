@@ -1,6 +1,6 @@
 'use strict';
 //deal with prefix url
-import path from 'react-redux-boilerplate-js/libs/path'
+import path from 'react-redux-boilerplate-js/libs/path';
 
 let routeConfig = {
   //it's react-router's business.
@@ -16,15 +16,19 @@ let routeConfig = {
   path: path('/${pageName}'),
   //code spliting
   getComponent(location, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./index').default)
-    },'${pageName}')//code spliting name.
+    require.ensure(
+      [],
+      require => {
+        cb(null, require('./index').default);
+      },
+      '${pageName}'
+    ); //code spliting name.
   },
-}
+};
 //react-hot-loader is not work with react-router code spliting.
 //so it is.
 //getComponent above will be covered.
-if(module.hot) {
+if (module.hot) {
   routeConfig.component = require('./index').default;
 }
 export default routeConfig;

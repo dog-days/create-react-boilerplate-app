@@ -5,7 +5,12 @@ function shallowEqual(objA, objB) {
     return true;
   }
 
-  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+  if (
+    typeof objA !== 'object' ||
+    objA === null ||
+    typeof objB !== 'object' ||
+    objB === null
+  ) {
     return false;
   }
 
@@ -35,7 +40,10 @@ function shallowEqual(objA, objB) {
       if (!_.isPlainObject(objB[keyA]) || !_.isEqual(objA[keyA], objB[keyA])) {
         return false;
       }
-    } else if (!bHasOwnProperty(keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+    } else if (
+      !bHasOwnProperty(keysA[i]) ||
+      objA[keysA[i]] !== objB[keysA[i]]
+    ) {
       return false;
     }
   }
@@ -43,9 +51,11 @@ function shallowEqual(objA, objB) {
   return true;
 }
 
-
 function shallowCompare(instance, nextProps, nextState) {
-  return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);
+  return (
+    !shallowEqual(instance.props, nextProps) ||
+    !shallowEqual(instance.state, nextState)
+  );
 }
 
 function shouldComponentUpdate(nextProps, nextState) {

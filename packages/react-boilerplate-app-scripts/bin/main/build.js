@@ -8,18 +8,18 @@ const path = require('path');
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const util = require('react-boilerplate-app-utils');
-const paths = require(util.pathResolve('config/paths.js',scriptsPackagename));
+const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const webpack = require('webpack');
 const config = require(paths.webpackProdConfig);
 
 //清空build文件夹
 fs.emptyDirSync(paths.appBuild);
 
-console.log()
+console.log();
 console.log('Building...');
 console.log('This might take a couple minutes.');
-console.log()
-webpack(config).run(function(err,stats){
+console.log();
+webpack(config).run(function(err, stats) {
   if (err) {
     console.log(chalk.red('Failed to build.'));
     console.error(err.stack || err);
@@ -32,30 +32,31 @@ webpack(config).run(function(err,stats){
   //复制除了index.html外的静态文件，所以public文件夹不要放不使用的文件
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: (file)=>{
-      if(file === paths.appHtml){
+    filter: file => {
+      if (file === paths.appHtml) {
         return false;
       }
       //public/mock目录不复制
-      if(file === path.resolve(paths.appPublic,'mock')){
+      if (file === path.resolve(paths.appPublic, 'mock')) {
         return false;
       }
       return true;
-    }
+    },
   });
 
   const info = stats.toJson();
 
   if (stats.hasErrors()) {
-    util.printValidationResults(info.errors,"error");
+    util.printValidationResults(info.errors, 'error');
   }
 
   if (stats.hasWarnings()) {
-    util.printValidationResults(info.warnings,"warning");
+    util.printValidationResults(info.warnings, 'warning');
   }
-  console.log(stats.toString({
-    chunks: false,  // 使构建过程更静默无输出
-    colors: true    // 在控制台展示颜色
-  }));
+  console.log(
+    stats.toString({
+      chunks: false, // 使构建过程更静默无输出
+      colors: true, // 在控制台展示颜色
+    })
+  );
 });
-

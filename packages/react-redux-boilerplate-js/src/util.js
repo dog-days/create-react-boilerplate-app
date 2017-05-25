@@ -1,5 +1,5 @@
-import React from 'react'
-import _ from 'lodash'
+import React from 'react';
+import _ from 'lodash';
 
 export default {
   /**
@@ -7,8 +7,10 @@ export default {
    * @param  {Object} Comp Specified Component
    * @return {String}      Display name of Component
    */
-  getDisplayName(Comp){
-    if (!Comp) { return ''; }
+  getDisplayName(Comp) {
+    if (!Comp) {
+      return '';
+    }
     if (typeof Comp === 'string') {
       return Comp;
     }
@@ -19,7 +21,7 @@ export default {
    * Find and return all matched children by type. `type` can be a React element class or
    * string
    */
-  findAllComponentByType(children, type){
+  findAllComponentByType(children, type) {
     let result = [];
     let types = [];
 
@@ -29,20 +31,21 @@ export default {
       types = [this.getDisplayName(type)];
     }
 
-    React.Children.forEach(children, (child) => {
-      const childType = child && child.type && (child.type.displayName || child.type.name);
+    React.Children.forEach(children, child => {
+      const childType =
+        child && child.type && (child.type.displayName || child.type.name);
       if (types.indexOf(childType) !== -1) {
         result.push(child);
-      }else {
-        if(child && child.props && child.props.children){
-          var result2 = this.findAllByType(child.props.children,type); 
-          result2.forEach((v,k)=>{
+      } else {
+        if (child && child.props && child.props.children) {
+          var result2 = this.findAllByType(child.props.children, type);
+          result2.forEach((v, k) => {
             result.push(v);
-          })
+          });
         }
       }
     });
 
     return result;
-  }, 
-}
+  },
+};

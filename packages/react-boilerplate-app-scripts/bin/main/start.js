@@ -12,26 +12,33 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const detect = require('detect-port');
 const util = require('react-boilerplate-app-utils');
-const paths = require(util.pathResolve('config/paths.js',scriptsPackagename));
+const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 var proxy;
-var proxyPath = util.pathResolve('config/proxy.js',scriptsPackagename);
-if(proxyPath){
+var proxyPath = util.pathResolve('config/proxy.js', scriptsPackagename);
+if (proxyPath) {
   proxy = require(proxyPath);
 }
-var historyApiFallbackPath = util.pathResolve('config/historyApiFallback.js',scriptsPackagename);
+var historyApiFallbackPath = util.pathResolve(
+  'config/historyApiFallback.js',
+  scriptsPackagename
+);
 var historyApiFallback;
-if(historyApiFallbackPath){
+if (historyApiFallbackPath) {
   historyApiFallback = require(historyApiFallbackPath);
 }
 const config = require(paths.webpackDevConfig);
 const compiler = webpack(config);
-const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(scriptsPackagename);
+const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
+  scriptsPackagename
+);
 const host = cwdPackageJsonConfig.host;
 //port 可以被修改，会被占用
 var port = cwdPackageJsonConfig.port;
 //经过转换后的historyApiFallback rewrites
-if(cwdPackageJsonConfig.historyApiFallback){
-  var rewrites = util.historyApiFallbackRewiriteAdapter(cwdPackageJsonConfig.historyApiFallback.rewrites);
+if (cwdPackageJsonConfig.historyApiFallback) {
+  var rewrites = util.historyApiFallbackRewiriteAdapter(
+    cwdPackageJsonConfig.historyApiFallback.rewrites
+  );
   cwdPackageJsonConfig.historyApiFallback.rewrites = rewrites;
 }
 const useYarn = util.shouldUseYarn();
@@ -39,7 +46,9 @@ const useYarn = util.shouldUseYarn();
 function runDevServer(host, port) {
   var devServer = new WebpackDevServer(compiler, {
     //开启HTML5 History API，所有请求都重定向到index.html（地址重写）
-    historyApiFallback: historyApiFallback || cwdPackageJsonConfig.historyApiFallback || true,
+    historyApiFallback: historyApiFallback ||
+      cwdPackageJsonConfig.historyApiFallback ||
+      true,
     // 开启gzip功能
     compress: true,
     // 关闭WebpackDevServer繁琐的输出信息
@@ -55,16 +64,11 @@ function runDevServer(host, port) {
     quiet: true,
     //watch设置
     watchOptions: {
-      ignored: [
-        /node_modules/,
-        '**/*.swp',
-        '**/*.swo',
-        '**/*.xlsx',
-      ]
+      ignored: [/node_modules/, '**/*.swp', '**/*.swo', '**/*.xlsx'],
     },
-    host: host || "localhost",
+    host: host || 'localhost',
     //packageJson中的proxy只能是字符串，无法使用函数
-    proxy: proxy || cwdPackageJsonConfig.proxy || { },
+    proxy: proxy || cwdPackageJsonConfig.proxy || {},
   });
 
   // 启动WebpackDevServer.
@@ -72,7 +76,7 @@ function runDevServer(host, port) {
     if (err) {
       return console.log(err);
     }
-    console.log()
+    console.log();
   });
 }
 
@@ -80,22 +84,32 @@ var isFirstCompile = true;
 compiler.plugin('done', function(stats) {
   var messages = stats.toJson({}, true);
   var isError = messages.errors.length;
-  if(!isError){
+  if (!isError) {
     console.log(chalk.green('Compiled successfully!'));
     console.log();
   }
 
   if (!isError && isFirstCompile) {
-    console.info(chalk.cyan("==> 🌎  Listening on port %s. Open up http://"+host+":%s/ in your browser."), port, port);
+    console.info(
+      chalk.cyan(
+        '==> 🌎  Listening on port %s. Open up http://' +
+          host +
+          ':%s/ in your browser.'
+      ),
+      port,
+      port
+    );
     console.log();
     var displayedCommand = 'npm run build';
-    if(useYarn){
+    if (useYarn) {
       displayedCommand = 'yarn build';
     }
-    console.log('Production building,please use ' + chalk.cyan(displayedCommand) + '.');
+    console.log(
+      'Production building,please use ' + chalk.cyan(displayedCommand) + '.'
+    );
     console.log();
     isFirstCompile = false;
-    openBrowser(`http://${ host }:${ port }/${ cwdPackageJsonConfig.prefixURL }`);
+    openBrowser(`http://${host}:${port}/${cwdPackageJsonConfig.prefixURL}`);
   }
 
   // 展示错误信息
@@ -124,7 +138,7 @@ compiler.plugin('done', function(stats) {
 // 只要保存监控文件，就会触发重编译
 // 重编译就是触发”invalid“事件
 //compiler.plugin('invalid', () => {
-  //console.log('Compiling...');
+//console.log('Compiling...');
 //});
 
 detect(port, (err, _port) => {
@@ -132,14 +146,17 @@ detect(port, (err, _port) => {
     console.log(err);
   }
   if (port == _port) {
-    runDevServer(host,port);
+    runDevServer(host, port);
   } else {
     console.log(chalk.yellow(`port: ${port} was occupied, try port: ${_port}`));
-    console.log()
-    console.log(chalk.cyan(`It's recommended to add 'port: ${ _port }' in package.json's field 'react-boilerplate-app-scripts'.`));
-    console.log()
+    console.log();
+    console.log(
+      chalk.cyan(
+        `It's recommended to add 'port: ${_port}' in package.json's field 'react-boilerplate-app-scripts'.`
+      )
+    );
+    console.log();
     port = _port;
-    runDevServer(host,_port);
+    runDevServer(host, _port);
   }
 });
-

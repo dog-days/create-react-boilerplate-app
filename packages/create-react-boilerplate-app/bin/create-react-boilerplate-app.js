@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const path = require("path");
+const path = require('path');
 const util = require('react-boilerplate-app-utils');
 const validateNpmPackageName = require('validate-npm-package-name');
 const commander = require('commander');
@@ -12,27 +12,26 @@ const Basic = require('./libs/Basic');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 class CreateApp extends Basic {
-
-  constructor(){
+  constructor() {
     super();
     this.packageJson = {
-      name: "react-boilerplate-app",
+      name: 'react-boilerplate-app',
       version: '0.0.1',
-      dependencies: { },
-      devDependencies: { }
+      dependencies: {},
+      devDependencies: {},
     };
-    this.dependencies = [
-      'react-redux-boilerplate-js'
-    ];
+    this.dependencies = ['react-redux-boilerplate-js'];
     this.devDependencies = [
       'react-boilerplate-app-scripts',
       'react-boilerplate-app-utils',
     ];
-    this.allDependencies = [].concat(this.dependencies).concat(this.devDependencies);
+    this.allDependencies = []
+      .concat(this.dependencies)
+      .concat(this.devDependencies);
     this.run();
   }
 
-  commandSetting(){
+  commandSetting() {
     this.program = new commander.Command(this.packageJson.name)
       .version(this.packageJson.version)
       .arguments('<project-directory>')
@@ -53,7 +52,9 @@ class CreateApp extends Basic {
       );
       console.log();
       console.log('For example:');
-      console.log(`  ${chalk.cyan(program.name())} ${chalk.green('my-react-redux-app')}`);
+      console.log(
+        `  ${chalk.cyan(program.name())} ${chalk.green('my-react-redux-app')}`
+      );
       console.log();
       console.log(
         `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
@@ -62,37 +63,37 @@ class CreateApp extends Basic {
     }
   }
   //检测appName是否合法
-  checkAppName(){
+  checkAppName() {
     var validationResult = validateNpmPackageName(this.appName);
     if (!validationResult.validForNewPackages) {
       console.error(
         `Could not create a project called ${chalk.red(`"${this.appName}"`)} because of npm naming restrictions:`
       );
-      util.printValidationResults(validationResult.errors,"error");
-      util.printValidationResults(validationResult.warnings,"warning");
+      util.printValidationResults(validationResult.errors, 'error');
+      util.printValidationResults(validationResult.warnings, 'warning');
       process.exit(1);
     }
   }
   //初始化的package.json
-  writeInitialPackageJson(){
+  writeInitialPackageJson() {
     this.packageJson.name = this.appName;
     fs.writeFileSync(
-      path.resolve(this.appPath,"./package.json"),
+      path.resolve(this.appPath, './package.json'),
       JSON.stringify(this.packageJson, null, 2)
     );
   }
   //成功安装后的的package.json
-  writeResultPackageJson(){
-    this.dependencies.forEach((v,k)=>{
+  writeResultPackageJson() {
+    this.dependencies.forEach((v, k) => {
       let version = util.getVersionOfPackage(v);
-      this.packageJson.dependencies[v] = "^" + version;
-    })
-    this.devDependencies.forEach((v,k)=>{
+      this.packageJson.dependencies[v] = '^' + version;
+    });
+    this.devDependencies.forEach((v, k) => {
       let version = util.getVersionOfPackage(v);
-      this.packageJson.devDependencies[v] = "^" + version;
-    })
+      this.packageJson.devDependencies[v] = '^' + version;
+    });
     fs.writeFileSync(
-      path.resolve(this.appPath,"./package.json"),
+      path.resolve(this.appPath, './package.json'),
       JSON.stringify(this.packageJson, null, 2)
     );
   }
@@ -100,20 +101,20 @@ class CreateApp extends Basic {
    * 检查当前目录是否合法
    * @return { Boolean } true or false
    */
-  checkPathDirIsValid(){
+  checkPathDirIsValid() {
     try {
-      if(fs.existsSync(this.appPath)){
-        console.error(`The path ${ chalk.red(this.appPath) } exists.`);
+      if (fs.existsSync(this.appPath)) {
+        console.error(`The path ${chalk.red(this.appPath)} exists.`);
         process.exit(1);
       }
-    }catch(e){
+    } catch (e) {
       console.error(e);
     }
   }
   /**
    * 安装完后初始化app项目
    */
-  initApp(){
+  initApp() {
     try {
       const initPath = path.resolve(
         process.cwd(),
@@ -123,14 +124,14 @@ class CreateApp extends Basic {
         'init.js'
       );
       const init = require(initPath);
-      new init(this.program,this.appName);
-    }catch(e){
+      new init(this.program, this.appName);
+    } catch (e) {
       process.exit(1);
-      console.error(e)
+      console.error(e);
     }
   }
 
-  run(){
+  run() {
     this.appPath = util.resolveCwd(this.appName);
     this.checkPathDirIsValid();
     this.checkAppName();
@@ -140,17 +141,16 @@ class CreateApp extends Basic {
     process.chdir(this.appPath);
     console.log();
     console.log(`Creating a new react-boilerplate-app in `);
-    console.log(`${chalk.green(this.appPath)}.`)
+    console.log(`${chalk.green(this.appPath)}.`);
     console.log();
     this.writeInitialPackageJson();
-    util.installPackages(this.allDependencies).then(()=>{
+    util.installPackages(this.allDependencies).then(() => {
       this.writeResultPackageJson();
       this.initApp();
     });
   }
-
 }
 
-module.exports = function(){
+module.exports = function() {
   new CreateApp();
-}
+};

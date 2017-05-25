@@ -1,4 +1,3 @@
-
 'use strict';
 
 if (typeof Promise === 'undefined') {
@@ -14,7 +13,7 @@ require('whatwg-fetch');
 // Object.assign() is commonly used with React.
 // It will use the native implementation if it's present and isn't buggy.
 Object.assign = require('object.assign');
-Object.keys = Object.keys || Object.keys.shim; 
+Object.keys = Object.keys || Object.keys.shim;
 //兼容父类构造器不允许问题
 (function() {
   var testObject = {};
@@ -27,13 +26,12 @@ Object.keys = Object.keys || Object.keys.shim;
       } else {
         return nativeGetPrototypeOf.call(Object, object);
       }
-    }
+    };
   }
 })();
 
-if (typeof String.prototype.startsWith != 'function') {  
-  String.prototype.startsWith = function (prefix){  
-    return this.slice(0, prefix.length) === prefix;  
-  };  
-} 
- 
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function(prefix) {
+    return this.slice(0, prefix.length) === prefix;
+  };
+}
