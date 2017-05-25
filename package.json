@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "eslint": "^3.19.0",
     "husky": "^0.13.3",
     "lerna": "^2.0.0-rc.4",
     "lint-staged": "^3.4.2",
@@ -13,7 +14,8 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --trailing-comma es5 --single-quote --write",
+      "eslint -c ./.create-react-boiler-app-eslintrc --no-eslintrc",
+      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*(*.js|*.jsx)' 'packages/*/!(node_modules|build)/**/!(tpl|*-view)/*(*.js|*.jsx)'",
       "git add"
     ]
   }
