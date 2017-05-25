@@ -1,4 +1,4 @@
 var test;
-console.log();
+console.log('222');
 
 function a() {}
