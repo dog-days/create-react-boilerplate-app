@@ -1,1 +1,2 @@
 var test;
+consodle.ddd();
