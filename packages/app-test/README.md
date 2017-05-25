@@ -15,7 +15,8 @@ npm run bootstap #lerna bootstrap
 Te same as create-react-boilerplate-app initialization after package installation.The user will not use this command. Just for test.
 
 ```sh
-npm run init
+npm run init && npm run sync
+#`npm run sync` can let `npm run xx` sill valid after init.(because package.json scripts is changed after init.)
 ```
 
 test create-route-reducer(ac for short) command

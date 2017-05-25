@@ -34,8 +34,7 @@ for (var k in cwdPackageJson.scripts) {
 }
 cwdPackageJson.scripts['sync'] = 'node ./synchronize.js';
 cwdPackageJson.scripts['init'] =
-  'node ./synchronize.js && node ./node_modules/react-boilerplate-app-scripts/bin/init.js';
-
+  'node ./node_modules/react-boilerplate-app-scripts/bin/init.js';
 fs.writeFileSync(
   path.resolve('./package.json'),
   JSON.stringify(cwdPackageJson, null, 2)
