@@ -1,4 +1,4 @@
 var test;
-consodle.ddd();
+console.log();
 
 function a() {}
