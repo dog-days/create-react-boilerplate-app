@@ -1,6 +1,8 @@
-# React-Redux-Boilerplate 
+# react-redux-boilerplate-js 
 
 > 对外提供的接口是在libs文件夹，而不是src文件夹。
+
+会在[Create React Boilerplate App](https://github.com/dog-days/create-react-boilerplate-app)的模板中使用。
 
 ## src/index.jsx
 

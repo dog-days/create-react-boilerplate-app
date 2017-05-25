@@ -190,7 +190,7 @@ export default LayoutView;
 
 View is the main place where we code, the following files are necessary, you can also use action.js and reducer.js if necessary.
 
-- `_route.js`，二级路由（如果没有layout就是一级路由），可自行修改，但务必按照以下格式。
+- `_route.js`，here is the second layer of react-router components(If there is no layout ,it is the first layer of react-router components).It can be modified, but must follow the following format.
 
 ```jsx
 //react-router configuration,please refer to react-router@3.x.x.
@@ -216,10 +216,6 @@ export default View;
 ```
 
 ### Redux Reducer
-
-reducer写法跟Redux的一致，但是因为项目需要使用到`npm run ac`自动保定reducer方法。所以定义了以下规则：
-
-reducer.js格式如下（export格式）:
 
 Reducer written with Redux consistent, but because the project needs to use `npm run ac` extract and save the reducer method. So the following rules are defined:
 
