@@ -18,7 +18,6 @@
     "react-boilerplate-app-scripts": "./bin/react-boilerplate-app-scripts.js"
   },
   "scripts": {
-    "init": "node ./bin/init.js",
     "start": "node ./bin/react-boilerplate-app-scripts.js start",
     "build": "node ./bin/react-boilerplate-app-scripts.js build",
     "view-locale-to-excel": "node ./bin/react-boilerplate-app-scripts.js view-locale-to-excel",
