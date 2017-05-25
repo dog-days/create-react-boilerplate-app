@@ -1,3 +1,6 @@
 var test;
 
-function a() {}
+function a() {
+  console.log(test);
+}
+a();
