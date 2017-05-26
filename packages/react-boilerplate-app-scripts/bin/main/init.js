@@ -92,7 +92,7 @@ class init extends Basic {
       fileName: '*',
     });
     //只要js、jsx后缀的文件路径
-    var files = filesPath.filter((v, k) => {
+    var files = filesPath.filter(v => {
       if (v.indexOf('.js') !== -1) {
         return true;
       }
