@@ -287,13 +287,17 @@ options is same as `create-react-boilerplate-app xxxx [options]`.
 | -i    | --i18n       | 创建具有多语言的视图（i18n） |
 | -b    | --breadcrumb | 创建具有面包屑功能的视图     |
 
-#### npm || yarn run create-route-reducer(ac for short)
+#### npm || yarn run route
 
-基于_route.js和reducer.js文件创建路由和redux reducers（绑定reducer）。
+基于_route.js文件创建路由。
 
-_route.js和reducer.js规则请参考[react-redux-pieplate-js](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js)。
+`npm run route -- -w` 是监控生成模式.
 
-`npm run ac -- -w` 是监控生成模式.
+#### npm || reducer
+
+基于reducer.js文件创建redux reducers（绑定reducer）。
+
+`npm run reducer -- -w` 是监控生成模式.
 
 #### npm || yarn run view-locale-to-excel(vlte for short)
 

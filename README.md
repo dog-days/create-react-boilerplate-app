@@ -283,13 +283,17 @@ options is same as `create-react-boilerplate-app xxxx [options]`.
 | -i    | --i18n       | create view with locale feature(i18n) |
 | -b    | --breadcrumb | create view with breadcrumb feature   |
 
-#### npm || yarn run create-route-reducer(ac for short)
+#### npm || yarn run route
 
-Creates routes and reducers( combine reducers) base on the _route.js and reducer.js files.
+Creates routes base on the _route.js files.
 
-\_route.js and reducer.js rules refer to [**react-redux-boilerplate-js**](https://github.com/dog-days/create-react-boilerplate-app/tree/master/packages/react-redux-boilerplate-js) .
+`npm run route -- -w` is watch mode.
 
-`npm run ac -- -w` is watch mode.
+#### npm || yarn run reducer
+
+Creates reducers( combine reducers) base on reducer.js files.
+
+`npm run reducer -- -w` is watch mode.
 
 #### npm || yarn run view-locale-to-excel(vlte for short)
 
