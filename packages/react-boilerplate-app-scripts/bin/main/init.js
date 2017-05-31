@@ -167,12 +167,11 @@ class init extends Basic {
     );
     console.log('    Creates a new page view template.');
     console.log();
-    console.log(
-      chalk.cyan(`  ${displayedCommand} create-route-reducer(ac for short)`)
-    );
-    console.log(
-      '    Creates routes and reducers base on the _route.js and reducer.js files.'
-    );
+    console.log(chalk.cyan(`  ${displayedCommand} route`));
+    console.log('    Creates routes base on the _route.js.');
+    console.log();
+    console.log(chalk.cyan(`  ${displayedCommand} reducer`));
+    console.log('    Creates reducers base on the reducer.js files.');
     console.log();
     console.log(
       chalk.cyan(`  ${displayedCommand} view-locale-to-excel(vlte for short)`)
