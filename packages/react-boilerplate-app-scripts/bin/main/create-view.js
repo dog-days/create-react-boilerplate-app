@@ -46,7 +46,7 @@ class createView {
    *    saveFilesPath
    * ]
    */
-  getViewTeplateDirFilesPath(dirPath, callback) {
+  getViewTeplateDirFilesPath(dirPath) {
     var files = util.readdirSync(dirPath);
     var readFilesPath = [], saveFilesPath = [];
     //即将保存的app view目录
@@ -58,7 +58,7 @@ class createView {
     //当前读取的文件夹名
     var dirPathSplit = dirPath.split('/');
     var curentDirName = dirPathSplit[dirPathSplit.length - 1];
-    files.map((v, k) => {
+    files.map(v => {
       var file_path = path.resolve(dirPath, v);
       var curentDirNameSplit = file_path.split(curentDirName);
       readFilesPath.push(file_path);
@@ -106,8 +106,8 @@ class createView {
     //可以通过用户的命令配置需要的功能，跟create-view的命令基本一致
     this.savePageViewFiles(filesPath[0], filesPath[1], program);
     //end--进行了自定义标签处理
-    var ac = require('./route-reducer-creater');
-    new ac();
+    require('./route.js')();
+    require('./reducer.js')();
   }
 }
 module.exports = saveFilesByCustomContens(createView);

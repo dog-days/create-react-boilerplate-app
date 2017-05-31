@@ -10,7 +10,7 @@ const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
 
-class RouteReducerCreater extends Basic {
+class reducer extends Basic {
   constructor() {
     super();
     this.run();
@@ -19,11 +19,10 @@ class RouteReducerCreater extends Basic {
   commandSetting() {
     commander
       .version(this.packageJson.version)
-      .option('-w, --watch', 'watch to create route and reducers')
+      .option('-w, --watch', 'watch to create reducers')
       .parse(process.argv);
     if (commander) {
       var r2Path = path.resolve(__dirname, '../main/libs');
-      this.createRoute = require(path.resolve(r2Path, 'createRouteFile.js'));
       this.createReducer = require(path.resolve(
         r2Path,
         'createReducerFile.js'
@@ -48,10 +47,6 @@ class RouteReducerCreater extends Basic {
     if (f.indexOf('reducer.js') != -1) {
       this.create();
     }
-    if (f.indexOf('_route.js') != -1) {
-      this.create();
-    }
-    // console.log(f)
   }
   //watch监听
   watch() {
@@ -76,33 +71,10 @@ class RouteReducerCreater extends Basic {
         });
     }
   }
-  // 获取view和layout文件夹相对路径
-  getViewAndLayoutDirPaths() {
-    var viewPath, layoutPath;
-    if (!commander.viewModel) {
-      viewPath = [cwdPackageJsonConfig.appSrcPath];
-      layoutPath = cwdPackageJsonConfig.appSrcPath + '/view/layout';
-    }
-    return {
-      viewPath,
-      layoutPath,
-    };
-  }
   //生成routes和reducers文件
   create() {
-    var viewAndLayoutDirPaths = this.getViewAndLayoutDirPaths(),
-      viewPath = viewAndLayoutDirPaths.viewPath,
-      layoutPath = viewAndLayoutDirPaths.layoutPath,
-      createRoute = this.createRoute;
-    new createRoute({
-      path: viewPath,
-      tplPath: path.resolve(this.r2Path, 'tpl/routes.tpl.js'),
-      fileName: '_route.js',
-      savePath: cwdPackageJsonConfig.routesPath,
-      layoutPath,
-    });
-
     var createReducer = this.createReducer;
+    var viewPath = [cwdPackageJsonConfig.appSrcPath];
     new createReducer({
       path: viewPath,
       tplPath: path.resolve(this.r2Path, 'tpl/reducers.tpl.js'),
@@ -111,4 +83,6 @@ class RouteReducerCreater extends Basic {
     });
   }
 }
-module.exports = RouteReducerCreater;
+module.exports = function() {
+  return new reducer();
+};

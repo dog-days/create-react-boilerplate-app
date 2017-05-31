@@ -26,8 +26,8 @@
     "etlc": "node ./bin/react-boilerplate-app-scripts.js excel-to-locale-config",
     "create-view": "node ./bin/react-boilerplate-app-scripts.js create-view",
     "cv": "node ./bin/react-boilerplate-app-scripts.js create-view",
-    "create-route-reducer": "node ./bin/react-boilerplate-app-scripts.js ac",
-    "ac": "node ./bin/react-boilerplate-app-scripts.js ac",
+    "route": "node ./bin/react-boilerplate-app-scripts.js route",
+    "reducer": "node ./bin/react-boilerplate-app-scripts.js reducer",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use"
   },
@@ -79,23 +79,21 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
-    "react-redux-boilerplate-js": "^0.0.8"
-  },
-  "peerDependencies": {
+    "react-redux-boilerplate-js": "^0.0.8",
+    "react-redux": "^4.4.5",
+    "react-router": "^3.0.0",
+    "redux": "^3.5.2",
+    "redux-logger": "^2.3.1",
+    "redux-thunk": "^1.0.3",
+    "whatwg-fetch": "^2.0.3",
     "object.assign": "^4.0.4",
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-redux": "^4.4.5",
-    "react-router": "^3.0.0",
-    "react-router-redux": "^4.0.4",
-    "redux": "^3.5.2",
-    "redux-immutable": "^3.0.6",
-    "redux-logger": "^2.3.1",
-    "redux-thunk": "^1.0.3",
-    "whatwg-fetch": "^2.0.3"
+    "react-router-redux": "^4.0.4"
   },
+  "peerDependencies": {},
   "react-boilerplate-app-scripts": {
     "language": "en_US",
     "appSrcPath": "template/en_US-src",

@@ -139,8 +139,8 @@ class init extends Basic {
     //end--进行了自定义标签处理
     this.writePackageJson();
     console.log();
-    var ac = require('./route-reducer-creater.js');
-    new ac();
+    require('./route.js')();
+    require('./reducer.js')();
     this.instruction();
   }
 

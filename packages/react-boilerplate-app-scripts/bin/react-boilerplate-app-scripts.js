@@ -1,6 +1,6 @@
 #!/usr/bin/env node
+'use strict';
 
-const fs = require('fs-extra');
 const path = require('path');
 const commander = require('commander');
 const util = require('react-boilerplate-app-utils');
@@ -14,7 +14,8 @@ commander
   .version(packageJson.version)
   .command('start', 'Start dev server')
   .command('build', 'Production building')
-  .command('ac', 'Routes and Reducers atuo creater')
+  .command('route', 'Routes atuo creater')
+  .command('reducer', 'Reducers atuo creater')
   .command('create-view', 'Create page view template')
   .command('view-locale-to-excel', 'Generate view locale string to Excel lists')
   .command(
