@@ -1,6 +1,6 @@
 {
   "name": "react-mobx-boilerplate-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "react-mobx-boilerplate-js",
   "devDependencies": {
     "babel-cli": "^6.24.1",
