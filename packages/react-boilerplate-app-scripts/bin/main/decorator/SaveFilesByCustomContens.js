@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
@@ -10,11 +11,11 @@ const util = require('react-boilerplate-app-utils');
  */
 function removeTag(contents, tag) {
   //mac linux
-  contents = contents.replace(new RegExp(`\n\/\/≤${tag}--begin`, 'g'), '');
-  contents = contents.replace(new RegExp(`\n\/\/≤${tag}--end`, 'g'), '');
+  contents = contents.replace(new RegExp(`\n(.*)\/\/≤${tag}--begin`, 'g'), '');
+  contents = contents.replace(new RegExp(`\n(.*)\/\/≤${tag}--end`, 'g'), '');
   //windows
-  contents = contents.replace(new RegExp(`\r\/\/≤${tag}--begin`, 'g'), '');
-  contents = contents.replace(new RegExp(`\r\/\/≤${tag}--end`, 'g'), '');
+  contents = contents.replace(new RegExp(`\r(.*)\/\/≤${tag}--begin`, 'g'), '');
+  contents = contents.replace(new RegExp(`\r(.*)\/\/≤${tag}--end`, 'g'), '');
   return contents;
 }
 /**
@@ -27,7 +28,10 @@ function removeTag(contents, tag) {
  */
 function removeTagContents(contents, tagId) {
   //mac linux
-  var reg = new RegExp(`\n\/\/≤${tagId}--begin[^≤]*\/\/≤${tagId}--end`, 'g');
+  var reg = new RegExp(
+    `\n(.*)\/\/≤${tagId}--begin[^≤]*\/\/≤${tagId}--end`,
+    'g'
+  );
   contents = contents.replace(reg, '');
   return contents;
 }
@@ -46,7 +50,7 @@ function saveByFilesPath(readFilesPath, saveFilesPath, program, showLogs) {
   }
   let { i18n, breadcrumb, all } = program;
   readFilesPath.forEach((v, k) => {
-    //兼容windwos平台路径1
+    //兼容windwos平台路径
     v = v.replace(/\\/g, '/');
     var contents = fs.readFileSync(v, {
       encoding: 'utf-8',
@@ -67,13 +71,13 @@ function saveByFilesPath(readFilesPath, saveFilesPath, program, showLogs) {
         //启用i18n功能
         contents = this.removeTag(contents, 'Locale');
       } else {
-        //否则移除this.t(xxx)，不移除会报错
+        //移除this.t(xxx)，不移除会报错
         var m = contents.match(/\.t\(["'](.*)["']\)/g);
         m &&
           m.forEach(v2 => {
             var t = v2.split('"');
             if (!t[1]) {
-              var t = v2.split("'");
+              t = v2.split("'");
             }
             contents = contents.replace(`this.t('${t[1]}')`, `'${t[1]}'`);
             contents = contents.replace(`this.t("${t[1]}")`, `'${t[1]}'`);

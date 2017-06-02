@@ -79,6 +79,8 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
+    "mobx": "^3.1.10",
+    "mobx-react": "^4.2.1",
     "object.assign": "^4.0.4",
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
@@ -86,6 +88,7 @@
     "react-dom": "^15.5.4",
     "react-redux": "^4.4.5",
     "react-redux-boilerplate-js": "^0.0.10",
+    "react-mobx-boilerplate-js": "^0.0.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
@@ -96,7 +99,7 @@
   "peerDependencies": {},
   "react-boilerplate-app-scripts": {
     "language": "en_US",
-    "appSrcPath": "template/en_US-src",
+    "appSrcPath": "template/en_US-mobx-src",
     "appPublicPath": "template/en_US-public",
     "historyApiFallback": {
       "verbose": true,

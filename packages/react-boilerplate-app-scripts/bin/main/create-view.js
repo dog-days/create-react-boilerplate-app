@@ -19,6 +19,9 @@ class createView {
     var program = commander
       .arguments('<view-directory>')
       .usage(`${chalk.green('<view-directory>')} [options]`)
+      //--xx-xx类型，缩写使用大写
+      .option('-D, --data-flow [flow]', 'use redux or mobx')
+      //--xx类型，缩写使用小写
       .option('-a, --all', 'create view with all features')
       .option('-i, --i18n', 'create view with locale feature(i18n)')
       .option('-b, --breadcrumb', 'create view with breadcrumb feature')
@@ -35,6 +38,15 @@ class createView {
       program.outputHelp();
       process.exit(1);
       return;
+    }
+    if (!program.dataFlow) {
+      program.dataFlow = 'redux';
+    }
+    //判断数据流管理类库是否合法
+    var flow = ['redux', 'mobx'];
+    if (flow.indexOf(program.dataFlow) === -1) {
+      console.error(chalk.red('--data-flow should be redux or mobx!'));
+      process.exit(1);
     }
     return program;
   }
@@ -96,10 +108,17 @@ class createView {
     if (!program) {
       return;
     }
-    var viewTemplatePath = path.resolve(__dirname, '../../template/en_US-view');
+    var dataFlow = program.dataFlow;
+    var viewTemplatePath = path.resolve(
+      __dirname,
+      `../../template/en_US-${dataFlow}-view`
+    );
     var zh_CN = util.getZHCN();
     if (zh_CN) {
-      viewTemplatePath = path.resolve(__dirname, '../../template/zh_CN-view');
+      viewTemplatePath = path.resolve(
+        __dirname,
+        `../../template/zh_CN-${dataFlow}-view`
+      );
     }
     var filesPath = this.getViewTeplateDirFilesPath(viewTemplatePath);
     //beign--进行了自定义标签处理

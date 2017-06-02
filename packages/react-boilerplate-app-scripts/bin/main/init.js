@@ -30,10 +30,22 @@ class init extends Basic {
 
   getCommander() {
     var program = commander
+      //--xx-xx类型，缩写使用大写
+      .option('-D, --data-flow [flow]', 'use redux or mobx')
+      //--xx类型，缩写使用小写
       .option('-a, --all', 'create view with all features')
       .option('-i, --i18n', 'create view with locale feature(i18n)')
       .option('-b, --breadcrumb', 'create view with breadcrumb feature')
       .parse(process.argv);
+    if (!program.dataFlow) {
+      program.dataFlow = 'redux';
+    }
+    //判断数据流管理类库是否合法
+    var flow = ['redux', 'mobx'];
+    if (flow.indexOf(program.dataFlow) === -1) {
+      console.error(chalk.red('--data-flow should be redux or mobx!'));
+      process.exit(1);
+    }
     return program;
   }
 
@@ -105,22 +117,33 @@ class init extends Basic {
 
   /**
    * 复制template中的文件夹
-   * @param { string } partDirName 共同部分的文件名，复制的后创建文件夹名，存放复制文件
+   * @param { string } partDirName 复制的后创建文件夹名（相对于项目根目录），存放复制文件
    * @return { string } 复制保存后的文件夹路径
    */
   coypDir(partDirName) {
     var zh_CN = util.getZHCN();
     var dirPath;
+    //默认是使用redux
+    var dataFlow = this.program.dataFlow;
+    var diffDirName;
+    switch (partDirName) {
+      case 'src':
+        diffDirName = `${dataFlow}-${partDirName}`;
+        break;
+      default:
+        diffDirName = partDirName;
+    }
     if (zh_CN) {
-      dirPath = path.resolve(__dirname, `../../template/zh_CN-${partDirName}`);
+      dirPath = path.resolve(__dirname, `../../template/zh_CN-${diffDirName}`);
     } else {
-      dirPath = path.resolve(__dirname, `../../template/en_US-${partDirName}`);
+      dirPath = path.resolve(__dirname, `../../template/en_US-${diffDirName}`);
     }
     if (!fs.existsSync(dirPath)) {
       console.error(chalk.yellow(dirPath + ' is not exist.'));
       process.exit(1);
     }
     fs.ensureDirSync(dirPath);
+    //相对于项目根目录
     var savePath = path.resolve(process.cwd(), partDirName);
     fs.copySync(dirPath, savePath, {
       dereference: true,
