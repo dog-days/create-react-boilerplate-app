@@ -12,7 +12,8 @@ React样板基于 [React@15.5.4](https://facebook.github.io/react/)，[Redux@3.5
 
 - 没有webpack配置。
 - 没有路由配置，路由自动生成命令。
-- 无redux reducer配置。
+- 可选的redux或mobx配置。
+- 页面简单模块生成。
 - 可选的less-loader。
 - 可选的sass-loader。
 - 可选的Immutable.js。
@@ -98,12 +99,13 @@ cd my-app
 
 `create-react-boilerplate-app xxx [options]`
 
-| 简写   | 选项           | 说明               |
-| ---- | ------------ | ---------------- |
-| -h   | --help       | 输出帮助消息信息         |
-| -a   | --all        | 创建具有所有功能的视图      |
-| -i   | --i18n       | 创建具有多语言的视图（i18n） |
-| -b   | --breadcrumb | 创建具有面包屑功能的视图     |
+| 简写   | 选项           | 说明                    |
+| ---- | ------------ | --------------------- |
+| -h   | --help       | 输出帮助消息信息              |
+| -D   | --data-flow  | 使用数据流管理类库（redux或mobx） |
+| -a   | --all        | 创建具有所有功能的视图           |
+| -i   | --i18n       | 创建具有多语言的视图（i18n）      |
+| -b   | --breadcrumb | 创建具有面包屑功能的视图          |
 
 它将在当前文件夹中创建一个名为my-app的目录。
 
@@ -565,7 +567,7 @@ rewrites: [
 }
 ```
 
-开发环境启动之后，您可以访问`http:// localhost:8888 / api / test.js`来获取api json内容。
+开发环境启动之后，您可以访问`http://localhost:8888/api/test.js`来获取api json内容。
 
 想要更多的配置，我们可以通过运行 `yarn || npm run cover proxy.js`来创建`config/proxy.js`或手动创建文件。
 
