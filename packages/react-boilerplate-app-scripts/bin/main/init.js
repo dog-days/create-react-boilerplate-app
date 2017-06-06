@@ -92,7 +92,21 @@ class init extends Basic {
     } else {
       packageJson[scriptsPackagename].language = 'en_US';
     }
-    packageJson['eslintConfig'] = this.packageJson['eslintConfig'];
+    packageJson.eslintConfig = this.packageJson.eslintConfig;
+    let { i18n, breadcrumb, all, dataFlow } = this.program;
+    packageJson[scriptsPackagename].feature = {
+      dataFlow: dataFlow,
+    };
+    if (all) {
+      packageJson[scriptsPackagename].feature.all = all;
+    } else {
+      if (i18n) {
+        packageJson[scriptsPackagename].feature.i18n = i18n;
+      }
+      if (breadcrumb) {
+        packageJson[scriptsPackagename].feature.breadcrumb = breadcrumb;
+      }
+    }
     fs.writeFileSync(pacakgeJsonPath, JSON.stringify(packageJson, null, 2));
   }
   /**
@@ -163,7 +177,7 @@ class init extends Basic {
     this.writePackageJson();
     console.log();
     require('./route.js')();
-    require('./reducer.js')();
+    //require('./reducer.js')();
     this.instruction();
   }
 

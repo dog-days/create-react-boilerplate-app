@@ -98,6 +98,12 @@
   },
   "peerDependencies": {},
   "react-boilerplate-app-scripts": {
+    "feature": {
+      "dataFlow": "mobx",
+      "all": true,
+      "i18n": true,
+      "breadcrumb": true
+    },
     "language": "en_US",
     "appSrcPath": "template/en_US-mobx-src",
     "appPublicPath": "template/en_US-public",

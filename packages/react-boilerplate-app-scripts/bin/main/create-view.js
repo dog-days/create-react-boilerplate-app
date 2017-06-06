@@ -108,6 +108,8 @@ class createView {
     if (!program) {
       return;
     }
+    //整合package.json feature
+    Object.assign(program, cwdPackageJsonConfig.feature);
     var dataFlow = program.dataFlow;
     var viewTemplatePath = path.resolve(
       __dirname,
@@ -126,7 +128,7 @@ class createView {
     this.savePageViewFiles(filesPath[0], filesPath[1], program);
     //end--进行了自定义标签处理
     require('./route.js')();
-    require('./reducer.js')();
+    //require('./reducer.js')();
   }
 }
 module.exports = saveFilesByCustomContens(createView);
