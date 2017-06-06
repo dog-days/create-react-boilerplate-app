@@ -6,7 +6,6 @@ const util = require('react-boilerplate-app-utils');
 const validateNpmPackageName = require('validate-npm-package-name');
 const commander = require('commander');
 const chalk = require('chalk');
-const spawn = require('cross-spawn');
 const Basic = require('./libs/Basic');
 
 const scriptsPackagename = 'react-boilerplate-app-scripts';
@@ -20,11 +19,12 @@ class CreateApp extends Basic {
       dependencies: {},
       devDependencies: {},
     };
+    //默认使用react-redux-boilerplate-js
     this.dependencies = ['react-redux-boilerplate-js'];
-    this.devDependencies = [
-      'react-boilerplate-app-scripts',
-      'react-boilerplate-app-utils',
-    ];
+    if (this.program.dataFlow === 'mobx') {
+      this.dependencies = ['react-mobx-boilerplate-js'];
+    }
+    this.devDependencies = ['react-boilerplate-app-scripts'];
     this.allDependencies = []
       .concat(this.dependencies)
       .concat(this.devDependencies);
@@ -36,6 +36,9 @@ class CreateApp extends Basic {
       .version(this.packageJson.version)
       .arguments('<project-directory>')
       .usage(`${chalk.green('<project-directory>')} [options]`)
+      //--xx-xx类型，缩写使用大写
+      .option('-D, --data-flow [flow]', 'use redux or mobx')
+      //--xx类型，缩写使用小写
       .option('-a, --all', 'create view with all features')
       .option('-i, --i18n', 'create view with locale feature(i18n)')
       .option('-b, --breadcrumb', 'create view with breadcrumb feature')
@@ -61,6 +64,15 @@ class CreateApp extends Basic {
       );
       process.exit(1);
     }
+    if (!this.program.dataFlow) {
+      this.program.dataFlow = 'redux';
+    }
+    //判断数据流管理类库是否合法
+    var flow = ['redux', 'mobx'];
+    if (flow.indexOf(this.program.dataFlow) === -1) {
+      console.error(chalk.red('--data-flow should be redux or mobx!'));
+      process.exit(1);
+    }
   }
   //检测appName是否合法
   checkAppName() {
@@ -84,11 +96,11 @@ class CreateApp extends Basic {
   }
   //成功安装后的的package.json
   writeResultPackageJson() {
-    this.dependencies.forEach((v, k) => {
+    this.dependencies.forEach(v => {
       let version = util.getVersionOfPackage(v);
       this.packageJson.dependencies[v] = '^' + version;
     });
-    this.devDependencies.forEach((v, k) => {
+    this.devDependencies.forEach(v => {
       let version = util.getVersionOfPackage(v);
       this.packageJson.devDependencies[v] = '^' + version;
     });
