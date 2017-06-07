@@ -20,11 +20,11 @@ class createView {
       .arguments('<view-directory>')
       .usage(`${chalk.green('<view-directory>')} [options]`)
       //--xx-xx类型，缩写使用大写
-      .option('-D, --data-flow [flow]', 'use redux or mobx')
+      //.option('-D, --data-flow [flow]', 'use redux or mobx')
       //--xx类型，缩写使用小写
-      .option('-a, --all', 'create view with all features')
-      .option('-i, --i18n', 'create view with locale feature(i18n)')
-      .option('-b, --breadcrumb', 'create view with breadcrumb feature')
+      //.option('-a, --all', 'create view with all features')
+      //.option('-i, --i18n', 'create view with locale feature(i18n)')
+      //.option('-b, --breadcrumb', 'create view with breadcrumb feature')
       .action(name => {
         //全转换成小写
         name.toLowerCase();

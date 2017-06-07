@@ -17,9 +17,6 @@ import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //the view is the second route page veiw component.
 //you can eidit `./_route.js` file to change the url path for the current page.
 class IndexView extends React.Component {
-  t(str){
-    return str;
-  }
   render() {
     return (
       <div>

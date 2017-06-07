@@ -1,10 +1,8 @@
+'use strict';
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const path = require('path');
-const fs = require('fs-extra');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const util = require('react-boilerplate-app-utils');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
@@ -90,7 +88,7 @@ var config = {
           /\.(ts|tsx)$/,
           /\.css$/,
           /\.less$/,
-          /\.sass/,
+          /\.scss/,
           /\.json$/,
           /\.bmp$/,
           /\.gif$/,
