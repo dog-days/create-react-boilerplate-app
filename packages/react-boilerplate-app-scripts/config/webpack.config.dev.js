@@ -117,7 +117,7 @@ var config = {
       {
         //确保在babel转换前执行
         enforce: 'pre',
-        test: /\.js[x]$/,
+        test: /\.js[x]?$/,
         include: paths.src,
         loader: 'eslint-loader',
       },
