@@ -5,7 +5,7 @@
  *  一般分两种json数据和form data数据（上传文件时）,
  *  当然也可以或略这一项，安装fetch原来的写法传body数据也是可以的
  */
-export function getFetchOptions(options) {
+export function getFetchOptions(options = {}) {
   let opt = {
     bodyType: 'json',
     headers: {
@@ -16,7 +16,8 @@ export function getFetchOptions(options) {
     //必须设置，要不不会传cookie
     credentials: 'include',
   };
-  Object.assign(opt, options);
+  opt.headers = Object.assign({}, opt.headers, options.headers);
+  opt = Object.assign(opt, options);
   if (opt.body) {
     //params根据body类型区分
     if (opt.bodyType === 'json') {
@@ -44,10 +45,8 @@ export function fetchOne(url, options) {
       return response.json();
     })
     .then(json => {
-      return {
-        data: json,
-        status,
-      };
+      json._httpStatus = status;
+      return json;
     });
 }
 /**
