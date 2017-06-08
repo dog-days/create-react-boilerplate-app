@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -66,7 +66,7 @@
     "react-dev-utils": "^0.5.2",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-mobx-boilerplate-js": "^0.0.4",
+    "react-mobx-boilerplate-js": "^0.0.5",
     "react-redux": "^4.4.5",
     "react-redux-boilerplate-js": "^0.0.11",
     "react-router": "^3.0.0",
