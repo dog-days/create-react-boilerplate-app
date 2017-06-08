@@ -1,5 +1,3 @@
-'use strict';
-
 let routeConfig = {
   //it's react-router's business.
   //it' just for binding layout,when using `npm run ac`.

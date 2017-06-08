@@ -1,4 +1,3 @@
-'use strict';
 //deal with prefix url
 import path from 'react-mobx-boilerplate-js/libs/path';
 

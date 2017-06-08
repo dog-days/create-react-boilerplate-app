@@ -1,4 +1,3 @@
-'use strict';
 //处理prefix url
 import path from 'react-redux-boilerplate-js/libs/path';
 

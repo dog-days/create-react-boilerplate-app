@@ -1,4 +1,3 @@
-'use strict';
 //deal with prefix url
 import path from 'react-redux-boilerplate-js/libs/path';
 
@@ -10,7 +9,7 @@ let routeConfig = {
   layout: 'main',
   //url path setting
   //because not all the web app is in web root dir,it might be in the root child dir.
-  //for example,PREFIX_URL = `/demo`，访问网站根目录demo文件中的web app
+  //for example,PREFIX_URL = `/demo`，visit web root demo folder web app.
   //PREFIX_URL is read from package.json field 'react-boilerplate-app-scripts'
   //if you do not use the prefix url function,the path can can be '/${pageName}'.
   path: path('/${pageName}'),

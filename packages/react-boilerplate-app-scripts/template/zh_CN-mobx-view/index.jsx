@@ -8,19 +8,19 @@ import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //≤Locale--end
 
 //≤Locale--begin
-//Muti-language decorator,it's different from the first route layout view component.
-//It provides `this.t(xxx)` to the component.
-//if you want the i18n function worked,you must use `this.t` to pass the string.
-//You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
-//You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
+//多语言修饰器,这跟一级路由layout view compoent是不一样的。
+//这个修饰器给当前组件提供了`this.t(xxx)`方法。
+//如果要保证i18n功能生效必须使用`this.t`传递字符串。
+//你可以使用`npm run view-locale-to-excel`生成默认的excel语言列表.
+//你可以使用`npm run excel-to-locale-config`生成不同的语言的javascirpt数组列表文件（需要读取翻译后的excel）。
 @Locale
 //≤Locale--end
 //≤BreadCrumb--begin
-//BreadCrumb must be placed before redux @connect,it's different from layout view
-//In the array,you can custom the fields. you can also use function.
-//You can get the list of breadcrumb in layout view by using 'this.getBreadCrumbs()'.
-//BreadCrumb.create must be used in second route page view component or it works nothing.
-//the field depends on you.
+//`@BreadCrumb` 必须在mobx `@inject`之前,这跟layout view是不一样的。
+//在数组中，你可以自定义字段，也可以使用函数。
+//然后你可以通过layout view 的`this.getBreadCrumbs()`获取到你设置的面包屑数组。
+//`@BreadCrumb.create`必须在二级路由view组件中使用，而且还要配合layout view的`@BreadCrumb`一起使用。
+//字段使用由你决定。
 @BreadCrumb.create([
   {
     label: '${pageNameFirstLetter}',
@@ -29,10 +29,10 @@ import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
   },
 ])
 //≤BreadCrumb--end
-//set page title
+//设置页面标题
 @PageTitle('${pageNameFirstLetter}')
-//The view is the second route page veiw component.
-//You can eidit `./_route.js` file to change the url path for the current page.
+//二级路由view组件
+//你可以编辑`./_route.js`文件改变当前页面组件的url链接。
 class ${pageNameFirstLetter}View extends React.Component {
   render() {
     return (
