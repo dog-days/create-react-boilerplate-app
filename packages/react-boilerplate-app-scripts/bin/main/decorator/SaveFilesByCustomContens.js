@@ -58,9 +58,15 @@ function saveByFilesPath(readFilesPath, saveFilesPath, program, showLogs) {
     if (this.pageName) {
       //处理viem template 中的替换，根据this.pageName来判断
       contents = contents.replace(/\${pageName}/g, this.pageName);
+      var pageNameSplit = this.pageName.split('-');
+      pageNameSplit = pageNameSplit.map(v => {
+        v = util.toUpperCaseByPosition(v, 0, 1);
+        return v;
+      });
+      var pageNameCombine = pageNameSplit.join('');
       contents = contents.replace(
         /\${pageNameFirstLetter}/g,
-        util.toUpperCaseByPosition(this.pageName, 0, 1)
+        util.toUpperCaseByPosition(pageNameCombine, 0, 1)
       );
     }
     if (all) {
