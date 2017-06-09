@@ -1,0 +1,45 @@
+{
+  "code":200,
+  "data": [
+    {
+      "title": "Navigation One",
+      "key": "Navigation One",
+      "icon": "setting",
+      "SubMenu": [
+        {
+          "url": "/about",
+          "title":"Link 1"
+        },
+        {
+          "url": "/",
+          "title":"Link 2"
+        }
+      ]
+    },
+    {
+      "title": "Navigation two",
+      "icon": "appstore",
+      "key": "Navigation two",
+      "SubMenu": [
+        {
+          "url": "/about/one",
+          "title":"Link 1"
+        },
+        {
+          "key": "SubMenu",
+          "title":"SubMenu",
+          "SubMenu": [
+            {
+              "url": "/about/one",
+              "title":"Link 1"
+            },
+            {
+              "url": "/about/two",
+              "title":"Link 2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

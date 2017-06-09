@@ -107,14 +107,11 @@
     "language": "en_US",
     "appSrcPath": "template/en_US-mobx-src",
     "appPublicPath": "template/en_US-public",
+    "mock": {
+      "/common-api/(.*)": "/mock/$1.json"
+    },
     "historyApiFallback": {
-      "verbose": true,
-      "rewrites": [
-        {
-          "from": "/api/(.*)",
-          "to": "/mock/$1"
-        }
-      ]
+      "verbose": true
     }
   },
   "babel": {

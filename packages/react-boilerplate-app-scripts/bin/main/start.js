@@ -35,7 +35,10 @@ const host = cwdPackageJsonConfig.host;
 //port 可以被修改，会被占用
 var port = cwdPackageJsonConfig.port;
 //经过转换后的historyApiFallback rewrites
-if (cwdPackageJsonConfig.historyApiFallback) {
+if (
+  cwdPackageJsonConfig.historyApiFallback &&
+  cwdPackageJsonConfig.historyApiFallback.rewrites
+) {
   var rewrites = util.historyApiFallbackRewiriteAdapter(
     cwdPackageJsonConfig.historyApiFallback.rewrites
   );
@@ -45,6 +48,43 @@ const useYarn = util.shouldUseYarn();
 
 function runDevServer(host, port) {
   var devServer = new WebpackDevServer(compiler, {
+    setup(app) {
+      /**
+       * @param { string } mockRule mock规则，可以使正则表达式
+       * eg. '/common-api/(.*)'
+       * @param { string } moackTarget mock目标路径，相对于`path.publicPath`。
+       * eg. '/mock/$1.json|400'
+       */
+      function mock(mockRule, mockTarget) {
+        var mock = new RegExp(mockRule);
+        var matchStatusReg = /\|(.*)$/;
+        var target = mockTarget;
+        var statusMatch = target.match(matchStatusReg);
+        var status = (statusMatch && target.match(matchStatusReg)[1]) || 200;
+        target = target.replace(matchStatusReg, '');
+        app.all(mock, function(req, res) {
+          var targetPath = target;
+          var match = req.url.match(mock);
+          match.forEach((v, k) => {
+            targetPath = targetPath.replace(`$${k}`, v);
+          });
+          //mock文件路径
+          var mockFilePath = path.join(paths.appPublic, targetPath);
+          if (fs.existsSync(mockFilePath)) {
+            var mockContents = fs.readFileSync(mockFilePath, {
+              encoding: 'utf-8',
+            });
+            res.status(status).send(mockContents);
+          } else {
+            res.status(404).send(req.url + ' not found.');
+          }
+        });
+      }
+      var mockConfig = cwdPackageJsonConfig.mock;
+      for (var k in mockConfig) {
+        mock(k, mockConfig[k]);
+      }
+    },
     //开启HTML5 History API，所有请求都重定向到index.html（地址重写）
     historyApiFallback: historyApiFallback ||
       cwdPackageJsonConfig.historyApiFallback ||

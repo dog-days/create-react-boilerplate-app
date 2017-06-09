@@ -1,0 +1,8 @@
+{
+  "code":200,
+  "message":"登录成功！",
+  "data":{
+    "userId":"F4BE2CE97348409E9BA5BED83399E55D",
+    "token":"1.ldqy5LEuEfTF6LF9kfva.315360000.1272653328.d2b6e3143950ceeb4947fca302aab116"
+  }
+}
