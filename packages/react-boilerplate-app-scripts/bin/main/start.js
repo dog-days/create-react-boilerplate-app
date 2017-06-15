@@ -48,7 +48,12 @@ const useYarn = util.shouldUseYarn();
 
 function runDevServer(host, port) {
   var devServer = new WebpackDevServer(compiler, {
+    /**
+     * WebpackDevServer 提供的对外设置路由访问功能
+     * create-react-boilerplate-app在这里提供了mock服务
+     */
     setup(app) {
+      //begin----http mock处理
       /**
        * @param { string } mockRule mock规则，可以使正则表达式
        * eg. '/common-api/(.*)'
@@ -84,6 +89,7 @@ function runDevServer(host, port) {
       for (var k in mockConfig) {
         mock(k, mockConfig[k]);
       }
+      //end----http mock处理
     },
     //开启HTML5 History API，所有请求都重定向到index.html（地址重写）
     historyApiFallback: historyApiFallback ||
@@ -110,14 +116,87 @@ function runDevServer(host, port) {
     //packageJson中的proxy只能是字符串，无法使用函数
     proxy: proxy || cwdPackageJsonConfig.proxy || {},
   });
-
   // 启动WebpackDevServer.
-  devServer.listen(port, err => {
+  var server = devServer.listen(port, err => {
     if (err) {
       return console.log(err);
     }
     console.log();
   });
+  //begin----websocket mock服务
+  if (cwdPackageJsonConfig.websocketMock) {
+    var websocketMockConfig = cwdPackageJsonConfig.websocketMock;
+    const socketIo = require('socket.io');
+    const io = socketIo(server);
+    io.on('connection', socket => {
+      for (var k in websocketMockConfig.emit) {
+        var v = websocketMockConfig.emit[k];
+        v.type.forEach(t => {
+          function getData() {
+            var file = path.join(paths.appPublic, v.url);
+            if (!fs.existsSync(file)) {
+              console.log();
+              console.log(chalk.cyan(file));
+              console.log(chalk.red('mock文件不存在！'));
+              process.exit(1);
+              console.log();
+            }
+            var mockObject = require(file);
+            if (
+              Object.prototype.toString.apply(mockObject) !==
+              '[object Function]'
+            ) {
+              console.log();
+              console.log(chalk.red('mock的js文件必须返回函数！'));
+              process.exit(1);
+              console.log();
+            }
+            if (websocketMockConfig.log) {
+              console.log();
+              console.log('type: ', chalk.cyan('emit'));
+              console.log('mock file path: ', chalk.cyan(file));
+              console.log();
+            }
+            //传入type参数
+            return mockObject(t) || {};
+          }
+          socket.emit(k, getData());
+        });
+      }
+      for (var j in websocketMockConfig.on) {
+        var value = websocketMockConfig.on[j];
+        socket.on(j, (data, callback) => {
+          var file = path.join(paths.appPublic, value);
+          if (!fs.existsSync(file)) {
+            console.log();
+            console.log(chalk.cyan(file));
+            console.log(chalk.red('mock文件不存在！'));
+            console.log();
+            process.exit(1);
+          }
+          var mockObject = require(file);
+          if (
+            Object.prototype.toString.apply(mockObject) !== '[object Function]'
+          ) {
+            console.log();
+            console.log(chalk.red('mock的js文件必须返回函数！'));
+            console.log();
+            process.exit(1);
+          }
+          var result = mockObject(data) || {};
+          if (websocketMockConfig.log) {
+            console.log();
+            console.log('type: ', chalk.cyan('on'));
+            console.log('mock file path: ', chalk.cyan(file));
+            console.log('params: ', JSON.stringify(result, null, 2));
+            console.log();
+          }
+          callback(result);
+        });
+      }
+    });
+  }
+  //end----websocket mock服务
 }
 
 var isFirstCompile = true;
