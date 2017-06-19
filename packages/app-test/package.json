@@ -1,24 +1,22 @@
 {
   "name": "test",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js start",
-    "build": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js build",
-    "view-locale-to-excel": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js view-locale-to-excel",
-    "vlte": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js view-locale-to-excel",
-    "excel-to-locale-config": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js excel-to-locale-config",
-    "etlc": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js excel-to-locale-config",
-    "create-view": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js create-view",
-    "cv": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js create-view",
-    "route": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js route",
-    "reducer": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js reducer",
-    "cover": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js cover",
-    "use": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js use",
-    "sync": "node ./synchronize.js",
-    "init": "node ./node_modules/react-boilerplate-app-scripts/bin/init.js"
+    "start": "react-boilerplate-app-scripts start",
+    "build": "react-boilerplate-app-scripts build",
+    "view-locale-to-excel": "react-boilerplate-app-scripts view-locale-to-excel",
+    "vlte": "react-boilerplate-app-scripts view-locale-to-excel",
+    "excel-to-locale-config": "react-boilerplate-app-scripts excel-to-locale-config",
+    "etlc": "react-boilerplate-app-scripts excel-to-locale-config",
+    "create-view": "react-boilerplate-app-scripts create-view",
+    "cv": "react-boilerplate-app-scripts create-view",
+    "route": "react-boilerplate-app-scripts route",
+    "reducer": "react-boilerplate-app-scripts reducer",
+    "cover": "react-boilerplate-app-scripts cover",
+    "use": "react-boilerplate-app-scripts use"
   },
   "author": "",
   "license": "ISC",
@@ -61,12 +59,12 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
-    "react-boilerplate-app-scripts": "^0.0.23",
+    "react-boilerplate-app-scripts": "^0.0.24",
     "react-boilerplate-app-utils": "^0.0.10",
     "react-dev-utils": "^0.5.2",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-mobx-boilerplate-js": "^0.0.6",
+    "react-mobx-boilerplate-js": "^0.0.7",
     "react-redux": "^4.4.5",
     "react-redux-boilerplate-js": "^0.0.11",
     "react-router": "^3.0.0",
@@ -106,21 +104,6 @@
     }
   },
   "react-boilerplate-app-scripts": {
-    "websocketMock": {
-      "log": true,
-      "emit": {
-        "reciveMsg": {
-          "type": [
-            "device_alert",
-            "other"
-          ],
-          "url": "/websocket/reciveMsg.js"
-        }
-      },
-      "on": {
-        "confirmMsg": "/websocket/confirmMsg.js"
-      }
-    },
     "language": "zh_CN",
     "feature": {
       "dataFlow": "mobx",
