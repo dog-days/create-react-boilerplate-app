@@ -32,20 +32,14 @@ function t(str) {
   }
   return str;
 }
+
 /*
- * common view locale 装饰器
- */
-function localeDecorator(component) {
-  component.prototype.t = t;
-  return component;
-}
-/*
- * laytou view locale 装饰器
+ * view locale 装饰器
  * @param { string } localePath 国际化文件夹路径，相对于src目录（例如locale传进去就相当于src/locale）
  *                              默认值为locale
  * @this changeLanguage layoutView提供的切换语言Event
  */
-export function localeLayout(localePath = 'locale') {
+export function localeDecorator(localePath = 'locale') {
   return component => {
     component.prototype.t = t;
     @inject('locale')
