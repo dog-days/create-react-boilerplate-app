@@ -13,7 +13,7 @@ import Link from 'react-mobx-boilerplate-js/libs/components/Link';
 import BreadCrumb from 'react-mobx-boilerplate-js/libs/decorator/BreadCrumb';
 //≤BreadCrumb--end
 //≤Locale--begin
-import { localeLayout } from 'react-mobx-boilerplate-js/libs/decorator/Locale';
+import LocaleDecorator from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //≤Locale--end
 
 import logo from 'src/style/img/logo.svg';
@@ -33,7 +33,7 @@ import 'src/style/css/layout-main.css';
 //if you want the i18n function worked,you must use `this.t` to pass the string.
 //You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
 //You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
-@localeLayout()
+@LocaleDecorator()
 //≤Locale--end
 //≤BreadCrumb--begin
 //The decorator provides `this.getBreadCrumbs()`
@@ -114,18 +114,7 @@ class LayoutView extends React.Component {
         }
 //≤BreadCrumb--end
         <div className="main-contents">
-          {
-            //Use cloneElement to pass some props to children.
-            React.cloneElement(this.props.children, {
-//≤Locale--begin
-              //When using internationalization,
-              //locale must be passed to the children's props.
-              //You also can use mobx @inject to pass locale.
-              //But it's not recommended.
-              locale: this.props.locale
-//≤Locale--end
-            })
-          }
+          {this.props.children}
         </div>
       </div>
     );

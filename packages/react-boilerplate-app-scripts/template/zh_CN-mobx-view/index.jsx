@@ -4,7 +4,7 @@ import PageTitle from 'react-mobx-boilerplate-js/libs/decorator/PageTitle';
 import BreadCrumb from 'react-mobx-boilerplate-js/libs/decorator/BreadCrumb';
 //≤BreadCrumb--end
 //≤Locale--begin
-import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
+import LocaleDecorator from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //≤Locale--end
 
 //≤Locale--begin
@@ -13,7 +13,7 @@ import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //如果要保证i18n功能生效必须使用`this.t`传递字符串。
 //你可以使用`npm run view-locale-to-excel`生成默认的excel语言列表.
 //你可以使用`npm run excel-to-locale-config`生成不同的语言的javascirpt数组列表文件（需要读取翻译后的excel）。
-@Locale
+@LocaleDecorator()
 //≤Locale--end
 //≤BreadCrumb--begin
 //`@BreadCrumb` 必须在mobx `@inject`之前,这跟layout view是不一样的。
@@ -38,11 +38,9 @@ class ${pageNameFirstLetter}View extends React.Component {
     return (
       <div>
         <h1>{ this.t('${pageNameFirstLetter}') }</h1>
-        { this.t('To get started, edit src/view/${pageName}/index.jsx.') }
-        <br />
-        {this.t(
-          'When you save the file,it will be updated to the browser automatically.'
-        )}
+        { this.t('开始编写, 编辑src/view/${pageName}/index.jsx.') }
+        <br/>
+        { this.t('保存文件时，将自动更新到浏览器。') }
       </div>
     );
   }

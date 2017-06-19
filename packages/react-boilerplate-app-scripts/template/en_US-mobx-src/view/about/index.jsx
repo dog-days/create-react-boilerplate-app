@@ -4,7 +4,7 @@ import PageTitle from 'react-mobx-boilerplate-js/libs/decorator/PageTitle';
 import BreadCrumb from 'react-mobx-boilerplate-js/libs/decorator/BreadCrumb';
 //≤BreadCrumb--end
 //≤Locale--begin
-import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
+import LocaleDecorator from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //≤Locale--end
 
 //≤Locale--begin
@@ -13,7 +13,7 @@ import Locale from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //if you want the i18n function worked,you must use `this.t` to pass the string.
 //You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
 //You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
-@Locale
+@LocaleDecorator()
 //≤Locale--end
 //≤BreadCrumb--begin
 //BreadCrumb must be placed before redux @connect,it's different from layout view

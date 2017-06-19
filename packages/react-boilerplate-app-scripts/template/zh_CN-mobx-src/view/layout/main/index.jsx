@@ -12,7 +12,7 @@ import Link from 'react-mobx-boilerplate-js/libs/components/Link';
 import BreadCrumb from 'react-mobx-boilerplate-js/libs/decorator/BreadCrumb';
 //≤BreadCrumb--end
 //≤Locale--begin
-import { localeLayout } from 'react-mobx-boilerplate-js/libs/decorator/Locale';
+import LocaleDecorator from 'react-mobx-boilerplate-js/libs/decorator/Locale';
 //≤Locale--end
 
 import logo from 'src/style/img/logo.svg';
@@ -25,7 +25,7 @@ import 'src/style/css/layout-main.css';
 //if you want the i18n function worked,you must use `this.t` to pass the string.
 //You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
 //You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
-@localeLayout()
+@LocaleDecorator()
 //≤Locale--end
 //≤BreadCrumb--begin
 //这个修饰器提供了`this.getBreadCrumbs()`方法。
