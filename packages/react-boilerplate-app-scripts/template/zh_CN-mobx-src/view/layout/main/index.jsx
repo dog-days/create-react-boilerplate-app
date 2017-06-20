@@ -25,7 +25,7 @@ import 'src/style/css/layout-main.css';
 //if you want the i18n function worked,you must use `this.t` to pass the string.
 //You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
 //You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
-@LocaleDecorator()
+@LocaleDecorator('layout')
 //≤Locale--end
 //≤BreadCrumb--begin
 //这个修饰器提供了`this.getBreadCrumbs()`方法。
@@ -105,17 +105,7 @@ class LayoutView extends React.Component {
         }
 //≤BreadCrumb--end
         <div className="main-contents">
-          {
-            //使用cloneElement传递props到子组件.
-            React.cloneElement(this.props.children, {
-//≤Locale--begin
-              //如果使用了i18n功能，必须确保locale从Layout父组件中传递下来。
-              //当然可以通过redux connect传递defaultLocale和changedLocale。
-              //但不推荐。
-              locale: this.props.locale
-//≤Locale--end
-            })
-          }
+          {this.props.children}
         </div>
       </div>
     );

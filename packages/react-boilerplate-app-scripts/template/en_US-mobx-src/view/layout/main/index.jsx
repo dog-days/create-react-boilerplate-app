@@ -33,7 +33,7 @@ import 'src/style/css/layout-main.css';
 //if you want the i18n function worked,you must use `this.t` to pass the string.
 //You can use `npm run view-locale-to-excel` to generate the default language string list of excel.
 //You can use `npm run excel-to-locale-config` to generate the default language javascirpts array list.
-@LocaleDecorator()
+@LocaleDecorator('layout')
 //≤Locale--end
 //≤BreadCrumb--begin
 //The decorator provides `this.getBreadCrumbs()`
