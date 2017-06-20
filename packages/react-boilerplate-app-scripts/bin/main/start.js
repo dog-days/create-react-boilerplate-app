@@ -116,6 +116,13 @@ function runDevServer(host, port) {
     //packageJson中的proxy只能是字符串，无法使用函数
     proxy: proxy || cwdPackageJsonConfig.proxy || {},
   });
+  //设置跨域访问
+  devServer.app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', req.get('origin'));
+    res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+  });
   // 启动WebpackDevServer.
   var server = devServer.listen(port, err => {
     if (err) {
@@ -128,45 +135,54 @@ function runDevServer(host, port) {
     var websocketMockConfig = cwdPackageJsonConfig.websocketMock;
     const socketIo = require('socket.io');
     const io = socketIo(server);
+    io.on('error', function(err) {
+      console.log(err);
+    });
     io.on('connection', socket => {
-      for (var k in websocketMockConfig.emit) {
-        var v = websocketMockConfig.emit[k];
-        v.type.forEach(t => {
-          function getData() {
-            var file = path.join(paths.appPublic, v.url);
-            if (!fs.existsSync(file)) {
-              console.log();
-              console.log(chalk.cyan(file));
-              console.log(chalk.red('mock文件不存在！'));
-              process.exit(1);
-              console.log();
-            }
-            var mockObject = require(file);
-            if (
-              Object.prototype.toString.apply(mockObject) !==
-              '[object Function]'
-            ) {
-              console.log();
-              console.log(chalk.red('mock的js文件必须返回函数！'));
-              process.exit(1);
-              console.log();
-            }
-            if (websocketMockConfig.log) {
-              console.log();
-              console.log('type: ', chalk.cyan('emit'));
-              console.log('mock file path: ', chalk.cyan(file));
-              console.log();
-            }
-            //传入type参数
-            return mockObject(t) || {};
+      try {
+        var mockObject, file;
+        for (var k in websocketMockConfig.emit) {
+          var v = websocketMockConfig.emit[k];
+          file = path.join(paths.appPublic, v.url);
+          if (!fs.existsSync(file)) {
+            console.log();
+            console.log(chalk.cyan(file));
+            console.log(chalk.red('mock文件不存在！'));
+            process.exit(1);
+            console.log();
           }
-          socket.emit(k, getData());
-        });
-      }
-      for (var j in websocketMockConfig.on) {
-        var value = websocketMockConfig.on[j];
-        socket.on(j, (data, callback) => {
-          var file = path.join(paths.appPublic, value);
+          mockObject = require(file);
+          v.type.forEach(t => {
+            function getData() {
+              if (
+                Object.prototype.toString.apply(mockObject) !==
+                '[object Function]'
+              ) {
+                console.log();
+                console.log(chalk.red('mock的js文件必须返回函数！'));
+                process.exit(1);
+                console.log();
+              }
+              if (websocketMockConfig.log) {
+                console.log();
+                console.log('type: ', chalk.cyan('emit'));
+                console.log('mock file path: ', chalk.cyan(file));
+                console.log();
+              }
+              //传入type参数
+              return mockObject(t) || {};
+            }
+            try {
+              var data = getData();
+              socket.emit(k, data);
+            } catch (e) {
+              console.log(e);
+            }
+          });
+        }
+        for (var j in websocketMockConfig.on) {
+          var value = websocketMockConfig.on[j];
+          file = path.join(paths.appPublic, value);
           if (!fs.existsSync(file)) {
             console.log();
             console.log(chalk.cyan(file));
@@ -174,25 +190,29 @@ function runDevServer(host, port) {
             console.log();
             process.exit(1);
           }
-          var mockObject = require(file);
-          if (
-            Object.prototype.toString.apply(mockObject) !== '[object Function]'
-          ) {
-            console.log();
-            console.log(chalk.red('mock的js文件必须返回函数！'));
-            console.log();
-            process.exit(1);
-          }
-          var result = mockObject(data) || {};
-          if (websocketMockConfig.log) {
-            console.log();
-            console.log('type: ', chalk.cyan('on'));
-            console.log('mock file path: ', chalk.cyan(file));
-            console.log('params: ', JSON.stringify(result, null, 2));
-            console.log();
-          }
-          callback(result);
-        });
+          mockObject = require(file);
+          socket.on(j, (data, callback) => {
+            if (
+              Object.prototype.toString.apply(mockObject) !==
+              '[object Function]'
+            ) {
+              console.log();
+              console.log(chalk.red('mock的js文件必须返回函数！'));
+              console.log();
+              process.exit(1);
+            }
+            var result = mockObject(data) || {};
+            if (websocketMockConfig.log) {
+              console.log();
+              console.log('type: ', chalk.cyan('on'));
+              console.log('mock file path: ', chalk.cyan(file));
+              console.log('params: ', JSON.stringify(result, null, 2));
+            }
+            callback(result);
+          });
+        }
+      } catch (e) {
+        console.log(e);
       }
     });
   }

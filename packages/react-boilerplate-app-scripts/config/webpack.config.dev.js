@@ -111,7 +111,7 @@ var config = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: '/static/media/[name].[hash].[ext]',
+          name: 'static/media/[name].[hash].[ext]',
         },
       },
       {
