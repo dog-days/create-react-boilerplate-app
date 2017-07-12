@@ -1,5 +1,7 @@
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import { observer, inject } from 'mobx-react';
+import PureRenderWidthLodash from './PureRenderWithLodash';
 
 //中转作用
 var __r2Locale__;
@@ -39,21 +41,20 @@ function t(str) {
  *                              默认值为locale
  * @this changeLanguage layoutView提供的切换语言Event
  */
-export function localeDecorator(localePath = 'locale') {
+export function localeDecorator(type = 'view', localePath = 'locale') {
   return component => {
     component.prototype.t = t;
     @inject('locale')
     @observer
-    class ViewComponent extends component {
+    class ViewComponent extends React.Component {
       static displayName = component.displayName || component.name;
 
-      state = {};
-
       componentDidMount() {
-        super.componentDidMount && super.componentDidMount();
-        //使用记住的语言列表
-        if (localStorage.currentLanguage) {
-          this.changeLanguage(localStorage.currentLanguage)();
+        if (type === 'layout') {
+          //使用记住的语言列表
+          if (localStorage.currentLanguage) {
+            this.changeLanguage(localStorage.currentLanguage)();
+          }
         }
       }
       /**
@@ -74,17 +75,15 @@ export function localeDecorator(localePath = 'locale') {
       }
 
       render() {
-        if (!this.props.locale) {
-          console.error(
-            'You must use @inject("locale") to pass this.props.locale'
-          );
-          return false;
+        if (type === 'layout') {
+          //等待语言列表载入后才渲染
+          if (localStorage.currentLanguage && !this.props.locale.canRender) {
+            return false;
+          }
+          component.prototype.changeLanguage = this.changeLanguage.bind(this);
         }
-        //等待语言列表载入后才渲染
-        if (localStorage.currentLanguage && !this.props.locale.canRender) {
-          return false;
-        }
-        return super.render();
+        var ComponentProvider = observer(component);
+        return <ComponentProvider {...this.props} />;
       }
     }
     return ViewComponent;

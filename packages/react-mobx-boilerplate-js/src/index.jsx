@@ -36,8 +36,8 @@ function app(routes, stores, defaultLocale, domContainer) {
         beforCallback && beforCallback();
         //语言切换后，使用localStorage记住，网页重新载入时选择记住的语言
         localStorage.currentLanguage = language;
-        var path = localePath + '/' + language;
-        import(`src/${path}`).then(locale => {
+        //var path = localePath + '/' + language;
+        import(`src/locale/${language}`).then(locale => {
           this.setChangedLocage(locale.default);
           this.setCanRender(true);
           afterCallback && afterCallback();
