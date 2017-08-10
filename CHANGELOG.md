@@ -1,3 +1,17 @@
+## 0.0.11(2017-06-02)
+
+#### Bug Fix
+
+#### Update
+
+#### New Function
+
+- redux and mobx select function.
+
+#### Documentation
+
+- Improve the README.md
+
 ## 0.0.9(2017-05-31)
 
 #### Bug Fix

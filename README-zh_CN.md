@@ -1,6 +1,6 @@
 # Create React Boilerplate App 
 
-使用redux和反应路由器样板创建React应用程序（没有配置或更少的配置）。
+使用react-route和数据流管理类库（redux或者mbox）样板创建React应用程序（没有配置或更少的配置）。
 
 创建React应用程序适用于MacOS，Windows和Linux。
 
@@ -11,19 +11,33 @@ React样板基于 [React@15.5.4](https://facebook.github.io/react/)，[Redux@3.5
 ## 为什么使用这个
 
 - 没有webpack配置。
-- 没有路由配置，路由自动生成命令。
-- 可选的redux或mobx配置。
+- 路由半自动生成。
+- 配置可覆盖功能，webpack配置，server启动服务配置等。
+- React，Redux，React-Router，JSX，ES6和ES7装饰器语法支持。
+- 可选的redux或mobx配置（减少非必要的配置）。
 - 页面简单模块生成。
-- 可选的less-loader。
+- 可选的less-loader。 
 - 可选的sass-loader。
 - 可选的Immutable.js。
-- 可选的package.json配置，如代理和proxy和historyApiFallback（用于mock服务）。
-- 配置可覆盖功能。
-- React，Redux，React-Router，JSX，ES6和ES7装饰器语法支持。
+- 可选的package.json配置，如代理和proxp、http mock服务和websocket mock服务。
 - 可选面包屑功能。
 - 可选i18n功能。
-- 开发模拟服务
-- 开发代理服务
+- 开发模拟服务。
+- 开发代理服务。
+
+## 概念
+
+- **无需配置**
+
+  React Boilerplate应用程序可以无需配置。 开发和生产构建的合理配置已为您处理，所以您可以专注于编写代码。当然也可以自定义配置（覆盖配置）。
+
+- **package.json 配置**
+
+  package.json配置是可选的，但是是方便的。
+
+- **配置覆盖**
+
+  我们可以自定义所有的配置文件。例如，您可以只覆盖webpack.config.dev.js。
 
 ## 文档
 
@@ -99,13 +113,13 @@ cd my-app
 
 `create-react-boilerplate-app xxx [options]`
 
-| 简写   | 选项           | 说明                    |
-| ---- | ------------ | --------------------- |
-| -h   | --help       | 输出帮助消息信息              |
-| -D   | --data-flow  | 使用数据流管理类库（redux或mobx） |
-| -a   | --all        | 创建具有所有功能的视图           |
-| -i   | --i18n       | 创建具有多语言的视图（i18n）      |
-| -b   | --breadcrumb | 创建具有面包屑功能的视图          |
+| 简写   | 选项           | 说明                        |
+| ---- | ------------ | ------------------------- |
+| -h   | --help       | 输出帮助消息信息                  |
+| -D   | --data-flow  | **使用数据流管理类库（redux或mobx）** |
+| -a   | --all        | 创建具有所有功能的视图               |
+| -i   | --i18n       | 创建具有多语言的视图（i18n）          |
+| -b   | --breadcrumb | 创建具有面包屑功能的视图              |
 
 它将在当前文件夹中创建一个名为my-app的目录。
 
@@ -170,7 +184,7 @@ export default {
   //默认主页设置
   indexRoute: require('src/view/index/_route.js').default,
   //子路由组件，即view组件
-  childRoutes: require('./.child_routes.js').default,
+  childRoutes: require('./.child_routes.js').default
 }
 ```
 
@@ -266,7 +280,7 @@ yarn 命令可以省略`run`关键字。
 
 `npm run build` can be `yarn build`.
 
-#### npm || yarn start
+#### npm start
 
 在开发模式下运行应用程序。
 
@@ -276,54 +290,45 @@ yarn 命令可以省略`run`关键字。
 
 您将在终端和浏览器控制台中看到构建成功或错误信息和lint警告信息。
 
-#### npm || yarn run create-view(cv for short) 
+#### npm run create-view（简写cv） 
 
 在view文件夹中生成一个新的页面视图模板。
 
-options is same as `create-react-boilerplate-app xxxx [options]`.
-
-| short | option       | explain          |
-| ----- | ------------ | ---------------- |
-| -h    | --help       | 输出帮助消息信息         |
-| -a    | --all        | 创建具有所有功能的视图      |
-| -i    | --i18n       | 创建具有多语言的视图（i18n） |
-| -b    | --breadcrumb | 创建具有面包屑功能的视图     |
-
-#### npm || yarn run route
+#### npm run route
 
 基于_route.js文件创建路由。
 
 `npm run route -- -w` 是监控生成模式.
 
-#### npm || reducer
+#### npm run reducer
 
-基于reducer.js文件创建redux reducers（绑定reducer）。
+基于reducer.js文件创建redux reducers（绑定reducer），这个命令需要在创建app时，--data-flow=redux，才会有这个命令。是针对redux来使用的。
 
 `npm run reducer -- -w` 是监控生成模式.
 
-#### npm || yarn run view-locale-to-excel(vlte for short)
+#### npm run view-locale-to-excel（简写vlte）
 
-通过读取src文件夹中的文件来创建i18n excel（通过this.t（“xx”）匹配出xx字符传）。
+通过读取src文件夹中的文件来创建i18n excel（通过this.t（“xx”）匹配出xx字符传）。如果不使用国际化功能，这个命令就没有意义了。
 
-#### npm || yarn run excel-to-locale-config(etlc for short)
+#### npm run excel-to-locale-config（简写etlc）
 
-该命令基于 `npm run view-to-locale-excel` 运行后生成的excel文件。
+该命令基于 `npm run view-to-locale-excel` 运行后生成的excel文件。该命令通过读取翻译后的excel，生成xx.js（如en_US.js）。
 
-生成xx.js（如en_US.js）通过读取翻译后的excel.
+如果不使用国际化功能，这个命令就没有意义了。
 
-#### npm || yarn run use `<feature-name`>
+#### npm run use `<feature-name`>
 
 使用less，sass和immutable.js等功能。
 
 运行`npm run use -- -l`来查看可用的功能列表。
 
-#### npm || yarn run cover `<file-name`>
+#### npm run cover `<file-name`>
 
 覆盖配置文件，如webpack.config.dev.js。
 
 运行 `npm run cover -- -l` 来查看可以覆盖的文件列表。
 
-#### npm || yarn run build
+#### npm run build
 
 构建生产应用程序到`build`文件夹。
 
@@ -372,6 +377,8 @@ npm run use immutable
 ### package.json之react-boilerplate-app-scripts配置
 
 在创建新的app项目中，package.json会有`react-boilerplate-app-scripts`默认配置。
+
+**每次修改配置，都需要重启服务，才会生效。**
 
 ```json
 ...
@@ -435,7 +442,30 @@ npm run use immutable
 
 - historyApiFallback
 
-  请参考后续的**Mock**，默认值为undefined，这个功能或许比较常用。
+  想要更多的配置，我们可以通过运行 `yarn || npm run cover historyApiFallback.js`来创建`config/historyApiFallback.js`或手动创建文件。
+
+  其中`rewrites`与webpack-dev-server的有点不同（package.json只能用字符串），它将被转换成下面的代码。
+
+  ```js
+  rewrites: [
+    {
+      from: new RegExp("/api/(.*)"),
+      to: function(context) {
+        return '/mock/' + context.match[1] + '.json';
+      }
+    }
+  ]
+  ```
+
+  请参考webpack-dev-server中historyApiFallback.js的用法。
+
+- mock
+
+  http mock服务，请参考后面的**Http Mock**说明。
+
+- websocketMock
+
+  websocket mock服务，请参考后面的**wbsocketMock**说明。
 
 - prefixURL
 
@@ -490,7 +520,7 @@ npm run use immutable
 
 - historyApiFallback.js
 
-  请参考后面的`Mock`功能。
+  请参考webpack-dev-server中historyApiFallback.js的用法。
 
 我们可以运行 `npm run cover -- -l` 来查看可以覆盖的文件列表。
 
@@ -501,51 +531,62 @@ npm run cover <file-name>
 #yarn cover <file-name>
 ````
 
-### Mock（模拟）
+### HTTP Mock（模拟）
 
-Mock是基于webpack-dev-server historyApiFallback的。例如，有一个api链接http://www.github.com/api/test。但是在一开始，链接是无效的。我们希望它被模拟在`./public/mock`文件夹中。我们可以使用下面的package.json中的配置。
-
-`public`文件夹是默认设置的webpack-dev-server静态资源访问目录。
+例如，有一个api链接http://www.github.com/api/test。但是在一开始，链接是无效的。我们希望它被模拟在`./public/mock`文件夹中。我们可以使用下面的package.json中的配置，可以使用正则表达式，正则是使用javascript的match方法来匹配的，可以使用$x，例如$1，来代表匹配后的内容。可以看下下面的例子。
 
 ```json
 {
   "name": "app",
   "version": "0.0.1",
-  "react-boilerplate-app-scripts": {
-    "historyApiFallback": {
-      "rewrites": [
-        {
-          "from": "/api/(.*)",
-          "to": "/mock/$1.json"
-        }
-      ]
-    }
-  }
+  "mock": {
+    "/api/(.*)": "/mock/$1.json"
+  },
+}
+//或者
+{
+  "name": "app",
+  "version": "0.0.1",
+  "mock": {
+    "/api/(.*)": "/mock/$1.json|200"
+  },
 }
 ```
 
+**上面中`.jsons|200`中的数字是模拟返回码的，默认是200，如果要模拟其他的返回码，可以这样处理。**每次修改配置，都需要重启服务，才会生效。
+
+`public`文件夹是默认设置的webpack-dev-server静态资源访问目录。
+
 在`./public/mock`文件夹中创建一个test.json文件。
 
-开发环境启动后，您可以访问`http:// localhost:8888/api/test.js`来获取api json内容。
+开发环境启动后，您可以访问`http://localhost:8888/api/test.js`来获取api的json内容。
 
-`rewrites`与webpack-dev-server的有点不同（package.json只能用字符串），它将被转换成下面的代码。
+### Websocket Mock 
+
+
 
 ```js
-rewrites: [
-  {
-    from: new RegExp("/api/(.*)"),
-    to: function(context) {
-      return '/mock/' + context.match[1] + '.json';
+"websocketMock": {
+  "log": true,
+  "emit": {
+    "reciveMsg": {
+      "type": [
+        "device_alert",
+        "other"
+      ],
+      "url": "/websocket/reciveMsg.js"
     }
+  },
+  "on": {
+     "confirmMsg": "/websocket/confirmMsg.js"
   }
-]
+}
+
 ```
 
-想要更多的配置，我们可以通过运行 `yarn || npm run cover historyApiFallback.js`来创建`config/historyApiFallback.js`或手动创建文件。
 
-格式与webpack-dev-server [historyApiFallback](https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback)相同。
 
-请参考 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback#rewrites).
+
 
 ### Proxy（代理）
 
@@ -569,24 +610,9 @@ rewrites: [
 
 开发环境启动之后，您可以访问`http://localhost:8888/api/test.js`来获取api json内容。
 
-想要更多的配置，我们可以通过运行 `yarn || npm run cover proxy.js`来创建`config/proxy.js`或手动创建文件。
+想要更多的配置，我们可以通过运行 `npm run cover proxy.js`来创建`config/proxy.js`或手动创建文件。
 
 格式与webpack-dev-server  [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy)相同。
-
-## 概念
-
-- **无需配置**
-
-  React Boilerplate应用程序可以无需配置。 开发和生产构建的合理配置已为您处理，所以您可以专注于编写代码。
-
-- **Package.json 配置**
-
-  package.json配置是可选的，但是是方便的。
-
-- **配置覆盖**
-
-  我们可以自定义所有的配置文件。例如，您可以只覆盖webpack.config.dev.js。
-
 
 
 

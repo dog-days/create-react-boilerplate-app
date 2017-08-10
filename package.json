@@ -1,4 +1,5 @@
 {
+  "private": true,
   "devDependencies": {
     "eslint": "^3.19.0",
     "husky": "^0.13.3",
@@ -9,13 +10,13 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "publish": "lerna publish",
-    "prettier": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*(*.js|*.jsx)' 'packages/*/!(node_modules|build)/**/!(tpl|*-view)/*(*.js|*.jsx)'",
+    "prettier": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*(*.js|*.jsx)' 'packages/*/!(node_modules|build|template)/**/!(tpl)/*(*.js|*.jsx)'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.js": [
       "eslint -c ./.create-react-boiler-app-eslintrc --no-eslintrc",
-      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*(*.js|*.jsx)' 'packages/*/!(node_modules|build)/**/!(tpl|*-view)/*(*.js|*.jsx)'",
+      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*(*.js|*.jsx)' 'packages/*/!(node_modules|build|template)/**/!(tpl)/*(*.js|*.jsx)'",
       "git add"
     ]
   }

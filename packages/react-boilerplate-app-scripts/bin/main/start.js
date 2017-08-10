@@ -116,7 +116,7 @@ function runDevServer(host, port) {
     //packageJson中的proxy只能是字符串，无法使用函数
     proxy: proxy || cwdPackageJsonConfig.proxy || {},
   });
-  //设置跨域访问
+  //设置跨域访问，配合mock服务使用
   devServer.app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', req.get('origin'));
     res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');

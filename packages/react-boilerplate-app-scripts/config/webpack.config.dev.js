@@ -124,7 +124,7 @@ var config = {
       {
         //匹配.js或.jsx后缀名的文件
         test: /\.js[x]?$/,
-        loader: 'babel-loader',
+        loader: 'babel-loader?cacheDirectory',
         include: paths.src,
       },
     ],
