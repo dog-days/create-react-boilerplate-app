@@ -1,3 +1,4 @@
+'use strict';
 const path = require('path');
 const chalk = require('chalk');
 const fs = require('fs-extra');
@@ -7,6 +8,28 @@ const spawn = require('cross-spawn');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
+  /**
+ * react-router pathname适配
+ * 例如url=test或者test/或者/test/会适配为/test
+ */
+  pathnameAdapter(pathname) {
+    if (!pathname) {
+      return;
+    }
+    if (Object.prototype.toString.apply(pathname) !== '[object String]') {
+      console.error('请传入字符串！');
+      return;
+    }
+    //pathname第一个字符必须是'/'
+    if (pathname[0] !== '/') {
+      pathname = '/' + pathname;
+    }
+    //pathname最后一个字符不能是'/'
+    if (pathname[pathname.length - 1] === '/') {
+      pathname = pathname.slice(0, pathname.length - 1);
+    }
+    return pathname;
+  },
   resolveCwd(relativePath) {
     return path.resolve(process.cwd(), relativePath);
   },
@@ -146,18 +169,11 @@ module.exports = {
     }
     //prefix url 兼容适配处理
     if (config.prefixURL) {
-      var prefixUrl = config.prefixURL;
-      var prefixUrlLength = prefixUrl.length;
-      if (prefixUrl[prefixUrlLength - 1] !== '/') {
-        prefixUrl = prefixUrl + '/';
-      } else if (prefixUrl === '/') {
-        prefixUrl = '';
-      } else if (prefixUrl && prefixUrl[0] === '/' && prefixUrl !== '/') {
-        prefixUrl = prefixUrl.slice(1, prefixUrlLength);
-      }
-      config.prefixURL = prefixUrl;
-    } else {
-      config.prefixURL = '';
+      config.prefixURL = this.pathnameAdapter(config.prefixURL);
+    }
+    //prefixURL改名为basename，兼容适配处理
+    if (config.basename) {
+      config.basename = this.pathnameAdapter(config.basename);
     }
     return config;
   },
@@ -264,7 +280,7 @@ module.exports = {
    */
   historyApiFallbackRewiriteAdapter(rewriteConfig) {
     var rules = [];
-    rewriteConfig.forEach((v, k) => {
+    rewriteConfig.forEach(v => {
       rules.push({
         from: new RegExp(v.from),
         to: function(context) {
@@ -302,7 +318,7 @@ module.exports = {
   readdirSync(dirPath) {
     var files = fs.readdirSync(dirPath);
     //过滤苹果系统无用的文件
-    files = files.filter((v, k) => {
+    files = files.filter(v => {
       if (v === '.DS_Store') {
         return;
       }
