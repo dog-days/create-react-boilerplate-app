@@ -69,7 +69,7 @@
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
     "progress-bar-webpack-plugin": "^1.9.3",
-    "react-boilerplate-app-utils": "^0.0.10",
+    "react-boilerplate-app-utils": "^0.0.11",
     "react-dev-utils": "^0.5.2",
     "react-hot-loader": "3.0.0-beta.6",
     "relative": "^3.0.2",
@@ -89,7 +89,7 @@
     "react-dom": "^15.5.4",
     "react-mobx-boilerplate-js": "^0.0.9",
     "react-redux": "^4.4.5",
-    "react-redux-boilerplate-js": "^0.0.11",
+    "react-redux-boilerplate-js": "^0.0.12",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
@@ -97,7 +97,6 @@
     "redux-thunk": "^1.0.3",
     "whatwg-fetch": "^2.0.3"
   },
-  "peerDependencies": {},
   "react-boilerplate-app-scripts": {
     "prefixURL": "/test",
     "feature": {
