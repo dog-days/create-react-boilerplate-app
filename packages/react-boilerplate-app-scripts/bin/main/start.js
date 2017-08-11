@@ -248,7 +248,7 @@ compiler.plugin('done', function(stats) {
     );
     console.log();
     isFirstCompile = false;
-    openBrowser(`http://${host}:${port}/${cwdPackageJsonConfig.prefixURL}`);
+    openBrowser(`http://${host}:${port}${cwdPackageJsonConfig.prefixURL}`);
   }
 
   // 展示错误信息
