@@ -98,7 +98,6 @@
     "whatwg-fetch": "^2.0.3"
   },
   "react-boilerplate-app-scripts": {
-    "prefixURL": "/test",
     "feature": {
       "dataFlow": "mobx",
       "all": true,

@@ -154,6 +154,8 @@ module.exports = {
         appLocalePath: '${src}/locale',
         //app 入口html文件名，在上面appPublicPath的文件夹下。
         index: 'index.html',
+        prefixURL: '',
+        basename: '',
       },
       config
     );
