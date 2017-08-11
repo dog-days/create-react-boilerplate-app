@@ -1,6 +1,6 @@
 {
   "name": "create-react-boilerplate-app",
-  "version": "0.0.12",
+  "version": "0.0.11",
   "description": "an tool for creating react boilerplate app",
   "engines": {
     "node": ">=5"
