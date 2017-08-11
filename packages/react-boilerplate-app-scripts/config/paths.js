@@ -1,3 +1,4 @@
+'use strict';
 const path = require('path');
 const util = require('react-boilerplate-app-utils');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
@@ -24,11 +25,7 @@ var paths = {
     cwdPackageJsonConfig.index
   ),
   //程序打包目录，根据prefixURL变化
-  appBuild: path.resolve(
-    process.cwd(),
-    'build',
-    cwdPackageJsonConfig.prefixURL
-  ),
+  appBuild: path.join(process.cwd(), 'build', cwdPackageJsonConfig.prefixURL),
   //app 程序目录
   src: path.resolve(cwdPackageJsonConfig.appSrcPath),
 };

@@ -1,6 +1,6 @@
 {
   "name": "react-boilerplate-app-scripts",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "react-boilerplate-app-scripts",
   "repository": {
     "type": "git",
@@ -99,6 +99,7 @@
   },
   "peerDependencies": {},
   "react-boilerplate-app-scripts": {
+    "prefixURL": "/test",
     "feature": {
       "dataFlow": "mobx",
       "all": true,
