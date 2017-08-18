@@ -14,7 +14,7 @@ require('whatwg-fetch');
 // It will use the native implementation if it's present and isn't buggy.
 Object.assign = require('object.assign');
 Object.keys = Object.keys || Object.keys.shim;
-//兼容父类构造器不允许问题
+//兼容父类构造器不运行问题
 (function() {
   var testObject = {};
   if (!(Object.setPrototypeOf || testObject.__proto__)) {
