@@ -176,6 +176,7 @@ module.exports = {
     //prefixURL改名为basename，兼容适配处理
     if (config.basename) {
       config.basename = this.pathnameAdapter(config.basename);
+      config.prefixURL = config.basename;
     }
     return config;
   },
