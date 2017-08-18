@@ -1,3 +1,17 @@
+## 0.0.29(2017-08-18)
+
+#### Bug Fix
+
+- fix prefixURL问题
+
+#### Update
+
+无
+
+#### New Function
+
+无
+
 ## 0.0.27(2017-08-11)
 
 #### Bug Fix
@@ -9,3 +23,5 @@
 - package.json配置新增basename，同prefixURL（将遗弃）。
 
 #### New Function
+
+无
