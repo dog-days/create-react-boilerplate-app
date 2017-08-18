@@ -60,7 +60,8 @@ var config = {
     //内存和打包静态文件访问目录，以index.html为准,最好以斜杠/结尾，要不有意想不到的bug
     //因为有些网站访问web app不是在根目录，可能是根目录中的的文件夹，prefixURL是用来设置这种情况的
     //例如`/demo`，访问网站根目录demo文件中的web app
-    publicPath: `${cwdPackageJsonConfig.prefixURL}/` || '/',
+    publicPath: `${cwdPackageJsonConfig.prefixURL || cwdPackageJsonConfig.basename}/` ||
+      '/',
     //定义require.ensure文件名
     chunkFilename: 'static/js/[name]-[id]-[chunkHash].chunk.js',
     libraryTarget: 'var',
@@ -131,6 +132,7 @@ var config = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
+      basename: cwdPackageJsonConfig.prefixURL || cwdPackageJsonConfig.basename,
       inject: true,
       template: paths.appHtml,
       minify: {
@@ -148,6 +150,7 @@ var config = {
     }),
     new webpack.DefinePlugin({
       'process.env.PREFIX_URL': JSON.stringify(cwdPackageJsonConfig.prefixURL),
+      'process.env.basename': JSON.stringify(cwdPackageJsonConfig.basename),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.useImmutable': JSON.stringify(useImmutable),
     }),

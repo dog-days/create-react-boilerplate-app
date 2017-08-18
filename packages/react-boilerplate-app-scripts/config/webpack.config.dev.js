@@ -22,6 +22,8 @@ const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
 
+console.log(cwdPackageJsonConfig);
+
 const postcssLoaderConfig = {
   loader: 'postcss-loader',
   options: {
@@ -145,8 +147,8 @@ var config = {
     }),
     new webpack.DefinePlugin({
       'process.env.PREFIX_URL': JSON.stringify(cwdPackageJsonConfig.prefixURL),
+      'process.env.basename': JSON.stringify(cwdPackageJsonConfig.basename),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      useImmutable: JSON.stringify(useImmutable),
       'process.env.useImmutable': JSON.stringify(useImmutable),
     }),
     new webpack.HotModuleReplacementPlugin(),
