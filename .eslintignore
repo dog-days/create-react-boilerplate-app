@@ -1,6 +1,4 @@
 node_modules/
 build
 packages/app-test/
-packages/react-redux-boilerplate-js/
-packages/react-mobx-boilerplate-js/
 packages/react-boilerplate-app-scripts/template/
