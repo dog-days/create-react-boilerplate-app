@@ -57,14 +57,14 @@ class init extends Basic {
   //scripts.json的结构跟package.json的scripts一致。
   getScriptsJson() {
     var boilerplate = this.program.boilerplate;
-    var boilerplateJsonPath = path.resolve(
+    var scriptsJsonPath = path.resolve(
       __dirname,
       '../../template',
       boilerplate,
       'scripts.json'
     );
-    var boilerplateJson = fs.readJsonSync(boilerplateJsonPath);
-    return boilerplateJson;
+    var scriptsJson = fs.readJsonSync(scriptsJsonPath);
+    return scriptsJson;
   }
   //成功初始化后，重新写入scirpts
   writePackageJson() {

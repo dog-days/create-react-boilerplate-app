@@ -20,13 +20,11 @@ class CreateApp {
       devDependencies: {},
     };
     this.dependencies = ['react', 'react-dom', 'prop-types'];
-    this.dependencies = Object.assign(
-      this.dependencies,
+    this.dependencies = this.dependencies.concat(
       boilerplateJson.dependencies || []
     );
     this.devDependencies = ['react-boilerplate-app-scripts'];
-    this.devDependencies = Object.assign(
-      this.devDependencies,
+    this.devDependencies = this.devDependencies.concat(
       boilerplateJson.devDependencies || []
     );
     this.allDependencies = []
@@ -177,8 +175,12 @@ class CreateApp {
     console.log();
     this.writeInitialPackageJson();
     util.installPackages(this.allDependencies).then(() => {
-      this.writeResultPackageJson();
-      this.initApp();
+      try {
+        this.writeResultPackageJson();
+        this.initApp();
+      } catch (e) {
+        console.log(e);
+      }
     });
   }
 }
