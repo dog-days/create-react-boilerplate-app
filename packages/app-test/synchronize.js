@@ -6,16 +6,6 @@ var cwdPackageJson = fs.readJsonSync(path.resolve(__dirname, 'package.json'));
 var scriptsPackageJson = fs.readJsonSync(
   path.resolve('../react-boilerplate-app-scripts', 'package.json')
 );
-var jsPackageJson = fs.readJsonSync(
-  path.resolve('../react-redux-boilerplate-js', 'package.json')
-);
-
-for (var k in jsPackageJson.dependencies) {
-  cwdPackageJson.dependencies[k] = jsPackageJson.dependencies[k];
-}
-for (var k in jsPackageJson.devDependencies) {
-  cwdPackageJson.dependencies[k] = jsPackageJson.devDependencies[k];
-}
 for (var k in scriptsPackageJson.dependencies) {
   cwdPackageJson.dependencies[k] = scriptsPackageJson.dependencies[k];
 }

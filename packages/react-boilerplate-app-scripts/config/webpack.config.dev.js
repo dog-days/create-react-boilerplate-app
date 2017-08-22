@@ -22,8 +22,6 @@ const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
 
-console.log(cwdPackageJsonConfig);
-
 const postcssLoaderConfig = {
   loader: 'postcss-loader',
   options: {

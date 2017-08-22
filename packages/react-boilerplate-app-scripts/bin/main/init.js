@@ -5,8 +5,6 @@ const chalk = require('chalk');
 const commander = require('commander');
 const util = require('react-boilerplate-app-utils');
 const Basic = require('./Basic.js');
-const saveFilesByCustomContens = require('./decorator/SaveFilesByCustomContens');
-const FindFilesPathByDir = require('react-boilerplate-app-utils/FindFilesPathByDir');
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
 class init extends Basic {
@@ -30,21 +28,10 @@ class init extends Basic {
 
   getCommander() {
     var program = commander
-      //--xx-xx类型，缩写使用大写
-      .option('-D, --data-flow [flow]', 'use redux or mobx')
-      //--xx类型，缩写使用小写
-      .option('-a, --all', 'create view with all features')
-      .option('-i, --i18n', 'create view with locale feature(i18n)')
-      .option('-b, --breadcrumb', 'create view with breadcrumb feature')
+      .option('-b, --boilerplate [boilerplate]', 'boilerplate name')
       .parse(process.argv);
-    if (!program.dataFlow) {
-      program.dataFlow = 'redux';
-    }
-    //判断数据流管理类库是否合法
-    var flow = ['redux', 'mobx'];
-    if (flow.indexOf(program.dataFlow) === -1) {
-      console.error(chalk.red('--data-flow should be redux or mobx!'));
-      process.exit(1);
+    if (!program.boilerplate) {
+      program.boilerplate = 'mvc-react';
     }
     return program;
   }
@@ -66,11 +53,30 @@ class init extends Basic {
       console.error(e);
     }
   }
+  //获取当前模板的scripts.json文件信息，用于生产app的package.json的scripts信息
+  //scripts.json的结构跟package.json的scripts一致。
+  getScriptsJson() {
+    var boilerplate = this.program.boilerplate;
+    var boilerplateJsonPath = path.resolve(
+      __dirname,
+      '../../template',
+      boilerplate,
+      'scripts.json'
+    );
+    var boilerplateJson = fs.readJsonSync(boilerplateJsonPath);
+    return boilerplateJson;
+  }
   //成功初始化后，重新写入scirpts
   writePackageJson() {
+    var scriptsJson = {};
+    try {
+      scriptsJson = this.getScriptsJson();
+    } catch (e) {
+      console.log();
+    }
     var pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
     var packageJson = fs.readJsonSync(pacakgeJsonPath);
-    //适配scirpts
+    //适配scirpts，针对当前项目的package.json中的scripts，去除部分信息
     packageJson.scripts = {};
     for (var k in this.packageJson['scripts']) {
       if (k != 'init') {
@@ -84,49 +90,16 @@ class init extends Basic {
         }
       }
     }
+    //绑定boilerplate中的scripts
+    packageJson.scripts = Object.assign(packageJson.scripts, scriptsJson);
     packageJson.babel = this.packageJson.babel;
-    packageJson[scriptsPackagename] = {};
-    var zh_CN = util.getZHCN();
-    if (zh_CN) {
-      packageJson[scriptsPackagename].language = zh_CN;
-    } else {
-      packageJson[scriptsPackagename].language = 'en_US';
-    }
-    packageJson.eslintConfig = this.packageJson.eslintConfig;
-    let { i18n, breadcrumb, all, dataFlow } = this.program;
-    packageJson[scriptsPackagename].feature = {
-      dataFlow: dataFlow,
+    packageJson[scriptsPackagename] = {
+      historyApiFallback: {
+        verbose: true,
+      },
     };
-    if (all) {
-      packageJson[scriptsPackagename].feature.all = all;
-    } else {
-      if (i18n) {
-        packageJson[scriptsPackagename].feature.i18n = i18n;
-      }
-      if (breadcrumb) {
-        packageJson[scriptsPackagename].feature.breadcrumb = breadcrumb;
-      }
-    }
+    packageJson.eslintConfig = this.packageJson.eslintConfig;
     fs.writeFileSync(pacakgeJsonPath, JSON.stringify(packageJson, null, 2));
-  }
-  /**
-   * 获取指定文件夹中的所有文件绝对路径（所有的js和jsx文件，包括所有的后代子文件）
-   */
-  getSavedSrcDirFilesPath(savePath) {
-    var filesPath = FindFilesPathByDir({
-      path: savePath,
-      fileName: '*',
-    });
-    //只要js、jsx后缀的文件路径
-    var files = filesPath.filter(v => {
-      if (v.indexOf('.js') !== -1) {
-        return true;
-      }
-      if (v.indexOf('.jsx') !== -1) {
-        return true;
-      }
-    });
-    return files;
   }
 
   /**
@@ -135,31 +108,19 @@ class init extends Basic {
    * @return { string } 复制保存后的文件夹路径
    */
   coypDir(partDirName) {
-    var zh_CN = util.getZHCN();
-    var dirPath;
-    //默认是使用redux
-    var dataFlow = this.program.dataFlow;
-    var diffDirName;
-    switch (partDirName) {
-      case 'src':
-        diffDirName = `${dataFlow}-${partDirName}`;
-        break;
-      default:
-        diffDirName = partDirName;
-    }
-    if (zh_CN) {
-      dirPath = path.resolve(__dirname, `../../template/zh_CN-${diffDirName}`);
-    } else {
-      dirPath = path.resolve(__dirname, `../../template/en_US-${diffDirName}`);
-    }
-    if (!fs.existsSync(dirPath)) {
-      console.error(chalk.yellow(dirPath + ' is not exist.'));
+    var boilerplate = this.program.boilerplate;
+    //template目录下的文件夹路径
+    var templateDirPath = path.resolve(
+      __dirname,
+      `../../template/${boilerplate}`
+    );
+    if (!fs.existsSync(templateDirPath)) {
+      console.error(chalk.yellow(templateDirPath + ' is not exist.'));
       process.exit(1);
     }
-    fs.ensureDirSync(dirPath);
     //相对于项目根目录
     var savePath = path.resolve(process.cwd(), partDirName);
-    fs.copySync(dirPath, savePath, {
+    fs.copySync(templateDirPath, savePath, {
       dereference: true,
     });
     return savePath;
@@ -169,15 +130,13 @@ class init extends Basic {
     this.checkCurrentDirIsValid();
     this.coypDir('public');
     var srcSavePath = this.coypDir('src');
-    //beign--进行了自定义标签处理
-    //可以通过用户的命令配置需要的功能，跟create-view的命令基本一致
-    var filesPath = this.getSavedSrcDirFilesPath(srcSavePath);
-    this.saveByFilesPath(filesPath, filesPath, this.program);
-    //end--进行了自定义标签处理
+    fs.removeSync(path.resolve(srcSavePath, 'scripts.json'));
+    fs.moveSync(
+      path.resolve(srcSavePath, 'README.md'),
+      path.resolve(srcSavePath, '../README.md'),
+      { overwrite: true }
+    );
     this.writePackageJson();
-    console.log();
-    require('./route.js')();
-    //require('./reducer.js')();
     this.instruction();
   }
 
@@ -199,31 +158,6 @@ class init extends Basic {
     console.log(chalk.cyan(`  ${displayedCommand} start`));
     console.log('    Starts the development server.');
     console.log();
-    console.log(
-      chalk.cyan(`  ${displayedCommand} create-view(cv for short) <view-name>`)
-    );
-    console.log('    Creates a new page view template.');
-    console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} route`));
-    console.log('    Creates routes base on the _route.js.');
-    console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} reducer`));
-    console.log('    Creates reducers base on the reducer.js files.');
-    console.log();
-    console.log(
-      chalk.cyan(`  ${displayedCommand} view-locale-to-excel(vlte for short)`)
-    );
-    console.log(
-      '    Creates i18n excel by reading src path,which passing string by `this.t("xx")`'
-    );
-    console.log();
-    console.log(
-      chalk.cyan(`  ${displayedCommand} excel-to-locale-config(etlc for short)`)
-    );
-    console.log(
-      '    Creates i18n config .js by reading excel witch is translated.'
-    );
-    console.log();
     console.log(chalk.cyan(`  ${displayedCommand} use <feature-name>`));
     console.log('    Use a feature such as less,sass and immutable.js.');
     console.log();
@@ -239,5 +173,4 @@ class init extends Basic {
     console.log();
   }
 }
-//这里使用了高阶组件
-module.exports = saveFilesByCustomContens(init);
+module.exports = init;

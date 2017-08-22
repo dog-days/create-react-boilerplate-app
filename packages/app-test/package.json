@@ -7,14 +7,6 @@
   "scripts": {
     "start": "react-boilerplate-app-scripts start",
     "build": "react-boilerplate-app-scripts build",
-    "view-locale-to-excel": "react-boilerplate-app-scripts view-locale-to-excel",
-    "vlte": "react-boilerplate-app-scripts view-locale-to-excel",
-    "excel-to-locale-config": "react-boilerplate-app-scripts excel-to-locale-config",
-    "etlc": "react-boilerplate-app-scripts excel-to-locale-config",
-    "create-view": "react-boilerplate-app-scripts create-view",
-    "cv": "react-boilerplate-app-scripts create-view",
-    "route": "react-boilerplate-app-scripts route",
-    "reducer": "react-boilerplate-app-scripts reducer",
     "cover": "react-boilerplate-app-scripts cover",
     "use": "react-boilerplate-app-scripts use"
   },
@@ -50,8 +42,6 @@
     "file-loader": "^0.11.1",
     "fs-extra": "^3.0.0",
     "html-webpack-plugin": "^2.28.0",
-    "mobx": "^3.1.10",
-    "mobx-react": "^4.2.1",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
@@ -64,22 +54,16 @@
     "react-dev-utils": "^0.5.2",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-mobx-boilerplate-js": "^0.0.9",
-    "react-redux": "^4.4.5",
-    "react-redux-boilerplate-js": "^0.0.12",
-    "react-router": "^3.0.0",
-    "react-router-redux": "^4.0.4",
-    "redux": "^3.5.2",
-    "redux-immutable": "^3.0.6",
-    "redux-logger": "^2.3.1",
-    "redux-thunk": "^1.0.3",
     "relative": "^3.0.2",
     "socket.io": "^2.0.2",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
-    "webpack": "^3.1.0",
+    "webpack": "^3.4.1",
     "webpack-dev-server": "^2.4.5",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0",
+    "mvc-react": "0.0.4"
   },
   "babel": {
     "presets": [
@@ -93,7 +77,8 @@
       "stage-0"
     ],
     "plugins": [
-      "transform-decorators-legacy"
+      "transform-decorators-legacy",
+      "transform-runtime"
     ],
     "env": {
       "development": {
@@ -104,13 +89,16 @@
     }
   },
   "react-boilerplate-app-scripts": {
-    "language": "zh_CN",
-    "feature": {
-      "dataFlow": "mobx",
-      "all": true
+    "historyApiFallback": {
+      "verbose": true
     }
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0",
+    "mvc-react": "0.0.3"
   }
 }

@@ -98,7 +98,14 @@ module.exports = {
   shouldUseYarn() {
     try {
       execSync('yarnpkg --version', { stdio: 'ignore' });
-      return true;
+      const npmVersion = execSync('npm --version').toString();
+      //如果npm >= v5.0.0，不使用yarn
+      var flag = semver.lt(npmVersion, '5.0.0');
+      if (!flag) {
+        return false;
+      } else {
+        return true;
+      }
     } catch (e) {
       return false;
     }

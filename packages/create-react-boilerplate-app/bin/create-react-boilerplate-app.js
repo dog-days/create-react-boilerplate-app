@@ -6,48 +6,56 @@ const util = require('react-boilerplate-app-utils');
 const validateNpmPackageName = require('validate-npm-package-name');
 const commander = require('commander');
 const chalk = require('chalk');
-const Basic = require('./libs/Basic');
 
 const scriptsPackagename = 'react-boilerplate-app-scripts';
 
-class CreateApp extends Basic {
+class CreateApp {
   constructor() {
-    super();
+    this.program = this.commandSetting();
+    var boilerplateJson = this.getBoilerpalteJson();
     this.packageJson = {
       name: 'react-boilerplate-app',
       version: '0.0.1',
       dependencies: {},
       devDependencies: {},
     };
-    //默认使用react-redux-boilerplate-js
-    this.dependencies = ['react-redux-boilerplate-js'];
-    if (this.program.dataFlow === 'mobx') {
-      this.dependencies = ['react-mobx-boilerplate-js'];
-    }
+    this.dependencies = ['react', 'react-dom', 'prop-types'];
+    this.dependencies = Object.assign(
+      this.dependencies,
+      boilerplateJson.dependencies || []
+    );
     this.devDependencies = ['react-boilerplate-app-scripts'];
+    this.devDependencies = Object.assign(
+      this.devDependencies,
+      boilerplateJson.devDependencies || []
+    );
     this.allDependencies = []
       .concat(this.dependencies)
       .concat(this.devDependencies);
     this.run();
   }
 
+  readCurrentProjectPackageJSON() {
+    var packageJsonPath = path.resolve(__dirname, '../package.json');
+    var json = fs.readJsonSync(packageJsonPath);
+    return json;
+  }
+
   commandSetting() {
-    this.program = new commander.Command(this.packageJson.name)
-      .version(this.packageJson.version)
+    var currentPakageJson = this.readCurrentProjectPackageJSON();
+    var program = new commander.Command(currentPakageJson.name)
+      .version(currentPakageJson.version)
       .arguments('<project-directory>')
       .usage(`${chalk.green('<project-directory>')} [options]`)
-      //--xx-xx类型，缩写使用大写
-      .option('-D, --data-flow [flow]', 'use redux or mobx')
-      //--xx类型，缩写使用小写
-      .option('-a, --all', 'create view with all features')
-      .option('-i, --i18n', 'create view with locale feature(i18n)')
-      .option('-b, --breadcrumb', 'create view with breadcrumb feature')
+      .option('-b, --boilerplate', 'create app with specified boilerplate')
       .action(name => {
         this.appName = name;
       })
       .allowUnknownOption()
       .parse(process.argv);
-    var program = this.program;
+    if (!program.boilerplate) {
+      program.boilerplate = 'mvc-react';
+    }
     if (!this.appName) {
       console.error('Please specify the project directory:');
       console.log(
@@ -56,7 +64,7 @@ class CreateApp extends Basic {
       console.log();
       console.log('For example:');
       console.log(
-        `  ${chalk.cyan(program.name())} ${chalk.green('my-react-redux-app')}`
+        `  ${chalk.cyan(program.name())} ${chalk.green('my-react-boilerplate-app')}`
       );
       console.log();
       console.log(
@@ -64,14 +72,26 @@ class CreateApp extends Basic {
       );
       process.exit(1);
     }
-    if (!this.program.dataFlow) {
-      this.program.dataFlow = 'redux';
-    }
-    //判断数据流管理类库是否合法
-    var flow = ['redux', 'mobx'];
-    if (flow.indexOf(this.program.dataFlow) === -1) {
-      console.error(chalk.red('--data-flow should be redux or mobx!'));
-      process.exit(1);
+    return program;
+  }
+  //获取当前模板的json文件信息，用于生产app的package.json信息
+  //boilerplate.json的结构跟package.json很相似。
+  getBoilerpalteJson() {
+    var boilerplate = this.program.boilerplate;
+    var boilerplateJsonPath = path.resolve(
+      __dirname,
+      '../boilerplate-config',
+      boilerplate + '.json'
+    );
+    try {
+      var boilerplateJson = fs.readJsonSync(boilerplateJsonPath);
+      return boilerplateJson;
+    } catch (e) {
+      console.log(chalk.red(boilerplateJsonPath + '：'));
+      console.log(chalk.red('模板配置文件不存在！'));
+      console.log();
+      //console.log(e);
+      process.exit();
     }
   }
   //检测appName是否合法
