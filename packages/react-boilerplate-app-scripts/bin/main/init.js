@@ -104,15 +104,15 @@ class init extends Basic {
 
   /**
    * 复制template中的文件夹
+   * @param { string } targetDir 目标复制的文件夹名
    * @param { string } partDirName 复制的后创建文件夹名（相对于项目根目录），存放复制文件
    * @return { string } 复制保存后的文件夹路径
    */
-  coypDir(partDirName) {
-    var boilerplate = this.program.boilerplate;
+  coypDir(targetDir, partDirName) {
     //template目录下的文件夹路径
     var templateDirPath = path.resolve(
       __dirname,
-      `../../template/${boilerplate}`
+      `../../template/${targetDir}`
     );
     if (!fs.existsSync(templateDirPath)) {
       console.error(chalk.yellow(templateDirPath + ' is not exist.'));
@@ -128,8 +128,9 @@ class init extends Basic {
 
   run() {
     this.checkCurrentDirIsValid();
-    this.coypDir('public');
-    var srcSavePath = this.coypDir('src');
+    var boilerplate = this.program.boilerplate;
+    this.coypDir('public', 'public');
+    var srcSavePath = this.coypDir(boilerplate, 'src');
     fs.removeSync(path.resolve(srcSavePath, 'scripts.json'));
     fs.moveSync(
       path.resolve(srcSavePath, 'README.md'),
