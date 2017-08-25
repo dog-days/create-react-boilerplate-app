@@ -71,12 +71,13 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
-    "mvc-react": "0.0.4",
+    "mvc-react": "0.0.7",
     "object.assign": "^4.0.4",
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-router-controller-cli": "0.0.1",
     "whatwg-fetch": "^2.0.3"
   },
   "react-boilerplate-app-scripts": {

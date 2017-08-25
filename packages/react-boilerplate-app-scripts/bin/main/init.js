@@ -66,7 +66,7 @@ class init extends Basic {
     var scriptsJson = fs.readJsonSync(scriptsJsonPath);
     return scriptsJson;
   }
-  //成功初始化后，重新写入scirpts
+  //成功初始化后，重新写入scripts
   writePackageJson() {
     var scriptsJson = {};
     try {
@@ -76,7 +76,7 @@ class init extends Basic {
     }
     var pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
     var packageJson = fs.readJsonSync(pacakgeJsonPath);
-    //适配scirpts，针对当前项目的package.json中的scripts，去除部分信息
+    //适配scripts，针对当前项目的package.json中的scripts，去除部分信息
     packageJson.scripts = {};
     for (var k in this.packageJson['scripts']) {
       if (k != 'init') {

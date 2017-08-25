@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "react-router-controller-cli",
     "mvc-react"
   ]
 }

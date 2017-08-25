@@ -8,7 +8,9 @@
     "start": "react-boilerplate-app-scripts start",
     "build": "react-boilerplate-app-scripts build",
     "cover": "react-boilerplate-app-scripts cover",
-    "use": "react-boilerplate-app-scripts use"
+    "use": "react-boilerplate-app-scripts use",
+    "create-i18n-excel": "react-router-controller-cli create-i18n-excel",
+    "create-i18n-list": "react-router-controller-cli create-i18n-list"
   },
   "author": "",
   "license": "ISC",
@@ -44,7 +46,7 @@
     "file-loader": "^0.11.1",
     "fs-extra": "^3.0.0",
     "html-webpack-plugin": "^2.28.0",
-    "mvc-react": "0.0.4",
+    "mvc-react": "0.0.7",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
@@ -63,7 +65,8 @@
     "url-loader": "^0.5.8",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.4.5",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "react-router-controller-cli": "0.0.1"
   },
   "babel": {
     "presets": [
