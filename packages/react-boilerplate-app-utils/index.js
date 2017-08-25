@@ -143,6 +143,9 @@ module.exports = {
       packageName = 'react-boilerplate-app-scripts';
     }
     var config = this.getCwdPackageJson()[packageName];
+    if (!config) {
+      return config;
+    }
     //默认值，路径都是相对npm项目根目录
     config = Object.assign(
       {},
@@ -151,14 +154,14 @@ module.exports = {
         appSrcPath: 'src',
         host: 'localhost',
         port: 8888,
-        routesPath: '${src}/.routes.js',
-        reducersPath: '${src}/.reducers.js',
+        //routesPath: '${src}/.routes.js',
+        //reducersPath: '${src}/.reducers.js',
         //app 程序入口js文件
         appEntryPath: '${src}/index.jsx',
         //dev server静态资源访问目录
         appPublicPath: 'public',
         //多语言文件夹
-        appLocalePath: '${src}/locale',
+        appLocalePath: '${src}/i18n',
         //app 入口html文件名，在上面appPublicPath的文件夹下。
         index: 'index.html',
         prefixURL: '',
