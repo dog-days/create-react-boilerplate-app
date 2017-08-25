@@ -1,1 +1,4 @@
-{}
+{
+  "create-i18n-excel": "react-router-controller-cli create-i18n-excel",
+  "create-i18n-list": "react-router-controller-cli create-i18n-list"
+}
