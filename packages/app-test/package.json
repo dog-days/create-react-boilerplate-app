@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -54,19 +54,19 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
-    "react-boilerplate-app-scripts": "^0.1.1",
-    "react-boilerplate-app-utils": "^0.0.13",
+    "react-boilerplate-app-scripts": "^0.1.2",
+    "react-boilerplate-app-utils": "^0.0.14",
     "react-dev-utils": "^0.5.2",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
+    "react-router-controller-cli": "0.0.1",
     "relative": "^3.0.2",
     "socket.io": "^2.0.2",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.4.5",
-    "whatwg-fetch": "^2.0.3",
-    "react-router-controller-cli": "0.0.1"
+    "whatwg-fetch": "^2.0.3"
   },
   "babel": {
     "presets": [
