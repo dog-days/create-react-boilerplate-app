@@ -71,7 +71,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
-    "mvc-react": "0.0.7",
+    "mvc-react": "0.0.8",
     "object.assign": "^4.0.4",
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",

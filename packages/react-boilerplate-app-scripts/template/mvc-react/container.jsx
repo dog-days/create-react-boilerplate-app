@@ -5,7 +5,7 @@ import i18n from 'react-router-controller/libs/plugins/i18n';
 function modelRegister(register) {
   //配置这些目录时，没有目录会报错，新建目录后还报错，可以新建一个空文件，保存以下其他文件触发重编译，就没问题了
   Controller.set({
-    readViewFile(viewId, firstLoad) {
+    readViewFile(viewId, controllerId, firstLoad) {
       if (firstLoad) {
         import(/* webpackMode: "eager" */
         `./model/${viewId}.js`)
@@ -19,9 +19,11 @@ function modelRegister(register) {
           });
       }
       //view可以异步载入
-      return import(`./view/${viewId}/index.jsx`).then(component => {
-        return component.default;
-      });
+      return import(`./view/${controllerId}/${viewId}/index.jsx`).then(
+        component => {
+          return component.default;
+        }
+      );
     },
     readControllerFile(controllerId) {
       //webpackMode: eager是使import变为不异步，跟require一样，
