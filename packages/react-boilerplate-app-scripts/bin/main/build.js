@@ -18,8 +18,9 @@ const config = require(paths.webpackProdConfig);
 const Table = require('cli-table');
 const gzipSize = require('gzip-size').sync;
 
+const topBuildFolder = util.getTopBuildFolderPath(paths.appBuild, basename);
 //清空build文件夹
-fs.emptyDirSync(util.getTopBuildFolderPath(paths.appBuild, basename));
+fs.emptyDirSync(topBuildFolder);
 
 console.log();
 console.log('Building...');
@@ -58,16 +59,16 @@ webpack(config).run(function(err, stats) {
   if (stats.hasWarnings()) {
     util.printValidationResults(info.warnings, 'warning');
   }
-  //处理header
-  var head = ['Asset', 'Real Size', 'Gzip Size', 'Chunks', '', 'Chunk Names'];
-  head = head.reduce((a, b) => {
-    a.push(chalk.cyan(b));
-    return a;
-  }, []);
-  var table = new Table({
-    head,
-  });
-  info.assets &&
+  if (info.assets && info.assets[0]) {
+    //处理header
+    var head = ['Asset', 'Real Size', 'Gzip Size', 'Chunks', '', 'Chunk Names'];
+    head = head.reduce((a, b) => {
+      a.push(chalk.cyan(b));
+      return a;
+    }, []);
+    var table = new Table({
+      head,
+    });
     info.assets.forEach(v => {
       var sizeAfterGzip;
       if (v.name.match(/(.js$)|(.css$)/)) {
@@ -87,19 +88,22 @@ webpack(config).run(function(err, stats) {
         v.chunkNames,
       ]);
     });
-  console.log(`Hash: ${chalk.cyan(info.hash)}`);
-  console.log(`Version: ${chalk.cyan(info.version)}`);
-  console.log(`Time: ${chalk.cyan(info.time / 1000 + 's')}`);
-  console.log();
-  console.log(table.toString());
-  console.log();
-  const useYarn = util.shouldUseYarn();
-  console.log(`The ${chalk.cyan('build')} folder is ready to be served.`);
-  console.log('You may serve it with a static server:');
-  console.log();
-  var displayedCommand = 'npm run';
-  if (useYarn) {
-    displayedCommand = 'yarn';
+    console.log(`Hash: ${chalk.cyan(info.hash)}`);
+    console.log(`Version: ${chalk.cyan(info.version)}`);
+    console.log(`Time: ${chalk.cyan(info.time / 1000 + 's')}`);
+    console.log();
+    console.log(table.toString());
+    console.log();
+    const useYarn = util.shouldUseYarn();
+    console.log(`The ${chalk.cyan('build')} folder: `);
+    console.log(chalk.cyan(topBuildFolder));
+    console.log('is ready to be served.');
+    console.log('You may serve it with a static server:');
+    console.log();
+    var displayedCommand = 'npm run';
+    if (useYarn) {
+      displayedCommand = 'yarn';
+    }
+    console.log(chalk.cyan(` ${displayedCommand} serve-build`));
   }
-  console.log(chalk.cyan(` ${displayedCommand} serve-build`));
 });
