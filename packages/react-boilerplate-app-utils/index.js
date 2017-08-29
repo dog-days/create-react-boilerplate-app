@@ -441,4 +441,21 @@ module.exports = {
       options
     );
   },
+  /**
+   * 获取最上层的build文件夹路径（除掉baseename后的）
+   * @param { stirng } originBuildPath 原来的build路径，包括basename的。
+   * @param { stirng } basename 设置的basename
+   * @return { stirng } 处理后的build路径
+   */
+  getTopBuildFolderPath(originBuildPath, basename) {
+    if (!basename) {
+      return originBuildPath;
+    }
+    //兼容windows平台路径
+    originBuildPath = originBuildPath.replace(/\\/g, '/');
+    var splitPathArray = originBuildPath.split(basename);
+    splitPathArray.pop();
+    var topBuidlDir = splitPathArray.join(basename);
+    return topBuidlDir;
+  },
 };

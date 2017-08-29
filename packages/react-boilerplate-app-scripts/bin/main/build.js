@@ -10,12 +10,16 @@ const chalk = require('chalk');
 const util = require('react-boilerplate-app-utils');
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const webpack = require('webpack');
+const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
+  scriptsPackagename
+);
+const basename = cwdPackageJsonConfig.basename;
 const config = require(paths.webpackProdConfig);
 const Table = require('cli-table');
 const gzipSize = require('gzip-size').sync;
 
 //清空build文件夹
-fs.emptyDirSync(paths.appBuild);
+fs.emptyDirSync(util.getTopBuildFolderPath(paths.appBuild, basename));
 
 console.log();
 console.log('Building...');
@@ -73,7 +77,7 @@ webpack(config).run(function(err, stats) {
         sizeAfterGzip = gzipSize(fileContents);
       }
       table.push([
-        chalk.green(v.name),
+        chalk.green(basename + '/' + v.name),
         util.transformToKBMBGB(v.size, { decimals: 2 }),
         sizeAfterGzip
           ? util.transformToKBMBGB(sizeAfterGzip, { decimals: 2 })
