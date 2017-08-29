@@ -83,7 +83,6 @@ webpack(config).run(function(err, stats) {
         v.chunkNames,
       ]);
     });
-  console.log();
   console.log(`Hash: ${chalk.cyan(info.hash)}`);
   console.log(`Version: ${chalk.cyan(info.version)}`);
   console.log(`Time: ${chalk.cyan(info.time / 1000 + 's')}`);

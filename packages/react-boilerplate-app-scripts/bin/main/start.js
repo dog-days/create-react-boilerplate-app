@@ -128,7 +128,6 @@ function runDevServer(host, port) {
     if (err) {
       return console.log(err);
     }
-    console.log();
   });
   //begin----websocket mock服务
   if (cwdPackageJsonConfig.websocketMock) {

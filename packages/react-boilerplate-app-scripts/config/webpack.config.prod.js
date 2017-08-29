@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const chalk = require('chalk');
 const util = require('react-boilerplate-app-utils');
 const scriptsPackagename = require('./const').scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
@@ -178,7 +179,15 @@ var config = {
       //最好true,要不后面加上sass-loader等时，会出现css没有提取的现象
       allChunks: true,
     }),
-    new SimpleProgressPlugin(),
+    new SimpleProgressPlugin({
+      progressOptions: {
+        complete: chalk.bgGreen(' '),
+        incomplete: chalk.bgWhite(' '),
+        width: 20,
+        total: 100,
+        clear: true,
+      },
+    }),
     new CaseSensitivePathsPlugin(),
   ],
 };

@@ -4,6 +4,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const chalk = require('chalk');
 const util = require('react-boilerplate-app-utils');
 const scriptsPackagename = require('./const').scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
@@ -154,7 +155,15 @@ var config = {
     new webpack.HotModuleReplacementPlugin(),
     // prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),
-    new SimpleProgressPlugin(),
+    new SimpleProgressPlugin({
+      progressOptions: {
+        complete: chalk.bgGreen(' '),
+        incomplete: chalk.bgWhite(' '),
+        width: 20,
+        total: 100,
+        clear: true,
+      },
+    }),
     new CaseSensitivePathsPlugin(),
   ],
 };
