@@ -9,9 +9,9 @@ const spawn = require('cross-spawn');
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
   /**
- * react-router pathname适配
- * 例如url=test或者test/或者/test/会适配为/test
- */
+   * react-router pathname适配
+   * 例如url=test或者test/或者/test/会适配为/test
+   */
   pathnameAdapter(pathname) {
     if (!pathname) {
       return;
@@ -344,5 +344,101 @@ module.exports = {
       return true;
     });
     return files;
+  },
+  /**
+   *  单位转换
+   *@param {number} value 转换值
+   *@param {array} unitArray 单位数组，用来决定的顺序
+   *@param {object} options 配置选项，默认值如下
+   * {
+   *    scale: 1, //转换进制
+   *    decimals: false,//是否展示小数
+   *    showUnit: true,//是否展示单位
+   * }
+   */
+  unitTransform(value, unitArray = [], options) {
+    if (isNaN(value)) {
+      console.warn('value参数不是数字类型');
+      return value;
+    }
+    if (value === undefined || value === null) {
+      console.warn('value参数没定义或者为null');
+      return value;
+    }
+    if (Object.prototype.toString.apply(unitArray) !== '[object Array]') {
+      console.warn("unitArray参数必须是数组，如['bps','Kbps']");
+      return value;
+    }
+    if (value === 0) {
+      return value;
+    }
+    //负数处理，上面已经处理是否位数字了
+    var negative = false;
+    if (value < 0) {
+      negative = true;
+      value = -value;
+    }
+    var opt = {
+      scale: 1,
+      decimals: false,
+      showUnit: true,
+    };
+    options = Object.assign(opt, options);
+    var re = value;
+    unitArray.forEach((v, k) => {
+      var current_scale = options.scale;
+      if (k === 0) {
+        current_scale = 0;
+      }
+      if (k > 1) {
+        for (var i = 0; i < k - 1; i++) {
+          current_scale = current_scale * options.scale;
+        }
+      }
+      if (value >= current_scale) {
+        if (k !== 0) {
+          if (!options.decimals) {
+            re = (value / current_scale).toFixed(0);
+          } else {
+            if (
+              Object.prototype.toString.apply(options.decimals) ===
+              '[object Boolean]'
+            ) {
+              //默认两位数
+              options.decimals = 2;
+            }
+            re = (value / current_scale).toFixed(options.decimals);
+          }
+        }
+        if (options.showUnit) {
+          re = re + v;
+        }
+      }
+    });
+    if (negative) {
+      re = '-' + re;
+    }
+    return re;
+  },
+  /**
+   *  流量或存储 字节单位转换为KB,MB,GB单位
+   *@param {int} value 转换值
+   *@param {object} options 配置选项，默认值如下
+   * {
+   *    scale: 1, //转换进制
+   *    decimals: false,//是否展示小数
+   *    showUnit: true,//是否展示单位
+   * }
+   */
+  transformToKBMBGB(value, options = { decimals: false }) {
+    var opt = {
+      scale: 1024,
+    };
+    Object.assign(options, opt);
+    return this.unitTransform(
+      value,
+      ['B', 'KB', 'MB', 'GB', 'TB', 'PB'],
+      options
+    );
   },
 };
