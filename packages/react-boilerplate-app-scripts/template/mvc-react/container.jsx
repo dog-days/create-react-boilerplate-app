@@ -55,5 +55,11 @@ function modelRegister(register) {
 }
 
 export default function container(props) {
-  return <MVC modelRegister={modelRegister} hot={props.hot} />;
+  return (
+    <MVC
+      basename={process.env.basename}
+      modelRegister={modelRegister}
+      hot={props.hot}
+    />
+  );
 }
