@@ -2,11 +2,11 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const util = require('react-boilerplate-app-utils');
-const scriptsPackagename = 'react-boilerplate-app-scripts';
+const scriptsPackagename = require('./const').scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 
 //bebin-----------packageJson信息获取
@@ -51,10 +51,14 @@ var config = {
     hints: false,
   },
   entry: {
-    app: paths.appEntry,
+    app: [
+      //我们添加一些默认的polyfills
+      require.resolve('./polyfills'),
+      paths.appEntry,
+    ],
   },
   output: {
-    filename: 'static/js/bundle.js?hash=[hash]',
+    filename: 'static/js/bundle.[hash].js',
     //js打包输出目录，以package.json为准，是用相对路径
     path: paths.appBuild,
     //内存和打包静态文件访问目录，以index.html为准,最好以斜杠/结尾，要不有意想不到的bug
@@ -63,7 +67,7 @@ var config = {
     publicPath: `${cwdPackageJsonConfig.prefixURL || cwdPackageJsonConfig.basename}/` ||
       '/',
     //定义require.ensure文件名
-    chunkFilename: 'static/js/[name]-[id]-[chunkHash].chunk.js',
+    chunkFilename: 'static/js/[name]-[id]-[hash].chunk.js',
     libraryTarget: 'var',
     sourceMapFilename: '[file].map',
   },
@@ -170,11 +174,11 @@ var config = {
       },
     }),
     new ExtractTextPlugin({
-      filename: 'static/css/styles.css?hash=[hash]',
+      filename: 'static/css/styles.[hash].css',
       //最好true,要不后面加上sass-loader等时，会出现css没有提取的现象
       allChunks: true,
     }),
-    new ProgressBarPlugin(),
+    new SimpleProgressPlugin(),
     new CaseSensitivePathsPlugin(),
   ],
 };

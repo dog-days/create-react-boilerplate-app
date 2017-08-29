@@ -28,7 +28,6 @@ class Use extends Basic {
       console.log();
       console.log(' ' + 'less');
       console.log(' ' + 'sass');
-      console.log(' ' + 'immutable');
       console.log();
       process.exit();
     }
@@ -75,10 +74,6 @@ class Use extends Basic {
         dependencies = [];
         devDependencies = ['node-sass', 'sass-loader'];
         break;
-      case 'immutable':
-        dependencies = [];
-        devDependencies = ['immutable@3.8.1', 'redux-immutable@3.0.6'];
-        break;
       default:
         console.log();
         console.log(chalk.red('unknown feature name'));
@@ -98,13 +93,13 @@ class Use extends Basic {
    * @param { array } devDependencies
    */
   writeNewPackageJson(packageJson, dependencies, devDependencies) {
-    dependencies.forEach((v, k) => {
-      var v = v.replace(/@.*/, '');
+    dependencies.forEach(v => {
+      v = v.replace(/@.*/, '');
       let version = util.getVersionOfPackage(v);
       packageJson.dependencies[v] = '^' + version;
     });
-    devDependencies.forEach((v, k) => {
-      var v = v.replace(/@.*/, '');
+    devDependencies.forEach(v => {
+      v = v.replace(/@.*/, '');
       let version = util.getVersionOfPackage(v);
       packageJson.devDependencies[v] = '^' + version;
     });

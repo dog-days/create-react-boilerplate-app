@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const commander = require('commander');
 const util = require('react-boilerplate-app-utils');
 const Basic = require('./Basic.js');
-const scriptsPackagename = 'react-boilerplate-app-scripts';
+const scriptsPackagename = require('../../config/const').scriptsPackagename;
 
 class init extends Basic {
   /**
@@ -160,16 +160,14 @@ class init extends Basic {
     console.log('    Starts the development server.');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} use <feature-name>`));
-    console.log('    Use a feature such as less,sass and immutable.js.');
+    console.log('    Use a feature such as less,sass');
     console.log();
     console.log(chalk.cyan(`  ${displayedCommand} cover <file-name>`));
     console.log(
       '    Overwrite the configuration file, such as webpack.config.dev.js.'
     );
     console.log();
-    console.log(
-      chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`)
-    );
+    console.log(chalk.cyan(`  ${displayedCommand} build`));
     console.log('    Bundles the app into static files for production.');
     console.log();
   }

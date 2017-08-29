@@ -1,11 +1,11 @@
 'use strict';
 const webpack = require('webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const util = require('react-boilerplate-app-utils');
-const scriptsPackagename = 'react-boilerplate-app-scripts';
+const scriptsPackagename = require('./const').scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 
 //bebin-----------packageJson信息获取
@@ -48,6 +48,8 @@ const entry = [
   // bundle the client for hot reloading
   // only- means to only hot reload for successful updates
   'webpack/hot/only-dev-server',
+  //我们添加一些默认的polyfills
+  require.resolve('./polyfills'),
   paths.appEntry,
 ];
 //webpack配置项
@@ -61,7 +63,7 @@ var config = {
     app: entry,
   },
   output: {
-    filename: 'bundle.js?hash=[hash]',
+    filename: 'bundle.[hash].js',
     //js打包输出目录，以package.json为准，是用相对路径
     path: paths.appBuild,
     //内存和打包静态文件输出目录，以index.html为准,使用绝对路径，最好以斜杠/结尾，要不有意想不到的bug
@@ -152,7 +154,7 @@ var config = {
     new webpack.HotModuleReplacementPlugin(),
     // prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),
-    new ProgressBarPlugin(),
+    new SimpleProgressPlugin(),
     new CaseSensitivePathsPlugin(),
   ],
 };
