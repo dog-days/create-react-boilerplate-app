@@ -23,6 +23,8 @@ class init extends Basic {
       appName = 'test';
     }
     this.appName = appName;
+    this.boilerplate = this.program.boilerplate;
+    this.configJson = this.getConfigJson(this.boilerplate);
     this.run();
   }
 
@@ -34,6 +36,18 @@ class init extends Basic {
       program.boilerplate = 'mvc-react';
     }
     return program;
+  }
+  //获取当前模板的config.json
+  //config.json的结构跟package.json的相似，处理部分自定义的如scripts，其他的都跟package.json一致，
+  //如果定义了，package.json对应的字段会被覆盖的。
+  getConfigJson(boilerplate) {
+    var configPath = path.resolve(
+      __dirname,
+      '../../template',
+      boilerplate,
+      'config.json'
+    );
+    return fs.readJsonSync(configPath);
   }
 
   /**
@@ -53,27 +67,20 @@ class init extends Basic {
       console.error(e);
     }
   }
-  //获取当前模板的scripts.json文件信息，用于生产app的package.json的scripts信息
-  //scripts.json的结构跟package.json的scripts一致。
-  getScriptsJson() {
-    var boilerplate = this.program.boilerplate;
-    var scriptsJsonPath = path.resolve(
-      __dirname,
-      '../../template',
-      boilerplate,
-      'scripts.json'
-    );
-    var scriptsJson = fs.readJsonSync(scriptsJsonPath);
-    return scriptsJson;
-  }
-  //成功初始化后，重新写入scripts
-  writePackageJson() {
-    var scriptsJson = {};
-    try {
-      scriptsJson = this.getScriptsJson();
-    } catch (e) {
-      console.log();
+  //获取样板中config.json下的scirpts
+  //返回package.json格式的scripts
+  getBoilerplateScrpits(scriptsConfig) {
+    if (!scriptsConfig) {
+      return {};
     }
+    var scripts = {};
+    for (var k in scriptsConfig) {
+      var script = scriptsConfig[k].script;
+      scripts[k] = script;
+    }
+    return scripts;
+  }
+  writePackageJson() {
     var pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
     var packageJson = fs.readJsonSync(pacakgeJsonPath);
     //适配scripts，针对当前项目的package.json中的scripts，去除部分信息
@@ -90,15 +97,28 @@ class init extends Basic {
         }
       }
     }
-    //绑定boilerplate中的scripts
-    packageJson.scripts = Object.assign(packageJson.scripts, scriptsJson);
-    packageJson.babel = this.packageJson.babel;
     packageJson[scriptsPackagename] = {
       historyApiFallback: {
         verbose: true,
       },
     };
     packageJson.eslintConfig = this.packageJson.eslintConfig;
+    for (var j in this.configJson) {
+      var config = this.configJson[j];
+      switch (j) {
+        case 'scripts':
+          var boilerplateScripts = this.getBoilerplateScrpits(config);
+          packageJson.scripts = Object.assign(
+            packageJson.scripts,
+            boilerplateScripts
+          );
+          break;
+        default:
+          //覆盖
+          packageJson[j] = config;
+      }
+    }
+    //整合boilerplate中的config.json，覆盖配置，除了自定义的。
     fs.writeFileSync(pacakgeJsonPath, JSON.stringify(packageJson, null, 2));
   }
 
@@ -141,6 +161,16 @@ class init extends Basic {
     this.instruction();
   }
 
+  createCustomInstruction(scriptsConfig, displayedCommand) {
+    for (var k in scriptsConfig) {
+      var scriptsName = k;
+      var description = scriptsConfig[k].description;
+      console.log(chalk.cyan(`  ${displayedCommand} ${scriptsName}`));
+      console.log(`     ${description}`);
+      console.log();
+    }
+  }
+
   instruction() {
     var appPath = path.resolve(process.cwd(), '../');
     var appName = this.appName;
@@ -149,6 +179,23 @@ class init extends Basic {
     if (useYarn) {
       displayedCommand = 'yarn';
     }
+    var descriptionScripts = {
+      start: {
+        description: 'Start the development server.',
+      },
+      'use <feature-name>': {
+        description: 'Use a feature such as less,sass.',
+      },
+      'cover <file-name>': {
+        description: 'Overwrite the configuration file, such as webpack.config.dev.js.',
+      },
+      build: {
+        description: 'Bundles the app into static files for production.',
+      },
+      'serve-build': {
+        description: 'Serve the static files in the build folder.',
+      },
+    };
     console.log();
     console.log(chalk.green('Success!'));
     console.log(`Created ${chalk.cyan(appName)} at `);
@@ -156,20 +203,11 @@ class init extends Basic {
     console.log();
     console.log('Inside that directory, you can run several commands:');
     console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} start`));
-    console.log('    Starts the development server.');
     console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} use <feature-name>`));
-    console.log('    Use a feature such as less,sass');
-    console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} cover <file-name>`));
-    console.log(
-      '    Overwrite the configuration file, such as webpack.config.dev.js.'
+    this.createCustomInstruction(
+      Object.assign(descriptionScripts, this.configJson.scripts || {}),
+      displayedCommand
     );
-    console.log();
-    console.log(chalk.cyan(`  ${displayedCommand} build`));
-    console.log('    Bundles the app into static files for production.');
-    console.log();
   }
 }
 module.exports = init;
