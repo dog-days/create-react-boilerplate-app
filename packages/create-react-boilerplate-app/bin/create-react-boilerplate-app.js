@@ -14,11 +14,12 @@ class CreateApp {
     this.program = this.commandSetting();
     var boilerplateJson = this.getBoilerpalteJson();
     this.packageJson = {
-      name: 'react-boilerplate-app',
+      name: 'app',
       version: '0.0.1',
       dependencies: {},
       devDependencies: {},
     };
+    this.packageJson.name = boilerplateJson.name;
     this.dependencies = ['react', 'react-dom', 'prop-types'];
     this.dependencies = this.dependencies.concat(
       boilerplateJson.dependencies || []
@@ -115,10 +116,12 @@ class CreateApp {
   //成功安装后的的package.json
   writeResultPackageJson() {
     this.dependencies.forEach(v => {
+      v = v.split('@')[0];
       let version = util.getVersionOfPackage(v);
       this.packageJson.dependencies[v] = '^' + version;
     });
     this.devDependencies.forEach(v => {
+      v = v.split('@')[0];
       let version = util.getVersionOfPackage(v);
       this.packageJson.devDependencies[v] = '^' + version;
     });

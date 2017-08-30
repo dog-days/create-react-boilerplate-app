@@ -1,6 +1,9 @@
 {
+  "name": "mvc-react-boilerplate",
   "dependencies": [
-    "react-router-controller-cli",
     "mvc-react"
+  ],
+  "devDependencies": [
+    "react-router-controller-cli"
   ]
 }
