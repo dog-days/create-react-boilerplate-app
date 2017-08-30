@@ -59,7 +59,7 @@ class Cover extends Basic {
         `use ${chalk.cyan(displayedCommand + ' cover -- -l ')} to see the file lists which can be covered.`
       );
       console.log();
-      process.exit(1);
+      process.exit();
     }
   }
   /**

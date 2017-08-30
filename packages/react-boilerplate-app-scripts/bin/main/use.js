@@ -51,7 +51,7 @@ class Use extends Basic {
         `use ${chalk.cyan(displayedCommand + ' use -- -l ')} to see the feature lists.`
       );
       console.log();
-      process.exit(1);
+      process.exit();
     }
   }
   /**
