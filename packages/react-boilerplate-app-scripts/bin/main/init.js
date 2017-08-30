@@ -102,6 +102,7 @@ class init extends Basic {
         verbose: true,
       },
     };
+    packageJson.babel = this.packageJson.babel;
     packageJson.eslintConfig = this.packageJson.eslintConfig;
     for (var j in this.configJson) {
       var config = this.configJson[j];

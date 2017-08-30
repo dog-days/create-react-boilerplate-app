@@ -8,28 +8,5 @@
       "script": "react-router-controller-cli create-i18n-list",
       "description": "Generate the corresponding i18n language javascript file by the translated excel."
     }
-  },
-  "babel": {
-    "presets": [
-      "react",
-      [
-        "es2015",
-        {
-          "modules": false
-        }
-      ],
-      "stage-0"
-    ],
-    "plugins": [
-      "transform-decorators-legacy",
-      "transform-runtime"
-    ],
-    "env": {
-      "development": {
-        "plugins": [
-          "react-hot-loader/babel"
-        ]
-      }
-    }
   }
 }
