@@ -63,7 +63,9 @@ class CreateApp {
       console.log();
       console.log('For example:');
       console.log(
-        `  ${chalk.cyan(program.name())} ${chalk.green('my-react-boilerplate-app')}`
+        `  ${chalk.cyan(program.name())} ${chalk.green(
+          'my-react-boilerplate-app'
+        )}`
       );
       console.log();
       console.log(
@@ -98,7 +100,9 @@ class CreateApp {
     var validationResult = validateNpmPackageName(this.appName);
     if (!validationResult.validForNewPackages) {
       console.error(
-        `Could not create a project called ${chalk.red(`"${this.appName}"`)} because of npm naming restrictions:`
+        `Could not create a project called ${chalk.red(
+          `"${this.appName}"`
+        )} because of npm naming restrictions:`
       );
       util.printValidationResults(validationResult.errors, 'error');
       util.printValidationResults(validationResult.warnings, 'warning');
@@ -159,8 +163,8 @@ class CreateApp {
       const init = require(initPath);
       new init(this.program, this.appName);
     } catch (e) {
-      process.exit(1);
       console.error(e);
+      process.exit();
     }
   }
 

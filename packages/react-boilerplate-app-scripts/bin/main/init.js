@@ -25,7 +25,12 @@ class init extends Basic {
     this.appName = appName;
     this.boilerplate = this.program.boilerplate;
     this.configJson = this.getConfigJson(this.boilerplate);
-    this.run();
+    try {
+      this.run();
+    } catch (e) {
+      console.log(e);
+      process.exit();
+    }
   }
 
   getCommander() {
@@ -99,6 +104,9 @@ class init extends Basic {
       }
     }
     if (currentPackageJson[scriptsPackagename].dll) {
+      if (!cwdPackageJson[scriptsPackagename]) {
+        cwdPackageJson[scriptsPackagename] = {};
+      }
       cwdPackageJson[scriptsPackagename].dll =
         currentPackageJson[scriptsPackagename].dll;
     } else {

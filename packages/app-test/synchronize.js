@@ -25,7 +25,10 @@ for (var k in cwdPackageJson.scripts) {
 cwdPackageJson.scripts['sync'] = 'node ./synchronize.js';
 cwdPackageJson.scripts['init'] =
   'node ./node_modules/react-boilerplate-app-scripts/bin/init.js';
+//删除dll
+delete cwdPackageJson['react-boilerplate-app-scripts'];
 fs.writeFileSync(
   path.resolve('./package.json'),
   JSON.stringify(cwdPackageJson, null, 2)
 );
+fs.removeSync(path.resolve('src'));
