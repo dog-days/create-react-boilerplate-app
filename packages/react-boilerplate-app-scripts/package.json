@@ -23,7 +23,7 @@
     "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
-    "serve-build": "node ./config/serve-build"
+    "serve-build": "node ./bin/react-boilerplate-app-scripts.js serve-build"
   },
   "keywords": [
     "react",
