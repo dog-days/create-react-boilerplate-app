@@ -215,6 +215,9 @@ class init extends Basic {
       build: {
         description: 'Bundles the app into static files for production.',
       },
+      'build-dll': {
+        description: 'Bundles bill files into public folder.',
+      },
       'serve-build': {
         description: 'Serve the static files in the build folder.',
       },

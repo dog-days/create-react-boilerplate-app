@@ -75,7 +75,8 @@
     "new-serve": "^6.1.0",
     "webpack-simple-progress-plugin": "0.0.2",
     "webpack-parallel-uglify-plugin": "^1.0.0",
-    "happypack": "^4.0.0-beta.5"
+    "happypack": "^4.0.0-beta.5",
+    "lodash": "^4.17.4"
   },
   "react-boilerplate-app-scripts": {
     "historyApiFallback": {

@@ -10,7 +10,7 @@
 
 - 没有webpack配置（当然也可以有）。
 - 配置可覆盖功能，webpack配置，server启动服务配置等。
-- React，React-Router，JSX，ES6和ES7装饰器语法支持。
+- JSX，ES6和ES7装饰器等语法支持。
 - 可选的react样板app，想用哪个就哪个。
 - 可选的less-loader。 
 - 可选的sass-loader。
@@ -50,6 +50,8 @@
 
 ### 使用npm
 
+npm强烈建议使用v5.0.0以上，可以安装最新node版本。
+
 ```sh
 #create-react-boilerplate-app xxx(自定义项目名称) -b xxx(样板名称)
 npm install -g create-react-boilerplate-app
@@ -66,6 +68,16 @@ nrm可以帮助您轻松快速地切换不同的npm镜像链接，现在包括�
 npm install -g nrm
 nrm use taobao ## switch to https://registry.npm.taobao.org/
 ```
+
+但是有些镜像还是要特殊处理，在.npmrc文件夹中添加一些特别的镜像：
+
+```sh
+sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+phantomjs_cdnurl=https://npm.taobao.org/mirrors/phantomjs/
+electron_mirror=https://npm.taobao.org/mirrors/electron/
+```
+
+node-sass不添加镜像，下载特别慢。
 
 ### 使用yarn
 
@@ -167,6 +179,14 @@ yarn 命令可以省略`run`关键字。
 
 构建后的文件已经压缩，文件名包括hash值（防止每次发版旧版本缓存问题）。
 
+#### npm run build-dll
+
+构建生产dll文件到`public`文件夹，这里使用了[DllPlugin](https://webpack.js.org/plugins/dll-plugin)，在这里您只需配置package.json中`react-boilerplate-app-scripts`的dll字段即可。详细请看[package.json之react-boilerplate-app-scripts配置](#package.json之react-boilerplate-app-scripts配置)
+
+#### npm run serve-build
+
+在build文件夹中，启动静态文件web服务。
+
 ### 使用可选功能
 
 #### 使用Less
@@ -266,6 +286,26 @@ npm run use sass
 
   因为有些网站访问web app不是在根目录，可能是根目录中的的文件夹，`basename`是用来设置这种情况的。
   例如`/demo`，访问网站根目录demo文件中的web app。
+
+- dll
+
+  > The DllPlugin and DllReferencePlugin provide means to split bundles in a way that can drastically improve build time performance.
+
+  DllPlugin和DllReferencePlugin提供了分离的bundles，可以大大提高构建速度。功能跟[CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/)类似，但是这个是提前提取bundles，所以后续的构建速度会大大提高。所以一般提取提取的bundles最好是稳定，基本不会修改的第三方类库，如react、react-dom、props-types等。
+
+  这里实现了[DllPlugin](https://webpack.js.org/plugins/dll-plugin)可选功能，格式如下：
+
+  ```json
+  ...
+  "react-boilerplate-app-scripts": {
+    "dll": ['react','react-dom']
+  },
+  ...
+  ```
+
+  dll目前只支持数组，只实现一个dll。如果不定义dll那就没有dll功能。
+
+  > dll功能在这个工具中，只需修改package.json里面的配置即可，不需要运行其他命令，正常运行其他命令即可。
 
 ### 配置覆盖
 
