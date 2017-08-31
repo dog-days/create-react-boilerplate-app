@@ -5,13 +5,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build-dll hide-message && react-boilerplate-app-scripts start",
-    "build": "npm run build-dll hide-message && react-boilerplate-app-scripts build",
-    "build-dll": "react-boilerplate-app-scripts build-dll",
-    "cover": "react-boilerplate-app-scripts cover",
-    "use": "react-boilerplate-app-scripts use",
+    "start": "npm run build-dll hide-message && ./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js start",
+    "build": "npm run build-dll hide-message && ./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js build",
+    "build-dll": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js build-dll",
+    "cover": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js cover",
+    "use": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js use",
     "create-i18n-excel": "react-router-controller-cli create-i18n-excel",
-    "create-i18n-list": "react-router-controller-cli create-i18n-list"
+    "create-i18n-list": "react-router-controller-cli create-i18n-list",
+    "sync": "node ./synchronize.js",
+    "init": "node ./node_modules/react-boilerplate-app-scripts/bin/init.js"
   },
   "author": "",
   "license": "ISC",
@@ -51,7 +53,7 @@
     "happypack": "^4.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
     "lodash": "^4.17.4",
-    "mvc-react": "0.0.8",
+    "mvc-react": "0.1.1",
     "new-serve": "^6.1.0",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
@@ -101,23 +103,5 @@
         ]
       }
     }
-  },
-  "react-boilerplate-app-scripts": {
-    "dll": [
-      "react",
-      "react-dom",
-      "prop-types",
-      "lodash",
-      "react-router",
-      "react-router-dom",
-      "redux",
-      "react-redux",
-      "react-router-redux",
-      "react-router-controller",
-      "react-router-redux-saga-model",
-      "redux-saga-model",
-      "react-router-redux-provider",
-      "mvc-react"
-    ]
   }
 }
