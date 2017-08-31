@@ -2,10 +2,10 @@
 
 const serve = require('new-serve');
 const fs = require('fs-extra');
-const scriptsPackagename = require('./const').scriptsPackagename;
+const scriptsPackagename = require('../../config/const').scriptsPackagename;
 const util = require('react-boilerplate-app-utils');
 const chalk = require('chalk');
-const paths = require('./paths');
+const paths = require('../../config/paths');
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );

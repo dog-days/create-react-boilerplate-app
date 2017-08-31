@@ -92,15 +92,14 @@ class init extends Basic {
     //适配scripts，针对当前项目的package.json中的scripts，去除部分信息
     cwdPackageJson.scripts = {};
     for (let k in currentPackageJson['scripts']) {
-      if (k != 'init') {
-        let command = currentPackageJson['scripts'][k];
-        let match = command.match(/node.*\.\/bin\/(.*)\.js/);
-        if (match && match[1]) {
-          cwdPackageJson.scripts[k] = currentPackageJson['scripts'][k].replace(
-            match[0],
-            match[1]
-          );
-        }
+      console.log(k);
+      let command = currentPackageJson['scripts'][k];
+      let match = command.match(/node.*\.\/bin\/(.*)\.js/);
+      if (match && match[1]) {
+        cwdPackageJson.scripts[k] = currentPackageJson['scripts'][k].replace(
+          match[0],
+          match[1]
+        );
       }
     }
     if (currentPackageJson[scriptsPackagename].dll) {

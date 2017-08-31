@@ -20,4 +20,5 @@ commander
     'cover',
     'Overwrite the configuration file, such as webpack.config.dev.js.'
   )
+  .command('serve-build', 'Serve the static files in the build folder.')
   .parse(process.argv);
