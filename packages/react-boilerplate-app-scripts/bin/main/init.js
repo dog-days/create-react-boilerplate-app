@@ -29,7 +29,7 @@ class init extends Basic {
   }
 
   getCommander() {
-    var program = commander
+    let program = commander
       .option('-b, --boilerplate [boilerplate]', 'boilerplate name')
       .parse(process.argv);
     if (!program.boilerplate) {
@@ -41,7 +41,7 @@ class init extends Basic {
   //config.json的结构跟package.json的相似，处理部分自定义的如scripts，其他的都跟package.json一致，
   //如果定义了，package.json对应的字段会被覆盖的。
   getConfigJson(boilerplate) {
-    var configPath = path.resolve(
+    let configPath = path.resolve(
       __dirname,
       '../../template',
       boilerplate,
@@ -73,54 +73,75 @@ class init extends Basic {
     if (!scriptsConfig) {
       return {};
     }
-    var scripts = {};
-    for (var k in scriptsConfig) {
-      var script = scriptsConfig[k].script;
+    let scripts = {};
+    for (let k in scriptsConfig) {
+      let script = scriptsConfig[k].script;
       scripts[k] = script;
     }
     return scripts;
   }
   writePackageJson() {
-    var pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
-    var packageJson = fs.readJsonSync(pacakgeJsonPath);
+    let pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
+    let cwdPackageJson = fs.readJsonSync(pacakgeJsonPath);
+    let currentPackageJson = this.packageJson;
     //适配scripts，针对当前项目的package.json中的scripts，去除部分信息
-    packageJson.scripts = {};
-    for (var k in this.packageJson['scripts']) {
+    cwdPackageJson.scripts = {};
+    for (let k in currentPackageJson['scripts']) {
       if (k != 'init') {
-        var command = this.packageJson['scripts'][k];
-        var match = command.match(/node.*\.\/bin\/(.*)\.js/);
+        let command = currentPackageJson['scripts'][k];
+        let match = command.match(/node.*\.\/bin\/(.*)\.js/);
         if (match && match[1]) {
-          packageJson.scripts[k] = this.packageJson['scripts'][k].replace(
+          cwdPackageJson.scripts[k] = currentPackageJson['scripts'][k].replace(
             match[0],
             match[1]
           );
         }
       }
     }
-    packageJson[scriptsPackagename] = {
-      historyApiFallback: {
-        verbose: true,
-      },
-    };
-    packageJson.babel = this.packageJson.babel;
-    packageJson.eslintConfig = this.packageJson.eslintConfig;
-    for (var j in this.configJson) {
-      var config = this.configJson[j];
+    if (currentPackageJson[scriptsPackagename].dll) {
+      cwdPackageJson[scriptsPackagename].dll =
+        currentPackageJson[scriptsPackagename].dll;
+    } else {
+      cwdPackageJson[scriptsPackagename].dll = [];
+    }
+    cwdPackageJson.babel = currentPackageJson.babel;
+    cwdPackageJson.eslintConfig = currentPackageJson.eslintConfig;
+    for (let j in this.configJson) {
+      let config = this.configJson[j];
       switch (j) {
         case 'scripts':
-          var boilerplateScripts = this.getBoilerplateScrpits(config);
-          packageJson.scripts = Object.assign(
-            packageJson.scripts,
-            boilerplateScripts
-          );
+          if (Object.prototype.toString.apply(config) === '[object Object]') {
+            let boilerplateScripts = this.getBoilerplateScrpits(config);
+            cwdPackageJson.scripts = Object.assign(
+              cwdPackageJson.scripts,
+              boilerplateScripts
+            );
+          } else {
+            console.log(
+              chalk.red('Config.json scirpts filed should be plain object.')
+            );
+          }
+          break;
+        case 'dll':
+          if (Object.prototype.toString.apply(config) == '[object Array]') {
+            config.forEach(v => {
+              let dll = cwdPackageJson[scriptsPackagename].dll;
+              if (!~dll.indexOf(v)) {
+                cwdPackageJson[scriptsPackagename].dll.push(v);
+              }
+            });
+          } else {
+            console.log(chalk.red('Config.json dll filed should be array.'));
+          }
+          cwdPackageJson[scriptsPackagename].dll.concat(currentPackageJson.dll);
           break;
         default:
           //覆盖
-          packageJson[j] = config;
+          cwdPackageJson[j] = config;
       }
     }
     //整合boilerplate中的config.json，覆盖配置，除了自定义的。
-    fs.writeFileSync(pacakgeJsonPath, JSON.stringify(packageJson, null, 2));
+    fs.writeFileSync(pacakgeJsonPath, JSON.stringify(cwdPackageJson, null, 2));
   }
 
   /**
@@ -131,7 +152,7 @@ class init extends Basic {
    */
   coypDir(targetDir, partDirName) {
     //template目录下的文件夹路径
-    var templateDirPath = path.resolve(
+    let templateDirPath = path.resolve(
       __dirname,
       `../../template/${targetDir}`
     );
@@ -140,7 +161,7 @@ class init extends Basic {
       process.exit(1);
     }
     //相对于项目根目录
-    var savePath = path.resolve(process.cwd(), partDirName);
+    let savePath = path.resolve(process.cwd(), partDirName);
     fs.copySync(templateDirPath, savePath, {
       dereference: true,
     });
@@ -149,9 +170,9 @@ class init extends Basic {
 
   run() {
     this.checkCurrentDirIsValid();
-    var boilerplate = this.program.boilerplate;
+    let boilerplate = this.program.boilerplate;
     this.coypDir('public', 'public');
-    var srcSavePath = this.coypDir(boilerplate, 'src');
+    let srcSavePath = this.coypDir(boilerplate, 'src');
     fs.removeSync(path.resolve(srcSavePath, 'scripts.json'));
     fs.moveSync(
       path.resolve(srcSavePath, 'README.md'),
@@ -163,9 +184,9 @@ class init extends Basic {
   }
 
   createCustomInstruction(scriptsConfig, displayedCommand) {
-    for (var k in scriptsConfig) {
-      var scriptsName = k;
-      var description = scriptsConfig[k].description;
+    for (let k in scriptsConfig) {
+      let scriptsName = k;
+      let description = scriptsConfig[k].description;
       console.log(chalk.cyan(`  ${displayedCommand} ${scriptsName}`));
       console.log(`     ${description}`);
       console.log();
@@ -173,14 +194,14 @@ class init extends Basic {
   }
 
   instruction() {
-    var appPath = path.resolve(process.cwd(), '../');
-    var appName = this.appName;
-    var useYarn = util.shouldUseYarn();
-    var displayedCommand = 'npm run';
+    let appPath = path.resolve(process.cwd(), '../');
+    let appName = this.appName;
+    let useYarn = util.shouldUseYarn();
+    let displayedCommand = 'npm run';
     if (useYarn) {
       displayedCommand = 'yarn';
     }
-    var descriptionScripts = {
+    let descriptionScripts = {
       start: {
         description: 'Start the development server.',
       },
@@ -188,7 +209,8 @@ class init extends Basic {
         description: 'Use a feature such as less,sass.',
       },
       'cover <file-name>': {
-        description: 'Overwrite the configuration file, such as webpack.config.dev.js.',
+        description:
+          'Overwrite the configuration file, such as webpack.config.dev.js.',
       },
       build: {
         description: 'Bundles the app into static files for production.',

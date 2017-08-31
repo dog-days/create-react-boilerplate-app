@@ -1,4 +1,5 @@
 'use strict';
+console.log('Starting service...');
 
 process.env.NODE_ENV = 'development';
 
@@ -92,9 +93,8 @@ function runDevServer(host, port) {
       //end----http mock处理
     },
     //开启HTML5 History API，所有请求都重定向到index.html（地址重写）
-    historyApiFallback: historyApiFallback ||
-      cwdPackageJsonConfig.historyApiFallback ||
-      true,
+    historyApiFallback:
+      historyApiFallback || cwdPackageJsonConfig.historyApiFallback || true,
     // 开启gzip功能
     compress: true,
     // 关闭WebpackDevServer繁琐的输出信息
@@ -124,6 +124,7 @@ function runDevServer(host, port) {
     next();
   });
   // 启动WebpackDevServer.
+
   var server = devServer.listen(port, err => {
     if (err) {
       return console.log(err);
@@ -223,7 +224,9 @@ compiler.plugin('done', function(stats) {
   var messages = stats.toJson({}, true);
   var isError = messages.errors.length;
   if (!isError) {
-    console.log(chalk.green('Compiled successfully!'));
+    console.log(
+      `Time: ${chalk.cyan((stats.endTime - stats.startTime) / 1000 + 's')}`
+    );
     console.log();
   }
 

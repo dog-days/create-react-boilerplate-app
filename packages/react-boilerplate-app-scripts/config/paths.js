@@ -14,6 +14,7 @@ function pathResolve(relativePath) {
 var paths = {
   webpackDevConfig: pathResolve('config/webpack.config.dev.js'),
   webpackProdConfig: pathResolve('config/webpack.config.prod.js'),
+  webpackDllConfig: pathResolve('config/webpack.config.dll.js'),
   //app 程序入口js文件
   appEntry: pathResolve(cwdPackageJsonConfig.appEntryPath),
   //dev server静态资源访问目录

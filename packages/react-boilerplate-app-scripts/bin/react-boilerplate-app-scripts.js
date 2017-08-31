@@ -14,14 +14,7 @@ commander
   .version(packageJson.version)
   .command('start', 'Start dev server')
   .command('build', 'Production building')
-  .command('route', 'Routes atuo creater')
-  .command('reducer', 'Reducers atuo creater')
-  .command('create-view', 'Create page view template')
-  .command('view-locale-to-excel', 'Generate view locale string to Excel lists')
-  .command(
-    'excel-to-locale-config',
-    'Generate locale string to config file from excel'
-  )
+  .command('build-dll', 'Dll building')
   .command('use', 'Use a feature such as less,sass and immutable.js.')
   .command(
     'cover',

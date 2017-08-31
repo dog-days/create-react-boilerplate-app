@@ -18,8 +18,9 @@
     "react-boilerplate-app-scripts": "./bin/react-boilerplate-app-scripts.js"
   },
   "scripts": {
-    "start": "node ./bin/react-boilerplate-app-scripts.js start",
-    "build": "node ./bin/react-boilerplate-app-scripts.js build",
+    "start": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
+    "build": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
+    "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
     "serve-build": "node ./config/serve-build"
@@ -58,7 +59,10 @@
     "file-loader": "^0.11.1",
     "fs-extra": "^3.0.0",
     "gzip-size": "^3.0.0",
+    "happypack": "^4.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
+    "lodash": "^4.17.4",
+    "new-serve": "^6.1.0",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
@@ -67,12 +71,12 @@
     "react-dev-utils": "^0.5.2",
     "react-hot-loader": "3.0.0-beta.6",
     "relative": "^3.0.2",
-    "new-serve": "^6.1.0",
     "socket.io": "^2.0.2",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.4.5",
+    "webpack-parallel-uglify-plugin": "^1.0.0",
     "webpack-simple-progress-plugin": "0.0.2"
   },
   "devDependencies": {
@@ -86,13 +90,15 @@
     "whatwg-fetch": "^2.0.3"
   },
   "react-boilerplate-app-scripts": {
+    "dll": [
+      "react",
+      "react-dom",
+      "prop-types"
+    ],
     "appSrcPath": "template/mvc-react",
     "appPublicPath": "template/public",
     "mock": {
       "/common-api/(.*)": "/mock/$1.json"
-    },
-    "historyApiFallback": {
-      "verbose": true
     }
   },
   "babel": {
