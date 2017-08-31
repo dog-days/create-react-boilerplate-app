@@ -1,7 +1,7 @@
 # react-boilerplate-app-scripts
 
-This package includes scripts and configuration used by [Create React Boilerplate App](https://github.com/dog-days/create-react-boilerplate-app).
-Please refer to its documentation:
+此package包括创建[Create React Boilerplate App](https://github.com/dog-days/create-react-boilerplate-app)使用的脚本和配置。
 
-- [Getting Started](https://github.com/dog-days/create-react-boilerplate-app#getting-started) – How to create a new boilerplate app.
+请参考其文档：
 
+- [入门](https://github.com/dog-days/create-react-boilerplate-app/blob/master/README-zh_CN.md#入门) - 如何创建新的样板应用程序。
