@@ -73,6 +73,13 @@ let entry = [
   'webpack/hot/only-dev-server',
   paths.appEntry,
 ];
+const exclude = [
+  /node_modules/,
+  path.resolve(process.cwd(), 'config'),
+  path.resolve(process.cwd(), 'bin'),
+  path.resolve(process.cwd(), 'build'),
+  /.cache/,
+];
 if (!cwdPackageJsonConfig.dll) {
   //我们添加一些默认的polyfills
   //如果启用了dll，就不用polyfills
@@ -152,7 +159,7 @@ var config = {
         test: /\.js[x]?$/,
         //之所以不用include是因为，如果单独是用react-boilerplate-app-scirpts，
         //修改了paths.src的路径，但是还是想检查其他的目录，这就会有问题。
-        exclude: [/node_modules/, /config/, /bin/, /build/, /.cache/],
+        exclude,
         loader: 'eslint-loader',
       },
       {
@@ -164,7 +171,7 @@ var config = {
         },
         //之所以不用include是因为，如果单独是用react-boilerplate-app-scirpts，
         //修改了paths.src的路径，但是还是想检查其他的目录，这就会有问题。
-        exclude: [/node_modules/, /config/, /bin/, /build/, /.cache/],
+        exclude,
       },
     ],
   },
