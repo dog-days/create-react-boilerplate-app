@@ -99,7 +99,9 @@ var config = {
     //定义require.ensure文件名
     chunkFilename: '[name]-[id]-[chunkHash].chunk.js',
     libraryTarget: 'var',
-    sourceMapFilename: '[file].map',
+    // Point sourcemap entries to original disk location (format as URL on Windows)
+    devtoolModuleFilenameTemplate: info =>
+      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   module: {
     rules: [

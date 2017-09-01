@@ -96,7 +96,6 @@ var config = {
     //定义require.ensure文件名
     chunkFilename: 'static/js/[name]-[id]-[hash].chunk.js',
     libraryTarget: 'var',
-    sourceMapFilename: '[file].map',
   },
   module: {
     rules: [
@@ -210,6 +209,7 @@ var config = {
     }),
     new ParallelUglifyPlugin({
       cacheDir: '.cache/',
+      sourceMap: true,
       uglifyJS: {
         output: {
           comments: false,

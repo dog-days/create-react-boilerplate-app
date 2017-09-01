@@ -61,6 +61,7 @@ var config = {
     }),
     new ParallelUglifyPlugin({
       cacheDir: '.cache/',
+      sourceMap: true,
       uglifyJS: {
         output: {
           comments: false,
