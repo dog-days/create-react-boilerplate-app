@@ -1,19 +1,18 @@
 {
   "name": "test",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build-dll hide-message && ./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js start",
-    "build": "npm run build-dll hide-message && ./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js build",
-    "build-dll": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js build-dll",
-    "cover": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js cover",
-    "use": "./node_modules/react-boilerplate-app-scripts/bin/react-boilerplate-app-scripts.js use",
+    "start": "npm run build-dll hide-message && react-boilerplate-app-scripts start",
+    "build": "npm run build-dll hide-message && react-boilerplate-app-scripts build",
+    "build-dll": "react-boilerplate-app-scripts build-dll",
+    "cover": "react-boilerplate-app-scripts cover",
+    "use": "react-boilerplate-app-scripts use",
+    "serve-build": "react-boilerplate-app-scripts serve-build",
     "create-i18n-excel": "react-router-controller-cli create-i18n-excel",
-    "create-i18n-list": "react-router-controller-cli create-i18n-list",
-    "sync": "node ./synchronize.js",
-    "init": "node ./node_modules/react-boilerplate-app-scripts/bin/init.js"
+    "create-i18n-list": "react-router-controller-cli create-i18n-list"
   },
   "author": "",
   "license": "ISC",
@@ -62,8 +61,8 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
-    "react-boilerplate-app-scripts": "^0.1.6",
-    "react-boilerplate-app-utils": "^0.0.15",
+    "react-boilerplate-app-scripts": "^0.1.7",
+    "react-boilerplate-app-utils": "^0.0.16",
     "react-dev-utils": "^0.5.2",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
@@ -103,5 +102,23 @@
         ]
       }
     }
+  },
+  "react-boilerplate-app-scripts": {
+    "dll": [
+      "react",
+      "react-dom",
+      "prop-types",
+      "lodash",
+      "react-router",
+      "react-router-dom",
+      "redux",
+      "react-redux",
+      "react-router-redux",
+      "react-router-controller",
+      "react-router-redux-saga-model",
+      "redux-saga-model",
+      "react-router-redux-provider",
+      "mvc-react"
+    ]
   }
 }
