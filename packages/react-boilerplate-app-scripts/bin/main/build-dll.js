@@ -21,12 +21,31 @@ const _ = require('lodash');
 if (!cwdPackageJsonConfig.dll) {
   return;
 }
+if (!Array.isArray(cwdPackageJsonConfig.dll)) {
+  return;
+}
+if (!cwdPackageJsonConfig.dll[0]) {
+  return;
+}
 
 const dllCompareJsonPath = path.resolve(paths.appPublic, 'dll-compare.json');
+const dllManifestPath = path.resolve(paths.appPublic, 'app-manifest.json');
 const dllAppPath = path.resolve(paths.appPublic, 'dll.app.js');
-if (fs.existsSync(dllCompareJsonPath) && fs.existsSync(dllAppPath)) {
+let dllWithVersion = [];
+if (
+  fs.existsSync(dllCompareJsonPath) &&
+  fs.existsSync(dllAppPath) &&
+  fs.existsSync(dllManifestPath)
+) {
+  //获取带版本的dll列表
+  cwdPackageJsonConfig.dll.forEach(v => {
+    if (!~v.indexOf('config/polyfills.js')) {
+      let version = util.getVersionOfPackage(v);
+      dllWithVersion.push(`${v}@${version}`);
+    }
+  });
   const dllCompareJson = fs.readJsonSync(dllCompareJsonPath);
-  if (_.isEqual(dllCompareJson, cwdPackageJsonConfig.dll)) {
+  if (_.isEqual(dllCompareJson, dllWithVersion)) {
     if (!process.argv[2]) {
       console.log(
         chalk.cyan(
@@ -69,18 +88,18 @@ webpack(config).run(function(err, stats) {
   }
   if (info.assets && info.assets[0]) {
     //处理header
-    var head = ['Asset', 'Real Size', 'Gzip Size', 'Chunks', '', 'Chunk Names'];
+    let head = ['Asset', 'Real Size', 'Gzip Size', 'Chunks', '', 'Chunk Names'];
     head = head.reduce((a, b) => {
       a.push(chalk.cyan(b));
       return a;
     }, []);
-    var table = new Table({
+    let table = new Table({
       head,
     });
     info.assets.forEach(v => {
-      var sizeAfterGzip;
+      let sizeAfterGzip;
       if (v.name.match(/(.js$)|(.css$)/)) {
-        var fileContents = fs.readFileSync(
+        let fileContents = fs.readFileSync(
           path.resolve(paths.appPublic, v.name)
         );
         sizeAfterGzip = gzipSize(fileContents);
@@ -108,7 +127,7 @@ webpack(config).run(function(err, stats) {
     //保存cwdPackageJsonConfig.dll中的配置,用于对比。
     fs.writeFileSync(
       path.resolve(paths.appPublic, 'dll-compare.json'),
-      JSON.stringify(cwdPackageJsonConfig.dll || [], null, 2)
+      JSON.stringify(dllWithVersion, null, 2)
     );
   }
 });
