@@ -8,6 +8,8 @@ const spawn = require('cross-spawn');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
+  //scripts工具package名
+  scriptsPackagename: 'react-boilerplate-app-scripts',
   /**
    * react-router pathname适配
    * 例如url=test或者test/或者/test/会适配为/test
