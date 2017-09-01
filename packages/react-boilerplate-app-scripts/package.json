@@ -80,7 +80,7 @@
     "webpack-simple-progress-plugin": "0.0.2"
   },
   "devDependencies": {
-    "mvc-react": "0.1.1",
+    "mvc-react": "0.1.2",
     "object.assign": "^4.0.4",
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
