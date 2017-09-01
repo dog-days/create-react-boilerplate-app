@@ -1,11 +1,12 @@
 'use strict';
+
+const util = require('react-boilerplate-app-utils');
+const scriptsPackagename = util.scriptsPackagename;
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const commander = require('commander');
-const util = require('react-boilerplate-app-utils');
 const Basic = require('./Basic.js');
-const scriptsPackagename = require('../../config/const').scriptsPackagename;
 
 class init extends Basic {
   /**
@@ -92,7 +93,6 @@ class init extends Basic {
     //适配scripts，针对当前项目的package.json中的scripts，去除部分信息
     cwdPackageJson.scripts = {};
     for (let k in currentPackageJson['scripts']) {
-      console.log(k);
       let command = currentPackageJson['scripts'][k];
       let match = command.match(/node.*\.\/bin\/(.*)\.js/);
       if (match && match[1]) {

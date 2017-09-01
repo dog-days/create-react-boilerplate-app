@@ -1,19 +1,24 @@
 'use strict';
+
 //用来打包dll文件，专门提取node_modules中的packages，自己类包在此不做处理。
 //所有不会有babel等解析。
+const util = require('react-boilerplate-app-utils');
 const path = require('path');
 const webpack = require('webpack');
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const chalk = require('chalk');
-const util = require('react-boilerplate-app-utils');
-const scriptsPackagename = require('./const').scriptsPackagename;
+const scriptsPackagename = util.scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
 
+//添加polyfills入口文件
+cwdPackageJsonConfig.dll.unshift(
+  require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename))
+);
 //webpack配置项
 var config = {
   //任何错误立即终止

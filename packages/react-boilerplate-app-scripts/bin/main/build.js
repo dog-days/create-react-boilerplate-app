@@ -6,12 +6,11 @@ console.log();
 
 process.env.NODE_ENV = 'production';
 
-const scriptsPackagename = require('../../config/const').scriptsPackagename;
-
+const util = require('react-boilerplate-app-utils');
+const scriptsPackagename = util.scriptsPackagename;
 const path = require('path');
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const util = require('react-boilerplate-app-utils');
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const webpack = require('webpack');
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(

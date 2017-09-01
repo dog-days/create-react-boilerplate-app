@@ -1,9 +1,9 @@
 'use strict';
 
+const util = require('react-boilerplate-app-utils');
+const scriptsPackagename = util.scriptsPackagename;
 const serve = require('new-serve');
 const fs = require('fs-extra');
-const scriptsPackagename = require('../../config/const').scriptsPackagename;
-const util = require('react-boilerplate-app-utils');
 const chalk = require('chalk');
 const paths = require('../../config/paths');
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(

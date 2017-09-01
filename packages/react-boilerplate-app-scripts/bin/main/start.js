@@ -3,8 +3,8 @@ console.log('Starting service...');
 
 process.env.NODE_ENV = 'development';
 
-const scriptsPackagename = 'react-boilerplate-app-scripts';
-
+const util = require('react-boilerplate-app-utils');
+const scriptsPackagename = util.scriptsPackagename;
 const path = require('path');
 const fs = require('fs-extra');
 const chalk = require('chalk');
@@ -12,7 +12,6 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const detect = require('detect-port');
-const util = require('react-boilerplate-app-utils');
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 var proxy;
 var proxyPath = util.pathResolve('config/proxy.js', scriptsPackagename);

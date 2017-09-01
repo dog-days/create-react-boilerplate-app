@@ -1,4 +1,6 @@
 'use strict';
+
+const util = require('react-boilerplate-app-utils');
 const path = require('path');
 const fs = require('fs-extra');
 const webpack = require('webpack');
@@ -7,8 +9,7 @@ const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const chalk = require('chalk');
-const util = require('react-boilerplate-app-utils');
-const scriptsPackagename = require('./const').scriptsPackagename;
+const scriptsPackagename = util.scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 
 //bebin-----------packageJson信息获取
@@ -63,17 +64,22 @@ const postcssLoaderConfig = {
   },
 };
 
-const entry = [
+let entry = [
   'react-hot-loader/patch',
   //热替换入口文件
   'webpack-dev-server/client',
   // bundle the client for hot reloading
   // only- means to only hot reload for successful updates
   'webpack/hot/only-dev-server',
-  //我们添加一些默认的polyfills
-  require.resolve('./polyfills'),
   paths.appEntry,
 ];
+if (!cwdPackageJsonConfig.dll) {
+  //我们添加一些默认的polyfills
+  //如果启用了dll，就不用polyfills
+  entry.push(
+    require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename))
+  );
+}
 //webpack配置项
 var config = {
   devtool: 'cheap-module-source-map',

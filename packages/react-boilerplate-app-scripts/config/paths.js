@@ -1,7 +1,8 @@
 'use strict';
-const path = require('path');
+
 const util = require('react-boilerplate-app-utils');
-const scriptsPackagename = require('./const').scriptsPackagename;
+const scriptsPackagename = util.scriptsPackagename;
+const path = require('path');
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );

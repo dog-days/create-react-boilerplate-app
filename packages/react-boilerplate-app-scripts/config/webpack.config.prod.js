@@ -1,4 +1,6 @@
 'use strict';
+
+const util = require('react-boilerplate-app-utils');
 const path = require('path');
 const fs = require('fs-extra');
 const webpack = require('webpack');
@@ -9,8 +11,7 @@ const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const chalk = require('chalk');
-const util = require('react-boilerplate-app-utils');
-const scriptsPackagename = require('./const').scriptsPackagename;
+const scriptsPackagename = util.scriptsPackagename;
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 
 //bebin-----------packageJson信息获取
@@ -64,6 +65,14 @@ const postcssLoaderConfig = {
   },
 };
 
+let entry = [paths.appEntry];
+if (!cwdPackageJsonConfig.dll) {
+  //我们添加一些默认的polyfills
+  //如果启用了dll，就不用polyfills
+  entry.push(
+    require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename))
+  );
+}
 //webpack配置项
 var config = {
   //任何错误立即终止
@@ -74,11 +83,7 @@ var config = {
     hints: false,
   },
   entry: {
-    app: [
-      //我们添加一些默认的polyfills
-      require.resolve('./polyfills'),
-      paths.appEntry,
-    ],
+    app: entry,
   },
   output: {
     filename: 'static/js/bundle.[hash].js',

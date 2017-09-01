@@ -2,10 +2,10 @@
 
 process.env.NODE_ENV = 'production';
 
-const scriptsPackagename = require('../../config/const').scriptsPackagename;
+const util = require('react-boilerplate-app-utils');
+const scriptsPackagename = util.scriptsPackagename;
 const path = require('path');
 const webpack = require('webpack');
-const util = require('react-boilerplate-app-utils');
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
