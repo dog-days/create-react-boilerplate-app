@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -10,9 +10,7 @@
     "build-dll": "react-boilerplate-app-scripts build-dll",
     "cover": "react-boilerplate-app-scripts cover",
     "use": "react-boilerplate-app-scripts use",
-    "serve-build": "react-boilerplate-app-scripts serve-build",
-    "create-i18n-excel": "react-router-controller-cli create-i18n-excel",
-    "create-i18n-list": "react-router-controller-cli create-i18n-list"
+    "serve-build": "react-boilerplate-app-scripts serve-build"
   },
   "author": "",
   "license": "ISC",
@@ -107,18 +105,7 @@
     "dll": [
       "react",
       "react-dom",
-      "prop-types",
-      "lodash",
-      "react-router",
-      "react-router-dom",
-      "redux",
-      "react-redux",
-      "react-router-redux",
-      "react-router-controller",
-      "react-router-redux-saga-model",
-      "redux-saga-model",
-      "react-router-redux-provider",
-      "mvc-react"
+      "prop-types"
     ]
   }
 }
