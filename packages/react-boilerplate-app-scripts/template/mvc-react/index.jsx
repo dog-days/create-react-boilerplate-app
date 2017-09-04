@@ -1,4 +1,3 @@
-import 'react-router-controller/libs/polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import Container from './container';

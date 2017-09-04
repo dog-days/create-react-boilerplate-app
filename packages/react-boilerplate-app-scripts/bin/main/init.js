@@ -168,7 +168,7 @@ class init extends Basic {
       `../../template/${targetDir}`
     );
     if (!fs.existsSync(templateDirPath)) {
-      console.error(chalk.yellow(templateDirPath + ' is not exist.'));
+      console.error(chalk.red(templateDirPath + ' is not exist.'));
       process.exit();
     }
     //相对于项目根目录
