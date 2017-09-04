@@ -45,7 +45,10 @@ class CreateApp {
       .version(currentPakageJson.version)
       .arguments('<project-directory>')
       .usage(`${chalk.green('<project-directory>')} [options]`)
-      .option('-b, --boilerplate', 'create app with specified boilerplate')
+      .option(
+        '-b, --boilerplate [boilerplate]',
+        'create app with specified boilerplate'
+      )
       .action(name => {
         this.appName = name;
       })
