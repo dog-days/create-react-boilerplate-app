@@ -12,6 +12,8 @@ class Container extends React.Component {
         </div>
         <p className="app-intro">
           请编辑src/container.jsx，保存后页面会自动更新编辑后内容，无需手动刷新页面。
+          <br />
+          此模板是最简单的，只是用了React，没有其他依赖。
         </p>
       </div>
     );
