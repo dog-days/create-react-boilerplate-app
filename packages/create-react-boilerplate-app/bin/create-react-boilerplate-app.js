@@ -14,12 +14,11 @@ class CreateApp {
     this.program = this.commandSetting();
     var boilerplateJson = this.getBoilerpalteJson();
     this.packageJson = {
-      name: 'app',
       version: '0.0.1',
       dependencies: {},
       devDependencies: {},
     };
-    this.packageJson.name = boilerplateJson.name;
+    this.packageJson.name = boilerplateJson.name || 'app';
     this.dependencies = ['react', 'react-dom', 'prop-types'];
     this.dependencies = this.dependencies.concat(
       boilerplateJson.dependencies || []
@@ -88,11 +87,8 @@ class CreateApp {
       var boilerplateJson = fs.readJsonSync(boilerplateJsonPath);
       return boilerplateJson;
     } catch (e) {
-      console.log(chalk.red(boilerplateJsonPath + '：'));
-      console.log(chalk.red('模板配置文件不存在！'));
-      console.log();
-      //console.log(e);
-      process.exit();
+      //如果不存在，返回空对象
+      return {};
     }
   }
   //检测appName是否合法
