@@ -47,13 +47,17 @@ class init extends Basic {
   //config.json的结构跟package.json的相似，处理部分自定义的如scripts，其他的都跟package.json一致，
   //如果定义了，package.json对应的字段会被覆盖的。
   getConfigJson(boilerplate) {
-    let configPath = path.resolve(
-      __dirname,
-      '../../template',
-      boilerplate,
-      'config.json'
-    );
-    return fs.readJsonSync(configPath);
+    try {
+      let configPath = path.resolve(
+        __dirname,
+        '../../template',
+        boilerplate,
+        'config.json'
+      );
+      return fs.readJsonSync(configPath);
+    } catch (e) {
+      return {};
+    }
   }
 
   /**
@@ -64,7 +68,7 @@ class init extends Basic {
     try {
       if (fs.existsSync(util.resolveCwd('src'))) {
         console.error(chalk.red('The project should not contain src folder!'));
-        process.exit(1);
+        process.exit();
         return false;
       } else {
         return true;
@@ -165,7 +169,7 @@ class init extends Basic {
     );
     if (!fs.existsSync(templateDirPath)) {
       console.error(chalk.yellow(templateDirPath + ' is not exist.'));
-      process.exit(1);
+      process.exit();
     }
     //相对于项目根目录
     let savePath = path.resolve(process.cwd(), partDirName);
@@ -181,11 +185,12 @@ class init extends Basic {
     this.coypDir('public', 'public');
     let srcSavePath = this.coypDir(boilerplate, 'src');
     fs.removeSync(path.resolve(srcSavePath, 'scripts.json'));
-    fs.moveSync(
-      path.resolve(srcSavePath, 'README.md'),
-      path.resolve(srcSavePath, '../README.md'),
-      { overwrite: true }
-    );
+    var readmePath = path.resolve(srcSavePath, 'README.md');
+    if (fs.existsSync(readmePath)) {
+      fs.moveSync(readmePath, path.resolve(srcSavePath, '../README.md'), {
+        overwrite: true,
+      });
+    }
     this.writePackageJson();
     this.instruction();
   }
