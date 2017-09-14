@@ -274,7 +274,7 @@ if (useSass) {
 //使用sass配置
 if (useLess) {
   config.module.rules.push({
-    test: /\.scss$/,
+    test: /\.less$/,
     loader: ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: ['css-loader', postcssLoaderConfig, 'less-loader'],
