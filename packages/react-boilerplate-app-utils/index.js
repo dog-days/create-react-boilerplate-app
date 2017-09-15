@@ -489,7 +489,14 @@ module.exports = {
       let mockFilePath = path.join(mockContainerPath, targetPath);
       let mockJsFilePath = mockFilePath.replace('.json', '.js');
       if (fs.existsSync(mockFilePath)) {
-        let mockContents = require(mockFilePath);
+        let mockContents;
+        if (/\.js$/.test(mockFilePath)) {
+          mockContents = require(mockFilePath);
+        } else {
+          mockContents = fs.readFileSync(mockFilePath, {
+            encoding: 'utf-8',
+          });
+        }
         if (
           Object.prototype.toString.apply(mockContents) === '[object Function]'
         ) {
