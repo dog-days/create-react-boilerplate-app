@@ -13,16 +13,16 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const detect = require('detect-port');
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
-var proxy;
-var proxyPath = util.pathResolve('config/proxy.js', scriptsPackagename);
+let proxy;
+let proxyPath = util.pathResolve('config/proxy.js', scriptsPackagename);
 if (proxyPath) {
   proxy = require(proxyPath);
 }
-var historyApiFallbackPath = util.pathResolve(
+let historyApiFallbackPath = util.pathResolve(
   'config/historyApiFallback.js',
   scriptsPackagename
 );
-var historyApiFallback;
+let historyApiFallback;
 if (historyApiFallbackPath) {
   historyApiFallback = require(historyApiFallbackPath);
 }
@@ -33,13 +33,13 @@ const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
 );
 const host = cwdPackageJsonConfig.host;
 //port 可以被修改，会被占用
-var port = cwdPackageJsonConfig.port;
+let port = cwdPackageJsonConfig.port;
 //经过转换后的historyApiFallback rewrites
 if (
   cwdPackageJsonConfig.historyApiFallback &&
   cwdPackageJsonConfig.historyApiFallback.rewrites
 ) {
-  var rewrites = util.historyApiFallbackRewiriteAdapter(
+  let rewrites = util.historyApiFallbackRewiriteAdapter(
     cwdPackageJsonConfig.historyApiFallback.rewrites
   );
   cwdPackageJsonConfig.historyApiFallback.rewrites = rewrites;
@@ -47,7 +47,7 @@ if (
 const useYarn = util.shouldUseYarn();
 
 function runDevServer(host, port) {
-  var devServer = new WebpackDevServer(compiler, {
+  let devServer = new WebpackDevServer(compiler, {
     /**
      * WebpackDevServer 提供的对外设置路由访问功能
      * create-react-boilerplate-app在这里提供了mock服务
@@ -61,33 +61,48 @@ function runDevServer(host, port) {
        * eg. '/mock/$1.json|400'
        */
       function mock(mockRule, mockTarget) {
-        var mock = new RegExp(mockRule);
-        var matchStatusReg = /\|(.*)$/;
-        var target = mockTarget;
-        var statusMatch = target.match(matchStatusReg);
-        var status = (statusMatch && target.match(matchStatusReg)[1]) || 200;
+        let mock = new RegExp(mockRule);
+        let matchStatusReg = /\|(.*)$/;
+        let target = mockTarget;
+        let statusMatch = target.match(matchStatusReg);
+        let status = (statusMatch && target.match(matchStatusReg)[1]) || 200;
         target = target.replace(matchStatusReg, '');
         app.all(mock, function(req, res) {
-          var targetPath = target;
-          var match = req.url.match(mock);
+          if (req.query.__status__) {
+            status = req.query.__status__;
+          }
+          let targetPath = target;
+          let match = req.url.match(mock);
           match.forEach((v, k) => {
             targetPath = targetPath.replace(`$${k}`, v);
           });
           //mock文件路径
-          var mockFilePath = path.join(paths.appPublic, targetPath);
+          let mockFilePath = path.join(paths.appPublic, targetPath);
+          let mockJsFilePath = mockFilePath.replace('.json', '.js');
           if (fs.existsSync(mockFilePath)) {
-            var mockContents = fs.readFileSync(mockFilePath, {
-              encoding: 'utf-8',
-            });
+            let mockContents = require(mockFilePath);
             res.status(status).send(mockContents);
+          } else if (fs.existsSync(mockJsFilePath)) {
+            //如果找不到.json的文件（规则中配置了.json），读取.js文件
+            let mockContents = require(mockJsFilePath);
+            if (
+              Object.prototype.toString.apply(mockContents) ===
+              '[object Function]'
+            ) {
+              mockContents = mockContents(req, res);
+              res.status(status).send(mockContents);
+            } else {
+              console.log(new Error('mock js文件的需要exports函数！'));
+            }
           } else {
             res.status(404).send(req.url + ' not found.');
           }
         });
       }
-      var mockConfig = cwdPackageJsonConfig.mock;
-      for (var k in mockConfig) {
-        mock(k, mockConfig[k]);
+      let mockConfig = cwdPackageJsonConfig.mock;
+      for (let k in mockConfig) {
+        let mockTarget = mockConfig[k];
+        mock(k, mockTarget);
       }
       //end----http mock处理
     },
@@ -124,14 +139,14 @@ function runDevServer(host, port) {
   });
   // 启动WebpackDevServer.
 
-  var server = devServer.listen(port, err => {
+  let server = devServer.listen(port, err => {
     if (err) {
       return console.log(err);
     }
   });
   //begin----websocket mock服务
   if (cwdPackageJsonConfig.websocketMock) {
-    var websocketMockConfig = cwdPackageJsonConfig.websocketMock;
+    let websocketMockConfig = cwdPackageJsonConfig.websocketMock;
     const socketIo = require('socket.io');
     const io = socketIo(server);
     io.on('error', function(err) {
@@ -139,9 +154,9 @@ function runDevServer(host, port) {
     });
     io.on('connection', socket => {
       try {
-        var mockObject, file;
-        for (var k in websocketMockConfig.emit) {
-          var v = websocketMockConfig.emit[k];
+        let mockObject, file;
+        for (let k in websocketMockConfig.emit) {
+          let v = websocketMockConfig.emit[k];
           file = path.join(paths.appPublic, v.url);
           if (!fs.existsSync(file)) {
             console.log();
@@ -172,15 +187,15 @@ function runDevServer(host, port) {
               return mockObject(t) || {};
             }
             try {
-              var data = getData();
+              let data = getData();
               socket.emit(k, data);
             } catch (e) {
               console.log(e);
             }
           });
         }
-        for (var j in websocketMockConfig.on) {
-          var value = websocketMockConfig.on[j];
+        for (let j in websocketMockConfig.on) {
+          let value = websocketMockConfig.on[j];
           file = path.join(paths.appPublic, value);
           if (!fs.existsSync(file)) {
             console.log();
@@ -200,7 +215,7 @@ function runDevServer(host, port) {
               console.log();
               process.exit(1);
             }
-            var result = mockObject(data) || {};
+            let result = mockObject(data) || {};
             if (websocketMockConfig.log) {
               console.log();
               console.log('type: ', chalk.cyan('on'));
@@ -218,10 +233,10 @@ function runDevServer(host, port) {
   //end----websocket mock服务
 }
 
-var isFirstCompile = true;
+let isFirstCompile = true;
 compiler.plugin('done', function(stats) {
-  var messages = stats.toJson({}, true);
-  var isError = messages.errors.length;
+  let messages = stats.toJson({}, true);
+  let isError = messages.errors.length;
   if (!isError) {
     console.log(
       `Time: ${chalk.cyan((stats.endTime - stats.startTime) / 1000 + 's')}`
@@ -240,7 +255,7 @@ compiler.plugin('done', function(stats) {
       port
     );
     console.log();
-    var displayedCommand = 'npm run build';
+    let displayedCommand = 'npm run build';
     if (useYarn) {
       displayedCommand = 'yarn build';
     }
