@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -59,8 +59,8 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
-    "react-boilerplate-app-scripts": "^0.1.14",
-    "react-boilerplate-app-utils": "^0.0.18",
+    "react-boilerplate-app-scripts": "^0.1.15",
+    "react-boilerplate-app-utils": "^0.0.19",
     "react-dev-utils": "^0.5.2",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
