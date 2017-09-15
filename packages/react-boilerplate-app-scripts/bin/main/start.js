@@ -81,6 +81,12 @@ function runDevServer(host, port) {
           let mockJsFilePath = mockFilePath.replace('.json', '.js');
           if (fs.existsSync(mockFilePath)) {
             let mockContents = require(mockFilePath);
+            if (
+              Object.prototype.toString.apply(mockContents) ===
+              '[object Function]'
+            ) {
+              mockContents = mockContents(req, res);
+            }
             res.status(status).send(mockContents);
           } else if (fs.existsSync(mockJsFilePath)) {
             //如果找不到.json的文件（规则中配置了.json），读取.js文件
