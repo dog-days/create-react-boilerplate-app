@@ -18,8 +18,14 @@ if (!fs.existsSync(dir)) {
   console.log(chalk.red(`The dir "${dir}" doesn't exist!'`));
   process.exit();
 }
+let mockConfig = false;
+if (cwdPackageJsonConfig.mock) {
+  mockConfig = JSON.stringify(cwdPackageJsonConfig.mock);
+}
 serve(dir, {
   open: true,
   single: true,
   basename: cwdPackageJsonConfig.basename || null,
+  mockDir: paths.appPublic,
+  mockConfig,
 });
