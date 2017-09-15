@@ -473,10 +473,9 @@ module.exports = {
     let mock = new RegExp(mockRule);
     let matchStatusReg = /\|(.*)$/;
     let target = mockTarget;
-    let statusMatch = target.match(matchStatusReg);
-    let status = (statusMatch && target.match(matchStatusReg)[1]) || 200;
     target = target.replace(matchStatusReg, '');
     app.all(mock, function(req, res) {
+      let status = 200;
       if (req.query.__status__) {
         status = req.query.__status__;
       }
