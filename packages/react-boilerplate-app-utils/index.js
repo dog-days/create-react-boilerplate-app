@@ -460,4 +460,56 @@ module.exports = {
     var topBuidlDir = splitPathArray.join(basename);
     return topBuidlDir;
   },
+  /**
+   * express 正则匹配mock
+   * @param { object } app express app
+   * @param { string } mockContainerPath mock文件夹容器
+   * @param { string } mockRule mock规则，可以使正则表达式
+   * eg. '/common-api/(.*)'
+   * @param { string } moackTarget mock目标路径，相对于`path.publicPath`。
+   * eg. '/mock/$1.json|400'
+   */
+  mock(app, mockContainerPath, mockRule, mockTarget) {
+    let mock = new RegExp(mockRule);
+    let matchStatusReg = /\|(.*)$/;
+    let target = mockTarget;
+    let statusMatch = target.match(matchStatusReg);
+    let status = (statusMatch && target.match(matchStatusReg)[1]) || 200;
+    target = target.replace(matchStatusReg, '');
+    app.all(mock, function(req, res) {
+      if (req.query.__status__) {
+        status = req.query.__status__;
+      }
+      let targetPath = target;
+      let match = req.url.match(mock);
+      match.forEach((v, k) => {
+        targetPath = targetPath.replace(`$${k}`, v);
+      });
+      //mock文件路径
+      let mockFilePath = path.join(mockContainerPath, targetPath);
+      let mockJsFilePath = mockFilePath.replace('.json', '.js');
+      if (fs.existsSync(mockFilePath)) {
+        let mockContents = require(mockFilePath);
+        if (
+          Object.prototype.toString.apply(mockContents) === '[object Function]'
+        ) {
+          mockContents = mockContents(req, res);
+        }
+        res.status(status).send(mockContents);
+      } else if (fs.existsSync(mockJsFilePath)) {
+        //如果找不到.json的文件（规则中配置了.json），读取.js文件
+        let mockContents = require(mockJsFilePath);
+        if (
+          Object.prototype.toString.apply(mockContents) === '[object Function]'
+        ) {
+          mockContents = mockContents(req, res);
+          res.status(status).send(mockContents);
+        } else {
+          console.log(new Error('mock js文件的需要exports函数！'));
+        }
+      } else {
+        res.status(404).send(req.url + ' not found.');
+      }
+    });
+  },
 };
