@@ -1,3 +1,29 @@
+## 0.1.13(2017-09-14)
+
+#### Bug Fix
+ 
+- 解决webpack生成环境less文件打包出错问题
+
+#### Update
+
+无
+
+#### New Function
+
+- 添加mock文件支持运行js代码功能
+
+## 0.1.9(2017-09-04)
+
+#### Bug Fix
+ 
+- 解决simple模板报错问题
+
+#### Update
+
+无
+
+#### New Function
+
 ## 0.1.9(2017-09-04)
 
 #### Bug Fix

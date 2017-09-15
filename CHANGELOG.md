@@ -1,3 +1,45 @@
+## 0.1.4(2017-09-04)
+
+#### Bug Fix
+
+- 解决模板配置不存在报错问题 
+
+#### Update
+
+无
+
+#### New Function
+
+- 新增simple模板
+
+
+## 0.1.3(2017-09-01)
+
+#### Bug Fix
+
+- 解决exclude导致的解析问题
+
+#### Update
+
+无
+
+#### New Function
+
+无
+
+## 0.1.2(2017-09-01)
+
+#### Bug Fix
+
+- 解决没有生成source map文件问题
+- 解决config/const文件问题
+
+#### Update
+
+- 更新build-dll更智能的对比，版本改变也会更新dll文件。
+
+#### New Function
+
 ## 0.1.1(2017-08-31)
 
 #### Bug Fix

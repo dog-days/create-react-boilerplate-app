@@ -209,6 +209,10 @@ npm run use sass
 
 上面的命令将安装`node-sass` and `sass-loader`。安装后，运行`npm start` ，就会生效了。要注意的是，**sass文件需要带`.scss`后缀名**。
 
+### Webpack Alias
+
+目前默认的alias只有一个就是src目录，src目录的alias的名称`src`。alias用法请参考[webpack alias](https://webpack.js.org/configuration/resolve/#resolve-alias)。
+
 ### package.json之react-boilerplate-app-scripts配置
 
 在创建新的app项目中，package.json会有`react-boilerplate-app-scripts`默认配置。
