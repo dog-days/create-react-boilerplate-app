@@ -98,10 +98,7 @@
     "appSrcPath": "template/mvc-react",
     "appPublicPath": "template/public",
     "mock": {
-      "/eye/v1/([^?#]*)": "/mock/$1.json"
-    },
-    "proxy": {
-      "/eye/v1/": "http://192.168.2.82:8080"
+      "/common-api/([^?#]*)": "/mock/$1.json"
     }
   },
   "babel": {

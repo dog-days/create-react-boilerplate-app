@@ -54,9 +54,9 @@ function runDevServer(host, port) {
      */
     setup(app) {
       //begin----http mock处理
-      let mockConfig = cwdPackageJsonConfig.mock;
+      const mockConfig = cwdPackageJsonConfig.mock;
       for (let k in mockConfig) {
-        let mockTarget = mockConfig[k];
+        const mockTarget = mockConfig[k];
         util.mock(app, paths.appPublic, k, mockTarget);
       }
       //end----http mock处理
