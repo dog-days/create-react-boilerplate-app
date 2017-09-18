@@ -22,10 +22,15 @@ let mockConfig = false;
 if (cwdPackageJsonConfig.mock) {
   mockConfig = JSON.stringify(cwdPackageJsonConfig.mock);
 }
+let proxy = false;
+if (cwdPackageJsonConfig.proxy) {
+  proxy = JSON.stringify(cwdPackageJsonConfig.proxy);
+}
 serve(dir, {
   open: true,
   single: true,
   basename: cwdPackageJsonConfig.basename || null,
   mockDir: paths.appPublic,
   mockConfig,
+  proxy,
 });

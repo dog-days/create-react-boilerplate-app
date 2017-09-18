@@ -62,7 +62,7 @@
     "happypack": "^4.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
     "lodash": "^4.17.4",
-    "new-serve": "^6.3.0",
+    "new-serve": "^6.4.0",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
@@ -98,7 +98,10 @@
     "appSrcPath": "template/mvc-react",
     "appPublicPath": "template/public",
     "mock": {
-      "/common-api/([^?#]*)": "/mock/$1.json"
+      "/eye/v1/([^?#]*)": "/mock/$1.json"
+    },
+    "proxy": {
+      "/eye/v1/": "http://192.168.2.82:8080"
     }
   },
   "babel": {
