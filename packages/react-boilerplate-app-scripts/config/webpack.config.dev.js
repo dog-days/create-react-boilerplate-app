@@ -74,7 +74,14 @@ let entry = [
   paths.appEntry,
 ];
 const exclude = [
-  /node_modules/,
+  function(pathString) {
+    if (~pathString.indexOf('webpack-dev-server/client')) {
+      //webpack-dev-server/client中的严格模式中使用了const，需要转换成浏览器可运行的代码。
+      return false;
+    } else if (~pathString.indexOf('/node_modules/')) {
+      return true;
+    }
+  },
   path.resolve(process.cwd(), 'config'),
   path.resolve(process.cwd(), 'bin'),
   path.resolve(process.cwd(), 'build'),
