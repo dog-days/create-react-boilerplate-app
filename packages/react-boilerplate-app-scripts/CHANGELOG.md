@@ -1,4 +1,18 @@
-## 0.1.17(2017-12-11)
+## 0.2.2(2017-12-11)
+
+#### Bug Fix
+ 
+- 解决cover文件错误问题
+
+#### Update
+
+无
+
+#### New Function
+
+无
+
+## 0.2.1(2017-12-11)
 
 #### Bug Fix
  
@@ -6,7 +20,8 @@
 
 #### Update
 
-无
+- 添加更多可覆盖的文件（npm run cover）
+- ./bin/main所有文件移动到./scripts文件夹中 
 
 #### New Function
 

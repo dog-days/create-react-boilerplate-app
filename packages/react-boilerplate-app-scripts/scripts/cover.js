@@ -93,7 +93,7 @@ class Cover extends Basic {
         case 'proxy.js':
         case 'historyApiFallback.js':
           copyPath = path.resolve(`config/${name}`);
-          originPath = path.resolve(__dirname, `../../config/${name}`);
+          originPath = path.resolve(__dirname, `../config/${name}`);
           break;
         case 'start.js':
         case 'build.js':
