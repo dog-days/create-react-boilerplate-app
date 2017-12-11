@@ -14,7 +14,7 @@ class Use extends Basic {
   }
 
   commandSetting() {
-    var program = new commander.Command(this.packageJson.name)
+    let program = new commander.Command(this.packageJson.name)
       .version(this.packageJson.version)
       .arguments('<feature-name>')
       .usage(`${chalk.green('<feature-name>')}`)
@@ -32,8 +32,8 @@ class Use extends Basic {
       process.exit();
     }
     if (!this.featureName) {
-      var useYarn = util.shouldUseYarn();
-      var displayedCommand = 'npm run';
+      let useYarn = util.shouldUseYarn();
+      let displayedCommand = 'npm run';
       if (useYarn) {
         displayedCommand = 'yarn';
       }
@@ -48,7 +48,9 @@ class Use extends Basic {
       );
       console.log();
       console.log(
-        `use ${chalk.cyan(displayedCommand + ' use -- -l ')} to see the feature lists.`
+        `use ${chalk.cyan(
+          displayedCommand + ' use -- -l '
+        )} to see the feature lists.`
       );
       console.log();
       process.exit();
@@ -63,8 +65,8 @@ class Use extends Basic {
    *  ]
    */
   getDependencies(type) {
-    var dependencies = [];
-    var devDependencies = [];
+    let dependencies = [];
+    let devDependencies = [];
     switch (type) {
       case 'less':
         dependencies = [];
@@ -79,7 +81,9 @@ class Use extends Basic {
         console.log(chalk.red('unknown feature name'));
         console.log();
         console.log(
-          `use ${chalk.cyan(this.program.name() + ' use -l ')} to see the feature lists.`
+          `use ${chalk.cyan(
+            this.program.name() + ' use -l '
+          )} to see the feature lists.`
         );
         process.exit(1);
         break;
@@ -110,9 +114,15 @@ class Use extends Basic {
   }
 
   run() {
-    var dependencies = this.getDependencies(this.featureName);
-    var allDependencies = [].concat(dependencies[0]).concat(dependencies[1]);
-    var packageJson = util.getCwdPackageJson();
+    let dependencies = this.getDependencies(this.featureName);
+    let allDependencies = [].concat(dependencies[0]).concat(dependencies[1]);
+    let packageJson = util.getCwdPackageJson();
+    if (!packageJson.devDependencies) {
+      packageJson.devDependencies = {};
+    }
+    if (!packageJson.dependencies) {
+      packageJson.dependencies = {};
+    }
     util
       .installPackages(allDependencies)
       .then(() => {

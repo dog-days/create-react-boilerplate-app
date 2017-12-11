@@ -1,3 +1,3 @@
 'use strict';
 
-require('./main/serve-build');
+require('../scripts/serve-build');

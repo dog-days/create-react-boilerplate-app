@@ -5,7 +5,7 @@ const scriptsPackagename = util.scriptsPackagename;
 const serve = require('new-serve');
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const paths = require('../../config/paths');
+const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );

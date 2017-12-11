@@ -50,7 +50,7 @@ class init extends Basic {
     try {
       let configPath = path.resolve(
         __dirname,
-        '../../template',
+        '../template',
         boilerplate,
         'config.json'
       );
@@ -163,10 +163,7 @@ class init extends Basic {
    */
   coypDir(targetDir, partDirName) {
     //template目录下的文件夹路径
-    let templateDirPath = path.resolve(
-      __dirname,
-      `../../template/${targetDir}`
-    );
+    let templateDirPath = path.resolve(__dirname, `../template/${targetDir}`);
     if (!fs.existsSync(templateDirPath)) {
       console.error(chalk.red(templateDirPath + ' is not exist.'));
       process.exit();

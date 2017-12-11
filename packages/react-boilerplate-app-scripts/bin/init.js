@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 'use strict';
 
-var init = require('./main/init');
+var init = require('../scripts/init');
 new init();

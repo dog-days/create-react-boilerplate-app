@@ -1,3 +1,31 @@
+## 0.1.17(2017-12-11)
+
+#### Bug Fix
+ 
+- 解决package.json不设置dll报错问题
+
+#### Update
+
+无
+
+#### New Function
+
+无
+
+## 0.1.17(2017-09-22)
+
+#### Bug Fix
+ 
+- 解决webpack-dev-server/client/index.js没经过babel转换问题 
+
+#### Update
+
+无
+
+#### New Function
+
+无
+
 ## 0.1.16(2017-09-15)
 
 #### Bug Fix

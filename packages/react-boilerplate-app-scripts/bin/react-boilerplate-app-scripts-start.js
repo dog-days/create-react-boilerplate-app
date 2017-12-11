@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 'use strict';
 
-require('./main/start');
+require('../scripts/start');

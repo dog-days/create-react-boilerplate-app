@@ -29,7 +29,7 @@
     "react",
     "react-boilerplate-app-scripts"
   ],
-  "author": "Samo",
+  "author": "xianshannan",
   "license": "ISC",
   "dependencies": {
     "babel-core": "^6.24.1",
