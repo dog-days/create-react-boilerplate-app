@@ -14,6 +14,9 @@ const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
+if (!cwdPackageJsonConfig.dll || !cwdPackageJsonConfig.dll[0]) {
+  return;
+}
 
 //添加polyfills入口文件
 cwdPackageJsonConfig.dll.unshift(
