@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.43",
+  "version": "1.0.44",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -10,7 +10,9 @@
     "build-dll": "react-boilerplate-app-scripts build-dll",
     "cover": "react-boilerplate-app-scripts cover",
     "use": "react-boilerplate-app-scripts use",
-    "serve-build": "react-boilerplate-app-scripts serve-build"
+    "serve-build": "react-boilerplate-app-scripts serve-build",
+    "create-i18n-excel": "react-router-controller-cli create-i18n-excel",
+    "create-i18n-list": "react-router-controller-cli create-i18n-list"
   },
   "author": "",
   "license": "ISC",
@@ -49,9 +51,11 @@
     "gzip-size": "^3.0.0",
     "happypack": "^4.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
+    "less": "2.7.3",
+    "less-loader": "4.0.5",
     "lodash": "^4.17.4",
     "mvc-react": "0.1.2",
-    "new-serve": "^6.1.0",
+    "new-serve": "^6.4.0",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
@@ -101,11 +105,26 @@
       }
     }
   },
+  "devDependencies": {
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5"
+  },
   "react-boilerplate-app-scripts": {
     "dll": [
       "react",
       "react-dom",
-      "prop-types"
+      "prop-types",
+      "lodash",
+      "react-router",
+      "react-router-dom",
+      "redux",
+      "react-redux",
+      "react-router-redux",
+      "react-router-controller",
+      "react-router-redux-saga-model",
+      "redux-saga-model",
+      "react-router-redux-provider",
+      "mvc-react"
     ]
   }
 }
