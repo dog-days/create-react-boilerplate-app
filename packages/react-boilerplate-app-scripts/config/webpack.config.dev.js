@@ -71,6 +71,7 @@ let entry = [
   // bundle the client for hot reloading
   // only- means to only hot reload for successful updates
   'webpack/hot/only-dev-server',
+  require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename)),
   paths.appEntry,
 ];
 const exclude = [
@@ -88,13 +89,6 @@ const exclude = [
   path.resolve(process.cwd(), 'build'),
   /.cache/,
 ];
-if (!cwdPackageJsonConfig.dll) {
-  //我们添加一些默认的polyfills
-  //如果启用了dll，就不用polyfills
-  entry.push(
-    require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename))
-  );
-}
 //webpack配置项
 var config = {
   devtool: 'cheap-module-source-map',

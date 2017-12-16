@@ -74,8 +74,8 @@
     "socket.io": "^2.0.2",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
-    "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.4.5",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.5",
     "webpack-parallel-uglify-plugin": "^1.0.0",
     "webpack-simple-progress-plugin": "0.0.2"
   },

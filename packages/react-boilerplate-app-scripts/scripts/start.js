@@ -52,7 +52,7 @@ function runDevServer(host, port) {
      * WebpackDevServer 提供的对外设置路由访问功能
      * create-react-boilerplate-app在这里提供了mock服务
      */
-    setup(app) {
+    before(app) {
       //begin----http mock处理
       const mockConfig = cwdPackageJsonConfig.mock;
       for (let k in mockConfig) {

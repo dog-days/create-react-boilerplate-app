@@ -18,10 +18,6 @@ if (!cwdPackageJsonConfig.dll || !cwdPackageJsonConfig.dll[0]) {
   return;
 }
 
-//添加polyfills入口文件
-cwdPackageJsonConfig.dll.unshift(
-  require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename))
-);
 //webpack配置项
 var config = {
   //任何错误立即终止

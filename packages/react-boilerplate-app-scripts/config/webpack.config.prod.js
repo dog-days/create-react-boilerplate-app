@@ -65,7 +65,11 @@ const postcssLoaderConfig = {
   },
 };
 
-let entry = [paths.appEntry];
+let entry = [
+  //一些默认的polyfills
+  require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename)),
+  paths.appEntry,
+];
 const exclude = [
   /node_modules/,
   path.resolve(process.cwd(), 'config'),
@@ -73,13 +77,6 @@ const exclude = [
   path.resolve(process.cwd(), 'build'),
   /.cache/,
 ];
-if (!cwdPackageJsonConfig.dll) {
-  //我们添加一些默认的polyfills
-  //如果启用了dll，就不用polyfills
-  entry.push(
-    require.resolve(util.pathResolve('config/polyfills.js', scriptsPackagename))
-  );
-}
 //webpack配置项
 var config = {
   //任何错误立即终止
