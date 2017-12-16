@@ -85,6 +85,8 @@ var config = {
   //隐藏终端的warning信息
   performance: {
     hints: false,
+    maxEntrypointSize: 1100000,
+    maxAssetSize: 505000,
   },
   entry: {
     app: entry,

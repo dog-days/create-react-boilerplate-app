@@ -96,6 +96,7 @@ var config = {
   performance: {
     hints: false,
     maxEntrypointSize: 1100000,
+    maxAssetSize: 505000,
   },
   entry: {
     app: entry,
