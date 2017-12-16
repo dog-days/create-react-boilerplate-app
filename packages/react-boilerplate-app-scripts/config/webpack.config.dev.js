@@ -75,6 +75,7 @@ let entry = [
 ];
 const exclude = [
   function(pathString) {
+    pathString = util.platformPathAdapter(pathString);
     if (~pathString.indexOf('webpack-dev-server/client')) {
       //webpack-dev-server/client中的严格模式中使用了const，需要转换成浏览器可运行的代码。
       return false;
@@ -100,6 +101,7 @@ var config = {
   //隐藏终端的warning信息
   performance: {
     hints: false,
+    maxEntrypointSize: 1100000,
   },
   entry: {
     app: entry,

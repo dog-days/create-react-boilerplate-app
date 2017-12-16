@@ -8,6 +8,14 @@ const spawn = require('cross-spawn');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
+  //兼容linux和widows平台路径
+  platformPathAdapter(pathString) {
+    const platform = require('os').platform();
+    if (platform === 'win32') {
+      pathString = pathString.replace(/\\/g, '/');
+    }
+    return pathString;
+  },
   //scripts工具package名
   scriptsPackagename: 'react-boilerplate-app-scripts',
   /**

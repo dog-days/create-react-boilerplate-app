@@ -39,6 +39,7 @@ if (
 ) {
   //获取带版本的dll列表
   cwdPackageJsonConfig.dll.forEach(v => {
+    v = util.platformPathAdapter(v);
     if (!~v.indexOf('config/polyfills.js')) {
       let version = util.getVersionOfPackage(v);
       dllWithVersion.push(`${v}@${version}`);
