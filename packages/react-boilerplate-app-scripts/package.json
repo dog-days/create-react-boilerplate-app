@@ -1,6 +1,6 @@
 {
   "name": "react-boilerplate-app-scripts",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "react-boilerplate-app-scripts",
   "repository": {
     "type": "git",
@@ -67,7 +67,7 @@
     "object.assign": "^4.0.4",
     "postcss-loader": "^2.0.5",
     "progress-bar-webpack-plugin": "^1.9.3",
-    "react-boilerplate-app-utils": "^0.0.20",
+    "react-boilerplate-app-utils": "^0.0.21",
     "react-dev-utils": "^0.5.2",
     "react-hot-loader": "3.0.0-beta.6",
     "relative": "^3.0.2",
