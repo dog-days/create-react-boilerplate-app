@@ -12,7 +12,6 @@ const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const basename = cwdPackageJsonConfig.basename;
 const config = require(paths.webpackDllConfig);
 const Table = require('cli-table');
 const gzipSize = require('gzip-size').sync;
@@ -89,7 +88,7 @@ webpack(config).run(function(err, stats) {
   }
   if (info.assets && info.assets[0]) {
     //处理header
-    let head = ['Asset', 'Real Size', 'Gzip Size', 'Chunks', '', 'Chunk Names'];
+    let head = ['Asset', 'Real Size', 'Gzip Size', 'Chunks'];
     head = head.reduce((a, b) => {
       a.push(chalk.cyan(b));
       return a;
@@ -105,15 +104,16 @@ webpack(config).run(function(err, stats) {
         );
         sizeAfterGzip = gzipSize(fileContents);
       }
+      if (v.name.length > 47) {
+        v.name = v.name.substring(0, 47) + '...';
+      }
       table.push([
-        chalk.green(basename + '/' + v.name),
+        chalk.green(v.name),
         util.transformToKBMBGB(v.size, { decimals: 2 }),
         sizeAfterGzip
           ? util.transformToKBMBGB(sizeAfterGzip, { decimals: 2 })
           : '',
         v.chunks,
-        v.emitted ? chalk.green('[emitted]') : '',
-        v.chunkNames,
       ]);
     });
     console.log(`Hash: ${chalk.cyan(info.hash)}`);
