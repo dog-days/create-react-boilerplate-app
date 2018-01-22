@@ -1,6 +1,6 @@
 {
   "name": "react-boilerplate-app-scripts",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "react-boilerplate-app-scripts",
   "repository": {
     "type": "git",
@@ -18,16 +18,17 @@
     "react-boilerplate-app-scripts": "./bin/react-boilerplate-app-scripts.js"
   },
   "scripts": {
-    "start":
-      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
-    "build":
-      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
+    "start": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
+    "build": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
     "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
     "serve-build": "node ./bin/react-boilerplate-app-scripts.js serve-build"
   },
-  "keywords": ["react", "react-boilerplate-app-scripts"],
+  "keywords": [
+    "react",
+    "react-boilerplate-app-scripts"
+  ],
   "author": "xianshannan",
   "license": "ISC",
   "dependencies": {
@@ -89,7 +90,11 @@
     "whatwg-fetch": "^2.0.3"
   },
   "react-boilerplate-app-scripts": {
-    "dll": ["react", "react-dom", "prop-types"],
+    "dll": [
+      "react",
+      "react-dom",
+      "prop-types"
+    ],
     "appSrcPath": "template/mvc-react",
     "appPublicPath": "template/public",
     "mock": {
@@ -107,10 +112,15 @@
       ],
       "stage-0"
     ],
-    "plugins": ["transform-decorators-legacy", "transform-runtime"],
+    "plugins": [
+      "transform-decorators-legacy",
+      "transform-runtime"
+    ],
     "env": {
       "development": {
-        "plugins": ["react-hot-loader/babel"]
+        "plugins": [
+          "react-hot-loader/babel"
+        ]
       }
     }
   },
