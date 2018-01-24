@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const semver = require('semver');
 const execSync = require('child_process').execSync;
 const spawn = require('cross-spawn');
+const mockjs = require('mockjs');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
@@ -509,6 +510,12 @@ module.exports = {
         ) {
           mockContents = mockContents(req, res);
         }
+        if (
+          Object.prototype.toString.apply(mockContents) === '[object String]'
+        ) {
+          mockContents = JSON.parse(mockContents);
+        }
+        mockContents = mockjs.mock(mockContents);
         res.status(status).send(mockContents);
       } else if (fs.existsSync(mockJsFilePath)) {
         //如果找不到.json的文件（规则中配置了.json），读取.js文件
