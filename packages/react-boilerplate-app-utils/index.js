@@ -6,6 +6,7 @@ const semver = require('semver');
 const execSync = require('child_process').execSync;
 const spawn = require('cross-spawn');
 const mockjs = require('mockjs');
+const _ = require('lodash');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
@@ -484,52 +485,64 @@ module.exports = {
     let target = mockTarget;
     target = target.replace(matchStatusReg, '');
     app.all(mock, function(req, res) {
-      let status = 200;
-      if (req.query.__status__) {
-        status = req.query.__status__;
-      }
-      let targetPath = target;
-      let match = req.url.match(mock);
-      match.forEach((v, k) => {
-        targetPath = targetPath.replace(`$${k}`, v);
-      });
-      //mock文件路径
-      let mockFilePath = path.join(mockContainerPath, targetPath);
-      let mockJsFilePath = mockFilePath.replace('.json', '.js');
-      if (fs.existsSync(mockFilePath)) {
-        let mockContents;
-        if (/\.js$/.test(mockFilePath)) {
-          mockContents = require(mockFilePath);
-        } else {
-          mockContents = fs.readFileSync(mockFilePath, {
-            encoding: 'utf-8',
-          });
+      try {
+        let status = 200;
+        if (req.query.__status__) {
+          status = req.query.__status__;
         }
-        if (
-          Object.prototype.toString.apply(mockContents) === '[object Function]'
-        ) {
-          mockContents = mockContents(req, res);
-        }
-        if (
-          Object.prototype.toString.apply(mockContents) === '[object String]'
-        ) {
-          mockContents = JSON.parse(mockContents);
-        }
-        mockContents = mockjs.mock(mockContents);
-        res.status(status).send(mockContents);
-      } else if (fs.existsSync(mockJsFilePath)) {
-        //如果找不到.json的文件（规则中配置了.json），读取.js文件
-        let mockContents = require(mockJsFilePath);
-        if (
-          Object.prototype.toString.apply(mockContents) === '[object Function]'
-        ) {
-          mockContents = mockContents(req, res);
+        let targetPath = target;
+        let match = req.url.match(mock);
+        match.forEach((v, k) => {
+          targetPath = targetPath.replace(`$${k}`, v);
+        });
+        //mock文件路径
+        let mockFilePath = path.join(mockContainerPath, targetPath);
+        let mockJsFilePath = mockFilePath.replace('.json', '.js');
+        if (fs.existsSync(mockFilePath)) {
+          let mockContents;
+          if (/\.js$/.test(mockFilePath)) {
+            delete require.cache[mockFilePath];
+            mockContents = require(mockFilePath);
+          } else {
+            mockContents = fs.readFileSync(mockFilePath, {
+              encoding: 'utf-8',
+            });
+          }
+          if (_.isFunction(mockContents)) {
+            mockContents = mockContents(req, res);
+          }
+          if (_.isString(mockContents) && mockContents !== '') {
+            try {
+              mockContents = JSON.parse(mockContents);
+            } catch (e) {
+              /**noop**/
+            }
+          }
+          if (!mockContents || mockContents === '') {
+            mockContents = {};
+          }
+          if (_.isPlainObject(mockContents)) {
+            mockContents = mockjs.mock(mockContents);
+          }
           res.status(status).send(mockContents);
+        } else if (fs.existsSync(mockJsFilePath)) {
+          //如果找不到.json的文件（规则中配置了.json），读取.js文件
+          delete require.cache[mockJsFilePath];
+          let mockContents = require(mockJsFilePath);
+          if (_.isFunction(mockContents)) {
+            mockContents = mockContents(req, res);
+            if (_.isPlainObject(mockContents)) {
+              mockContents = mockjs.mock(mockContents);
+            }
+            res.status(status).send(mockContents);
+          } else {
+            console.log(new Error('mock js文件的需要exports函数！'));
+          }
         } else {
-          console.log(new Error('mock js文件的需要exports函数！'));
+          res.status(404).send(req.url + ' not found.');
         }
-      } else {
-        res.status(404).send(req.url + ' not found.');
+      } catch (e) {
+        res.status(500).send(e.toString());
       }
     });
   },
