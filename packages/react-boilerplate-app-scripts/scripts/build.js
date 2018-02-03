@@ -13,15 +13,96 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const paths = require(util.pathResolve('config/paths.js', scriptsPackagename));
 const webpack = require('webpack');
+const config = require(paths.webpackProdConfig);
+const Table = require('cli-table');
+const archiver = require('archiver');
+const _ = require('lodash');
 const cwdPackageJsonConfig = util.getDefaultCwdPackageJsonConfig(
   scriptsPackagename
 );
 const basename = cwdPackageJsonConfig.basename;
-const config = require(paths.webpackProdConfig);
-const Table = require('cli-table');
 const gzipSize = require('gzip-size').sync;
-
 const topBuildFolder = util.getTopBuildFolderPath(paths.appBuild, basename);
+
+function zip() {
+  let archiverName = cwdPackageJsonConfig.archiver;
+  if (!archiverName) {
+    return;
+  }
+  if (_.isBoolean(archiverName)) {
+    archiverName = 'build.zip';
+  }
+  const archiverNameSplit = archiverName.split('.');
+  if (
+    archiverNameSplit.length !== 2 ||
+    (!~archiverName.indexOf('.zip') && !~archiverName.indexOf('.tar'))
+  ) {
+    console.log();
+    console.log(
+      chalk.yellow(
+        `archive name must contain and end with ${chalk.cyan(
+          '.zip'
+        )} or ${chalk.cyan('.tar')}`
+      )
+    );
+    console.log(
+      `See ${path.resolve(process.cwd(), 'package.json')} ${chalk.cyan(
+        'react-boilerplate-app-scripts'
+      )} field.`
+    );
+    return;
+  }
+  const suffix = archiverNameSplit[1];
+  // create a file to stream archive data to.
+  var output = fs.createWriteStream(path.resolve(process.cwd(), archiverName));
+  var archive = archiver(suffix, {
+    // Sets the compression level.
+    zlib: { level: 9 },
+    //设置为当前时区的时间
+    forceLocalTime: true,
+  });
+
+  // listen for all archive data to be written
+  // 'close' event is fired only when a file descriptor is involved
+  output.on('close', function() {
+    console.log();
+    console.log('Generate compressed package', chalk.cyan('build.zip'), 'at');
+    console.log(chalk.cyan(path.resolve(process.cwd(), 'build.zip')));
+    console.log();
+  });
+
+  // This event is fired when the data source is drained no matter what was the data source.
+  // It is not part of this library but rather from the NodeJS Stream API.
+  // @see: https://nodejs.org/api/stream.html#stream_event_end
+  output.on('end', function() {});
+
+  // good practice to catch warnings (ie stat failures and other non-blocking errors)
+  archive.on('warning', function(err) {
+    if (err.code === 'ENOENT') {
+      // log warning
+    } else {
+      // throw error
+      throw err;
+    }
+  });
+
+  // good practice to catch this error explicitly
+  archive.on('error', function(err) {
+    throw err;
+  });
+  // pipe archive data to the file
+  archive.pipe(output);
+  archive.directory(topBuildFolder, false);
+  // append a file from string
+  archive.append(
+    `The current version is ${util.getCwdPackageJson().version}.`,
+    {
+      name: 'version.txt',
+    }
+  );
+  archive.finalize();
+}
+
 //清空build文件夹
 fs.emptyDirSync(topBuildFolder);
 
@@ -109,5 +190,6 @@ webpack(config).run(function(err, stats) {
       displayedCommand = 'yarn';
     }
     console.log(chalk.cyan(` ${displayedCommand} serve-build`));
+    zip();
   }
 });
