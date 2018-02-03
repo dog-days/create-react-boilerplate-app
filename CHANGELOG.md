@@ -1,8 +1,26 @@
+
+## 0.1.8(2017-01-25)
+
+#### Bug Fix
+
+无
+
+#### Update
+
+- 更新mock功能（pakages/react-boilerplate-app-scripts）
+  - 支持mockjs语法规则
+  - 同时支持js文件处理mock数据。
+- 新增构建zip和tar压缩功能（pakages/react-boilerplate-app-scripts）
+
+#### New Function
+
+无
+
 ## 0.1.4(2017-09-04)
 
 #### Bug Fix
 
-- 解决模板配置不存在报错问题 
+- 解决模板配置不存在报错问题
 
 #### Update
 
