@@ -66,7 +66,11 @@ function zip() {
   // 'close' event is fired only when a file descriptor is involved
   output.on('close', function() {
     console.log();
-    console.log('Generate compressed package', chalk.cyan(archiverName), 'at');
+    console.log(
+      'Compressed package ',
+      chalk.cyan(archiverName),
+      'generated at'
+    );
     console.log(chalk.cyan(path.resolve(process.cwd(), archiverName)));
     console.log();
   });
