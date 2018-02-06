@@ -1,0 +1,6 @@
+/node_modules/
+/.cache/
+/build/
+npm-debug.log
+*.swp
+*.zip
