@@ -1,5 +1,5 @@
 {
-  "_id": "react-boilerplate-app-utils@0.0.12",
+  "_id": "react-boilerplate-app-utils@0.0.23",
   "_inBundle": true,
   "_location": "/create-react-boilerplate-app/react-boilerplate-app-utils",
   "_phantomChildren": {},
@@ -30,5 +30,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.0.23"
+  "version": "0.0.24"
 }
