@@ -156,7 +156,7 @@ class CreateApp {
         process.cwd(),
         'node_modules',
         scriptsPackagename,
-        'bin/main',
+        'scripts',
         'init.js'
       );
       const init = require(initPath);
