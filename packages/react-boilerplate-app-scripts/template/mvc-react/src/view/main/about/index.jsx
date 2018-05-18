@@ -3,35 +3,35 @@ import { connect } from 'react-redux';
 
 @connect(state => {
   return {
-    display: state.index
+    display: state.about,
   };
 })
-export default class IndexView extends React.Component {
+export default class AboutView extends React.Component {
   showToggleEvent = e => {
     const { dispatch, display } = this.props;
     if (display) {
       dispatch({
-        type: 'index/toggleShow',
-        payload: false
+        type: 'about/toggleShow',
+        payload: false,
       });
     } else {
       dispatch({
-        type: 'index/toggleShow',
-        payload: true
+        type: 'about/toggleShow',
+        payload: true,
       });
     }
   };
   render() {
-    console.log('主页页面')
+    console.log('关于页面');
     const { display } = this.props;
     return (
       <div>
-        当前位置主页：
-        <button onClick={this.showToggleEvent}>
+        当前位置关于页面：
+        <button className="show-action" onClick={this.showToggleEvent}>
           {display && '隐藏'}
           {!display && '显示'}
         </button>
-        {display && <div>我被显示了</div>}
+        {display && <div className="show-item">我被显示了</div>}
       </div>
     );
   }

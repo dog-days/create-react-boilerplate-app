@@ -10,7 +10,11 @@ const _ = require('lodash');
 
 //node 版本v5.0.0以上，util不要使用class等新语法
 module.exports = {
-  //兼容linux和widows平台路径
+  /**
+   * 兼容linux和widows平台路径
+   * @param  {string} pathString 需要处理的路径
+   * @return {string}            处理后的的路径
+   */
   platformPathAdapter(pathString) {
     const platform = require('os').platform();
     if (platform === 'win32') {
@@ -23,6 +27,8 @@ module.exports = {
   /**
    * react-router pathname适配
    * 例如url=test或者test/或者/test/会适配为/test
+   * @param  {string} pathname 需要处理的pathanme
+   * @return {string}          适配后的pathanme
    */
   pathnameAdapter(pathname) {
     if (!pathname) {
@@ -48,9 +54,9 @@ module.exports = {
   /**
    * 会根据当前项目，或者当前项目指定的node_modules中的packageName路径
    * 依次查找文件
-   * @param { string } relativePath 相对路径，跟path.resolve的参数一致，如果使用绝对路径，直接返回绝对路径
-   * @param { string } packageName node_modules中的packageName文件夹名
-   * @return { string || undefined } 返回优先匹配的路径
+   * @param {string} relativePath 相对路径，跟path.resolve的参数一致，如果使用绝对路径，直接返回绝对路径
+   * @param {string} packageName node_modules中的packageName文件夹名
+   * @return {string || undefined} 返回优先匹配的路径
    */
   pathResolve(relativePath, packageName) {
     if (!packageName) {
@@ -79,8 +85,8 @@ module.exports = {
   },
   /**
    * 打印数组类型
-   * @param { array } results 结果数组
-   * @param { string } type 信息类型success、waring、error
+   * @param {array} results 结果数组
+   * @param {string} type 信息类型success、waring、error
    */
   printValidationResults(results, type) {
     if (!type) {
@@ -105,7 +111,7 @@ module.exports = {
   },
   /**
    * 是否应该使用yarn
-   * @return { boolean } true or false
+   * @return {boolean} true or false
    */
   shouldUseYarn() {
     try {
@@ -137,27 +143,28 @@ module.exports = {
   },
   /**
    * 获取当前输入目前package.json对象
+   * @return {object} package.js配置的json对象
    */
   getCwdPackageJson() {
     //防止重复读取
     if (!this.cwdPackageJson) {
-      this.cwdPackageJson = fs.readJsonSync(
-        path.resolve(process.cwd(), 'package.json')
-      );
+      this.cwdPackageJson = require(path.resolve(
+        process.cwd(),
+        'package.json'
+      ));
     }
     return this.cwdPackageJson;
   },
   /**
    * 获取当前输入目前package.json对象指定的package config
+   * @param  {string} packageName 指定的字段（一般都是以pacakge名来命名）
+   * @return {object} 默认的配置
    */
   getDefaultCwdPackageJsonConfig(packageName) {
     if (!packageName) {
       packageName = 'react-boilerplate-app-scripts';
     }
-    var config = this.getCwdPackageJson()[packageName];
-    if (!config) {
-      return config;
-    }
+    var config = this.getCwdPackageJson()[packageName] || {};
     //默认值，路径都是相对npm项目根目录
     config = Object.assign(
       {},
@@ -184,7 +191,7 @@ module.exports = {
     if (config.host === 'localhost') {
       config.ip = '127.0.0.1';
     }
-    config.prot = parseInt(config.port, 10);
+    config.port = parseInt(config.port, 10);
     //替换${src}为config.appSrcPath的值
     for (var k in config) {
       if (Object.prototype.toString.apply(config[k]) === '[object String]') {
@@ -219,13 +226,15 @@ module.exports = {
         version
       );
       process.exit(1);
+    } else {
+      return true;
     }
   },
   /**
-   * 检测npm版本是否大于等于3.0.0
+   * 检测npm版本是npm v2.x.x版本
    * @return { boolean } true or false
    */
-  checkNpmVersion() {
+  isNpm2Warning() {
     var isNpm2 = false;
     try {
       const npmVersion = execSync('npm --version').toString();
@@ -247,10 +256,12 @@ module.exports = {
   },
   /**
    * 安装的dependences，dependences为undefined时安装全部依赖包
-   * @param { array } dependencies 依赖包
-   * @return { boolean } true or false
+   * @param {array} dependencies 依赖包
+   * @param {object} options 同行child_process.spawn的options，请参考
+   * http://nodejs.cn/api/child_process.html#child_process_child_process_spawn_command_args_options
+   * @return {object} 返回promise
    */
-  installPackages(dependencies) {
+  installPackages(dependencies, options) {
     console.log('Installing packages. This might take a couple minutes.');
     var useYarn = this.shouldUseYarn();
     return new Promise((resolve, reject) => {
@@ -263,7 +274,7 @@ module.exports = {
           [].push.apply(args, dependencies);
         }
       } else {
-        this.checkNpmVersion();
+        this.isNpm2Warning();
         command = 'npm';
         if (dependencies) {
           args = ['install', '--save', '--save-exact'].concat(dependencies);
@@ -271,7 +282,11 @@ module.exports = {
           args = ['install'];
         }
       }
-      const child = spawn(command, args, { stdio: 'inherit' });
+      const child = spawn(
+        command,
+        args,
+        Object.assign({}, { stdio: 'inherit' }, options || {})
+      );
       child.on('close', code => {
         if (code !== 0) {
           reject({
@@ -297,11 +312,12 @@ module.exports = {
       );
       process.exit(1);
     }
-    var packageJson = fs.readJsonSync(packageJsonPath);
+    var packageJson = require(packageJsonPath);
     return packageJson.version;
   },
   /**
    * package中rewrite的规则，适配为 historyApiFallback的正确格式
+   * 已废弃，mock有新的实现方式。
    */
   historyApiFallbackRewiriteAdapter(rewriteConfig) {
     var rules = [];
@@ -329,10 +345,10 @@ module.exports = {
     }
   },
   /**
-   * 根据位置，小写转大写
-   * @param  {String} string 传进来的字符串
-   * @param  {Int}  start  开始位置，默认0
-   * @param  {Int}  end  介绍位置，默认1
+   * 根据位置，小写转大写，默认转换第一个字母
+   * @param  {string} string 传进来的字符串
+   * @param  {number}  start  开始位置，默认0
+   * @param  {number}  end  介绍位置，默认1
    * @return {string}
    */
   toUpperCaseByPosition(string, start = 0, end = 1) {
@@ -340,6 +356,11 @@ module.exports = {
     var str2 = string.substr(end);
     return str1 + str2;
   },
+  /**
+   * 读取文件夹文件列表，过滤掉mac上一些隐藏文件
+   * @param  {string} dirPath 文件件路径
+   * @return {array}  文件列表
+   */
   readdirSync(dirPath) {
     var files = fs.readdirSync(dirPath);
     //过滤苹果系统无用的文件
@@ -433,9 +454,9 @@ module.exports = {
     return re;
   },
   /**
-   *  流量或存储 字节单位转换为KB,MB,GB单位
-   *@param {int} value 转换值
-   *@param {object} options 配置选项，默认值如下
+   * 流量或存储 字节单位转换为KB,MB,GB单位
+   * @param {int} value 转换值
+   * @param {object} options 配置选项，默认值如下
    * {
    *    scale: 1, //转换进制
    *    decimals: false,//是否展示小数

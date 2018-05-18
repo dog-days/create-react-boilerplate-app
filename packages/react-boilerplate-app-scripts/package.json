@@ -18,6 +18,7 @@
     "react-boilerplate-app-scripts": "./bin/react-boilerplate-app-scripts.js"
   },
   "scripts": {
+    "test": "karma start",
     "start": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
     "build": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
     "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
@@ -25,13 +26,11 @@
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
     "serve-build": "node ./bin/react-boilerplate-app-scripts.js serve-build"
   },
-  "keywords": [
-    "react",
-    "react-boilerplate-app-scripts"
-  ],
+  "keywords": ["react", "react-boilerplate-app-scripts"],
   "author": "xianshannan",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "archiver": "^2.1.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -44,6 +43,7 @@
     "babel-runtime": "^6.26.0",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "chalk": "^1.1.3",
+    "chai": "4.1.2",
     "cli-table": "^0.3.1",
     "commander": "^2.9.0",
     "css-loader": "^0.28.1",
@@ -63,6 +63,7 @@
     "happypack": "^4.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
     "lodash": "^4.17.4",
+    "mocha": "4.1.0",
     "new-serve": "^6.4.3",
     "node-xlsx": "^0.7.4",
     "object.assign": "^4.0.4",
@@ -78,7 +79,23 @@
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.5",
     "webpack-parallel-uglify-plugin": "^1.0.0",
-    "webpack-simple-progress-plugin": "0.0.2"
+    "webpack-simple-progress-plugin": "0.0.2",
+    "istanbul-instrumenter-loader": "3.0.0",
+    "karma": "2.0.0",
+    "karma-browserstack-launcher": "1.3.0",
+    "karma-chai": "0.1.0",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-coverage-istanbul-reporter": "1.3.3",
+    "karma-firefox-launcher": "1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-junit-reporter": "1.2.0",
+    "karma-mocha": "1.3.0",
+    "karma-mocha-reporter": "2.2.5",
+    "karma-sinon": "1.0.5",
+    "karma-sinon-chai": "1.3.3",
+    "karma-webpack": "2.0.9",
+    "sinon": "4.1.3",
+    "sinon-chai": "2.14.0"
   },
   "devDependencies": {
     "mvc-react": "0.1.2",
@@ -91,37 +108,31 @@
     "whatwg-fetch": "^2.0.3"
   },
   "react-boilerplate-app-scripts": {
-    "dll": [
-      "react",
-      "react-dom",
-      "prop-types"
-    ],
-    "appSrcPath": "template/mvc-react",
-    "appPublicPath": "template/public",
+    "dll": ["react", "react-dom", "prop-types"],
+    "appSrcPath": "template/mvc-react/src",
+    "appPublicPath": "template/mvc-react/public",
     "mock": {
       "/common-api/([^?#]*)": "/mock/$1.json"
     }
   },
   "babel": {
-    "presets": [
-      "react",
-      [
-        "es2015",
-        {
-          "modules": false
-        }
-      ],
-      "stage-0"
-    ],
-    "plugins": [
-      "transform-decorators-legacy",
-      "transform-runtime"
-    ],
     "env": {
       "development": {
-        "plugins": [
-          "react-hot-loader/babel"
-        ]
+        "presets": [
+          "react",
+          [
+            "es2015",
+            {
+              "modules": false
+            }
+          ],
+          "stage-0"
+        ],
+        "plugins": ["transform-decorators-legacy", "transform-runtime", "react-hot-loader/babel"]
+      },
+      "production": {
+        "plugins": ["transform-decorators-legacy", "transform-runtime"],
+        "presets": ["react", "es2015", "stage-0"]
       }
     }
   },

@@ -6,9 +6,9 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const commander = require('commander');
-const Basic = require('./Basic.js');
+const Basic = require('./basic.js');
 
-class init extends Basic {
+class Init extends Basic {
   /**
    * @param { object } program commander对象
    */
@@ -70,9 +70,13 @@ class init extends Basic {
         console.error(chalk.red('The project should not contain src folder!'));
         process.exit();
         return false;
-      } else {
-        return true;
       }
+      if (fs.existsSync(util.resolveCwd('test'))) {
+        console.error(chalk.red('The project should not contain test folder!'));
+        process.exit();
+        return false;
+      }
+      return true;
     } catch (e) {
       console.error(e);
     }
@@ -104,6 +108,8 @@ class init extends Basic {
           match[0],
           match[1]
         );
+      } else {
+        cwdPackageJson.scripts[k] = currentPackageJson['scripts'][k];
       }
     }
     if (currentPackageJson[scriptsPackagename].dll) {
@@ -161,7 +167,7 @@ class init extends Basic {
    * @param { string } partDirName 复制的后创建文件夹名（相对于项目根目录），存放复制文件
    * @return { string } 复制保存后的文件夹路径
    */
-  coypDir(targetDir, partDirName) {
+  coypTemplateDir(targetDir, partDirName) {
     //template目录下的文件夹路径
     let templateDirPath = path.resolve(__dirname, `../template/${targetDir}`);
     if (!fs.existsSync(templateDirPath)) {
@@ -169,9 +175,32 @@ class init extends Basic {
       process.exit();
     }
     //相对于项目根目录
-    let savePath = path.resolve(process.cwd(), partDirName);
+    let savePath = path.resolve(process.cwd(), partDirName || '');
+    fs.copySync(
+      path.resolve(__dirname, `../karma.conf.js`),
+      path.resolve(savePath, 'karma.conf.js')
+    );
     fs.copySync(templateDirPath, savePath, {
       dereference: true,
+      filter: function(filePath) {
+        /* eslint-disable no-extra-boolean-cast */
+        if (!!~filePath.indexOf('dll.app.js')) {
+          return false;
+        }
+        /* eslint-disable no-extra-boolean-cast */
+        if (!!~filePath.indexOf('dll.app.js.map')) {
+          return false;
+        }
+        /* eslint-disable no-extra-boolean-cast */
+        if (!!~filePath.indexOf('app-manifest.json')) {
+          return false;
+        }
+        /* eslint-disable no-extra-boolean-cast */
+        if (!!~filePath.indexOf('dll-compare.json')) {
+          return false;
+        }
+        return true;
+      },
     });
     return savePath;
   }
@@ -179,15 +208,8 @@ class init extends Basic {
   run() {
     this.checkCurrentDirIsValid();
     let boilerplate = this.program.boilerplate;
-    this.coypDir('public', 'public');
-    let srcSavePath = this.coypDir(boilerplate, 'src');
-    fs.removeSync(path.resolve(srcSavePath, 'scripts.json'));
-    var readmePath = path.resolve(srcSavePath, 'README.md');
-    if (fs.existsSync(readmePath)) {
-      fs.moveSync(readmePath, path.resolve(srcSavePath, '../README.md'), {
-        overwrite: true,
-      });
-    }
+    let savePath = this.coypTemplateDir(boilerplate);
+    fs.removeSync(path.resolve(savePath, 'config.json'));
     this.writePackageJson();
     this.instruction();
   }
@@ -230,6 +252,9 @@ class init extends Basic {
       'serve-build': {
         description: 'Serve the static files in the build folder.',
       },
+      test: {
+        description: 'Run test units.',
+      },
     };
     console.log();
     console.log(chalk.green('Success!'));
@@ -245,4 +270,4 @@ class init extends Basic {
     );
   }
 }
-module.exports = init;
+module.exports = Init;

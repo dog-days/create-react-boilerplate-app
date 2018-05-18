@@ -32,3 +32,8 @@ fs.writeFileSync(
   JSON.stringify(cwdPackageJson, null, 2)
 );
 fs.removeSync(path.resolve('src'));
+fs.removeSync(path.resolve('test'));
+fs.removeSync(path.resolve('public'));
+fs.removeSync(path.resolve('README.md'));
+fs.removeSync(path.resolve('karma.conf.js'));
+fs.removeSync(path.resolve('config.js'));

@@ -1,0 +1,3 @@
+--require chai/register-should
+--reporter spec
+--ui bdd

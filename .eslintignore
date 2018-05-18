@@ -1,5 +1,6 @@
 node_modules/
 .cache
 build
+test
 packages/app-test/
 packages/react-boilerplate-app-scripts/template/

@@ -21,10 +21,11 @@ body {
 
 .app-intro {
   font-size: large;
+  padding: 0 15px;
+  line-height: 30px;
 }
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
