@@ -45,6 +45,8 @@ var config = {
     sourceMapFilename: '[file].map',
   },
   resolve: {
+    //这样路径就不会解析到真实路径上
+    symlinks: false,
     extensions: ['.js'],
   },
   plugins: [

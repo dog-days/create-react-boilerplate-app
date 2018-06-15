@@ -1,7 +1,0 @@
-/node_modules/
-/coverage/
-/.cache/
-/build/
-npm-debug.log
-*.swp
-*.zip

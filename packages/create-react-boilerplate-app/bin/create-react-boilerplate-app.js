@@ -23,7 +23,10 @@ class CreateApp {
     this.dependencies = this.dependencies.concat(
       boilerplateJson.dependencies || []
     );
-    this.devDependencies = ['react-boilerplate-app-scripts'];
+    this.devDependencies = [
+      'react-boilerplate-app-scripts',
+      'react-boilerplates',
+    ];
     this.devDependencies = this.devDependencies.concat(
       boilerplateJson.devDependencies || []
     );

@@ -61,9 +61,9 @@ class Init extends Basic {
   }
 
   /**
-  * 检查当前目录是否合法
-  * 如果src目录存在将提示并退出程序
-  */
+   * 检查当前目录是否合法
+   * 如果src目录存在将提示并退出程序
+   */
   checkCurrentDirIsValid() {
     try {
       if (fs.existsSync(util.resolveCwd('src'))) {

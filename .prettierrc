@@ -1,7 +1,6 @@
 {
-  "trailingComma": es5,
-  "printWidth": 100,
+  "trailingComma": "es5",
+  "printWidth": 80,
   "tabWidth": 2,
-  "parser": "babylon",
-  "singleQuote": true,
+  "singleQuote": true
 }

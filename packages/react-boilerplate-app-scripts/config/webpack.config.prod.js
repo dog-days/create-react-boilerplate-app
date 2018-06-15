@@ -173,6 +173,8 @@ var config = {
   },
   externals: {},
   resolve: {
+    //这样路径就不会解析到真实路径上
+    symlinks: false,
     alias: {
       src: paths.src,
     },
@@ -183,7 +185,9 @@ var config = {
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       dllScirpts: cwdPackageJsonConfig.dll
-        ? `<script type="text/javascript" src="${cwdPackageJsonConfig.basename}/dll.app.js"></script>`
+        ? `<script type="text/javascript" src="${
+            cwdPackageJsonConfig.basename
+          }/dll.app.js"></script>`
         : '',
       basename: cwdPackageJsonConfig.basename,
       inject: true,

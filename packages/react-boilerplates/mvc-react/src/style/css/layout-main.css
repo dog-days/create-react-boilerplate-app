@@ -1,0 +1,43 @@
+.navbar-nav {
+  margin: 0;
+}
+.navbar-inverse {
+  border-radius: 0;
+  padding: 0px 0px;
+  margin: 0;
+}
+.navbar-header {
+  height: 48px;
+  float: left;
+}
+.navbar-nav > li > a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.navbar-header li {
+  float: left;
+}
+.breadcrumb {
+  margin: 0;
+}
+.main-contents {
+  padding: 0 20px;
+  text-align: center;
+}
+.logo-con {
+  width: 54px;
+}
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40px;
+  margin: -10px 0 0 -10px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

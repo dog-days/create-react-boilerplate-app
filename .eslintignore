@@ -4,4 +4,5 @@ build
 test
 packages/app-test/
 packages/react-boilerplate-app-scripts/template/
+packages/react-boilerplates
 coverage
