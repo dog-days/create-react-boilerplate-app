@@ -14,7 +14,7 @@
     "sinon": "^5.0.7"
   },
   "scripts": {
-    "test": "mocha --recursive",
+    "test": "npm run bootstrap && mocha --recursive",
     "bootstrap":
       "node scripts/create-package-app-test.js && node packages/app-test/synchronize.js && node packages/react-boilerplate-app-scripts/scripts/link-react-boilerplates.js && lerna bootstrap",
     "publish": "lerna publish",
