@@ -210,7 +210,7 @@ class CreateApp {
             //非安装环境使用当前的packages/xxx，不使用远程的。
             return targetPath;
           }
-          break;
+          return dependency;
         default:
           return dependency;
       }
