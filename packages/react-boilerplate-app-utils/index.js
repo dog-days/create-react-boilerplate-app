@@ -116,14 +116,15 @@ module.exports = {
   shouldUseYarn() {
     try {
       execSync('yarnpkg --version', { stdio: 'ignore' });
-      const npmVersion = execSync('npm --version').toString();
-      //如果npm >= v5.0.0，不使用yarn
-      var flag = semver.lt(npmVersion, '5.0.0');
-      if (!flag) {
-        return false;
-      } else {
-        return true;
-      }
+      // const npmVersion = execSync('npm --version').toString();
+      // //如果npm >= v5.0.0，不使用yarn
+      // var flag = semver.lt(npmVersion, '5.0.0');
+      // if (!flag) {
+      //   return false;
+      // } else {
+      //   return true;
+      // }
+      return true;
     } catch (e) {
       return false;
     }
@@ -258,13 +259,16 @@ module.exports = {
    * 安装的dependences，dependences为undefined时安装全部依赖包
    * @param {array} dependencies 依赖包
    * @param {object} options 同行child_process.spawn的options，请参考
-   * http://nodejs.cn/api/child_process.html#child_process_child_process_spawn_command_args_options
+   *        http://nodejs.cn/api/child_process.html#child_process_child_process_spawn_command_args_options
    * @return {object} 返回promise
    */
   installPackages(dependencies, options) {
-    console.log('Installing packages. This might take a couple minutes.');
     var useYarn = this.shouldUseYarn();
     return new Promise((resolve, reject) => {
+      if (!dependencies[0]) {
+        resolve();
+        return;
+      }
       var command;
       var args;
       if (useYarn) {

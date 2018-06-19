@@ -2,13 +2,17 @@
   "scripts": {
     "create-i18n-excel": {
       "script": "react-router-controller-cli create-i18n-excel",
-      "description": "Extract the default language list by reading the set folder which default folder is 'src'."
+      "description":
+        "Extract the default language list by reading the set folder which default folder is 'src'."
     },
     "create-i18n-list": {
       "script": "react-router-controller-cli create-i18n-list",
-      "description": "Generate the corresponding i18n language javascript file by the translated excel."
+      "description":
+        "Generate the corresponding i18n language javascript file by the translated excel."
     }
   },
+  "dependencies": ["mvc-react"],
+  "devDependencies": ["react-router-controller-cli"],
   "dll": [
     "lodash",
     "react-router",

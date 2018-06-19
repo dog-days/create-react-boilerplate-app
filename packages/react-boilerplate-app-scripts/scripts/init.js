@@ -44,8 +44,6 @@ class Init extends Basic {
     return program;
   }
   //获取当前模板的config.json
-  //config.json的结构跟package.json的相似，处理部分自定义的如scripts，其他的都跟package.json一致，
-  //如果定义了，package.json对应的字段会被覆盖的。
   getConfigJson(boilerplate) {
     try {
       let configPath = path.resolve(
@@ -140,7 +138,7 @@ class Init extends Basic {
           }
           break;
         case 'dll':
-          if (Object.prototype.toString.apply(config) == '[object Array]') {
+          if (Object.prototype.toString.apply(config) === '[object Array]') {
             config.forEach(v => {
               let dll = cwdPackageJson[scriptsPackagename].dll;
               if (!~dll.indexOf(v)) {
@@ -153,8 +151,7 @@ class Init extends Basic {
           cwdPackageJson[scriptsPackagename].dll.concat(currentPackageJson.dll);
           break;
         default:
-          //覆盖
-          cwdPackageJson[j] = config;
+        //不做处理
       }
     }
     //整合boilerplate中的config.json，覆盖配置，除了自定义的。

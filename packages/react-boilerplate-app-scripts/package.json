@@ -19,8 +19,10 @@
   },
   "scripts": {
     "test": "karma start",
-    "start": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
-    "build": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
+    "start":
+      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
+    "build":
+      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
     "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
@@ -128,7 +130,11 @@
           ],
           "stage-0"
         ],
-        "plugins": ["transform-decorators-legacy", "transform-runtime", "react-hot-loader/babel"]
+        "plugins": [
+          "transform-decorators-legacy",
+          "transform-runtime",
+          "react-hot-loader/babel"
+        ]
       },
       "production": {
         "plugins": ["transform-decorators-legacy", "transform-runtime"],

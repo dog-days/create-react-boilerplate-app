@@ -12,24 +12,19 @@ const scriptsPackagename = 'react-boilerplate-app-scripts';
 class CreateApp {
   constructor() {
     this.program = this.commandSetting();
-    var boilerplateJson = this.getBoilerpalteJson();
+    // var boilerplateJson = this.getBoilerpalteJson();
     this.packageJson = {
       version: '0.0.1',
       dependencies: {},
       devDependencies: {},
     };
-    this.packageJson.name = boilerplateJson.name || 'app';
+    this.packageJson.name = 'app';
     this.dependencies = ['react', 'react-dom', 'prop-types'];
-    this.dependencies = this.dependencies.concat(
-      boilerplateJson.dependencies || []
-    );
     this.devDependencies = [
+      'react-boilerplate-app-utils',
       'react-boilerplate-app-scripts',
       'react-boilerplates',
     ];
-    this.devDependencies = this.devDependencies.concat(
-      boilerplateJson.devDependencies || []
-    );
     this.allDependencies = []
       .concat(this.dependencies)
       .concat(this.devDependencies);
@@ -80,26 +75,26 @@ class CreateApp {
     }
     return program;
   }
-  //获取当前模板的json文件信息，用于生产app的package.json信息
-  //boilerplate.json的结构跟package.json很相似。
-  getBoilerpalteJson() {
-    var boilerplate = this.program.boilerplate;
-    var boilerplateJsonPath = path.resolve(
-      __dirname,
-      '../boilerplate-config',
-      boilerplate + '.json'
-    );
+  //获取当前模板的config.json
+  getConfigJson() {
     try {
-      var boilerplateJson = fs.readJsonSync(boilerplateJsonPath);
-      return boilerplateJson;
+      const boilerplate = this.program.boilerplate;
+      const node_modules = path.resolve(process.cwd(), 'node_modules');
+      let configPath = path.resolve(
+        node_modules,
+        'react-boilerplates',
+        boilerplate,
+        'config.json'
+      );
+      return fs.readJsonSync(configPath);
     } catch (e) {
-      //如果不存在，返回空对象
       return {};
     }
   }
+
   //检测appName是否合法
   checkAppName() {
-    var validationResult = validateNpmPackageName(this.appName);
+    const validationResult = validateNpmPackageName(this.appName);
     if (!validationResult.validForNewPackages) {
       console.error(
         `Could not create a project called ${chalk.red(
@@ -138,7 +133,7 @@ class CreateApp {
   }
   /**
    * 检查当前目录是否合法
-   * @return { Boolean } true or false
+   * @return { boolean } true or false
    */
   checkPathDirIsValid() {
     try {
@@ -169,7 +164,66 @@ class CreateApp {
       process.exit();
     }
   }
-
+  symlinkBoilerplates() {
+    const node_modules = path.resolve(process.cwd(), 'node_modules');
+    const symlinkPath = path.resolve(
+      node_modules,
+      'react-boilerplate-app-scripts/template'
+    );
+    fs.removeSync(symlinkPath);
+    fs.symlinkSync(
+      path.resolve(node_modules, 'react-boilerplates'),
+      symlinkPath,
+      'dir'
+    );
+  }
+  /**
+   * 安装boilerpalte中config.json的dependencies
+   */
+  installConfigJsonPackages() {
+    const configJson = this.getConfigJson();
+    this.dependencies = this.dependencies.concat(configJson.dependencies || []);
+    this.devDependencies = this.devDependencies.concat(
+      configJson.devDependencies || []
+    );
+    const allConfigDependencies = []
+      .concat(configJson.dependencies)
+      .concat(configJson.devDependencies);
+    util.installPackages(allConfigDependencies).then(() => {
+      try {
+        this.symlinkBoilerplates();
+        this.writeResultPackageJson();
+        this.initApp();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
+  installPackages(allDependencies) {
+    allDependencies = allDependencies.map(dependency => {
+      switch (dependency) {
+        case 'react-boilerplate-app-utils':
+        case 'react-boilerplate-app-scripts':
+        case 'react-boilerplates':
+          if (fs.exists(path.resolve(__dirname, '../../packages'))) {
+            const targetPath = path.resolve(__dirname, '../../', dependency);
+            //非安装环境使用当前的packages/xxx，不使用远程的。
+            return targetPath;
+          }
+          break;
+        default:
+          return dependency;
+      }
+    });
+    console.log('Installing packages. This might take a couple minutes.');
+    util.installPackages(allDependencies).then(() => {
+      try {
+        this.installConfigJsonPackages();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
   run() {
     this.appPath = util.resolveCwd(this.appName);
     this.checkPathDirIsValid();
@@ -183,14 +237,7 @@ class CreateApp {
     console.log(`${chalk.green(this.appPath)}.`);
     console.log();
     this.writeInitialPackageJson();
-    util.installPackages(this.allDependencies).then(() => {
-      try {
-        this.writeResultPackageJson();
-        this.initApp();
-      } catch (e) {
-        console.log(e);
-      }
-    });
+    this.installPackages(this.allDependencies);
   }
 }
 
