@@ -1,7 +1,15 @@
 {
-  "lerna": "2.0.0-rc.4",
+  "lerna": "2.11.0",
   "packages": [
-    "packages/*"
+    "packages/create-react-boilerplate-app",
+    "packages/react-boilerplate-app-scripts",
+    "packages/react-boilerplate-app-utils",
+    "packages/react-boilerplates"
   ],
+  "publish": {
+    "allowBranch": [
+      "master"
+    ]
+  },
   "version": "independent"
 }
