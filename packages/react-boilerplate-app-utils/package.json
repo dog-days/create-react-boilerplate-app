@@ -1,12 +1,7 @@
 {
-  "_id": "react-boilerplate-app-utils@0.0.24",
-  "_inBundle": true,
-  "_location": "/create-react-boilerplate-app/react-boilerplate-app-utils",
-  "_phantomChildren": {},
-  "_requiredBy": [
-    "/create-react-boilerplate-app"
-  ],
-  "author": "",
+  "version": "0.0.25-beta.0",
+  "name": "react-boilerplate-app-utils",
+  "main": "index.js",
   "bugs": {
     "url": "https://github.com/dog-days/create-react-boilerplate-app/issues"
   },
@@ -21,14 +16,11 @@
   "description": "",
   "homepage": "https://github.com/dog-days/create-react-boilerplate-app",
   "license": "ISC",
-  "main": "index.js",
-  "name": "react-boilerplate-app-utils",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dog-days/create-react-boilerplate-app.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "0.0.25-beta.0"
+  }
 }
