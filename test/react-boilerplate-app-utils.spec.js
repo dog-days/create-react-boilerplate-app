@@ -37,9 +37,15 @@ describe('react-boilerplate-app-utils', function() {
       .should.equal(path.resolve(process.cwd(), 'node_modules/mocha/mocha.js'));
   });
   it(itTitle('shouldUseYarn'), function() {
-    const npmVersion = execSync('npm --version').toString();
-    const flag = semver.lt(npmVersion, '5.0.0');
-    utils.shouldUseYarn().should.equal(flag);
+    function shouldUseYarn() {
+      try {
+        execSync('yarnpkg --version', { stdio: 'ignore' });
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    utils.shouldUseYarn().should.equal(shouldUseYarn());
   });
   it(itTitle('getPackageJsonPathOfNodeModules'), function() {
     const packageName = 'mocha';
