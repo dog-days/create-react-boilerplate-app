@@ -1,6 +1,6 @@
 {
   "name": "react-boilerplate-app-scripts",
-  "version": "0.2.11",
+  "version": "0.2.12-beta.0",
   "description": "react-boilerplate-app-scripts",
   "repository": {
     "type": "git",
@@ -19,21 +19,22 @@
   },
   "scripts": {
     "test": "karma start",
-    "start":
-      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
-    "build":
-      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
+    "start": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
+    "build": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
     "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
     "serve-build": "node ./bin/react-boilerplate-app-scripts.js serve-build"
   },
-  "keywords": ["react", "react-boilerplate-app-scripts"],
+  "keywords": [
+    "react",
+    "react-boilerplate-app-scripts"
+  ],
   "author": "xianshannan",
   "license": "ISC",
   "dependencies": {
-    "babel-cli": "^6.26.0",
     "archiver": "^2.1.1",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
@@ -44,8 +45,8 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.26.0",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
-    "chalk": "^1.1.3",
     "chai": "4.1.2",
+    "chalk": "^1.1.3",
     "cli-table": "^0.3.1",
     "commander": "^2.9.0",
     "css-loader": "^0.28.1",
@@ -64,24 +65,6 @@
     "gzip-size": "^3.0.0",
     "happypack": "^4.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
-    "lodash": "^4.17.4",
-    "mocha": "4.1.0",
-    "new-serve": "^6.4.3",
-    "node-xlsx": "^0.7.4",
-    "object.assign": "^4.0.4",
-    "postcss-loader": "^2.0.5",
-    "progress-bar-webpack-plugin": "^1.9.3",
-    "react-boilerplate-app-utils": "^0.0.24",
-    "react-dev-utils": "^0.5.2",
-    "react-hot-loader": "3.0.0-beta.6",
-    "relative": "^3.0.2",
-    "socket.io": "^2.0.2",
-    "style-loader": "^0.17.0",
-    "url-loader": "^0.5.8",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.5",
-    "webpack-parallel-uglify-plugin": "^1.0.0",
-    "webpack-simple-progress-plugin": "0.0.2",
     "istanbul-instrumenter-loader": "3.0.0",
     "karma": "2.0.0",
     "karma-browserstack-launcher": "1.3.0",
@@ -96,8 +79,26 @@
     "karma-sinon": "1.0.5",
     "karma-sinon-chai": "1.3.3",
     "karma-webpack": "2.0.9",
+    "lodash": "^4.17.4",
+    "mocha": "4.1.0",
+    "new-serve": "^6.4.3",
+    "node-xlsx": "^0.7.4",
+    "object.assign": "^4.0.4",
+    "postcss-loader": "^2.0.5",
+    "progress-bar-webpack-plugin": "^1.9.3",
+    "react-boilerplate-app-utils": "^0.0.25-beta.0",
+    "react-dev-utils": "^0.5.2",
+    "react-hot-loader": "3.0.0-beta.6",
+    "relative": "^3.0.2",
     "sinon": "4.1.3",
-    "sinon-chai": "2.14.0"
+    "sinon-chai": "2.14.0",
+    "socket.io": "^2.0.2",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.5",
+    "webpack-parallel-uglify-plugin": "^1.0.0",
+    "webpack-simple-progress-plugin": "0.0.2"
   },
   "devDependencies": {
     "mvc-react": "0.1.2",
@@ -110,7 +111,11 @@
     "whatwg-fetch": "^2.0.3"
   },
   "react-boilerplate-app-scripts": {
-    "dll": ["react", "react-dom", "prop-types"],
+    "dll": [
+      "react",
+      "react-dom",
+      "prop-types"
+    ],
     "appSrcPath": "template/mvc-react/src",
     "appPublicPath": "template/mvc-react/public",
     "mock": {
@@ -137,8 +142,15 @@
         ]
       },
       "production": {
-        "plugins": ["transform-decorators-legacy", "transform-runtime"],
-        "presets": ["react", "es2015", "stage-0"]
+        "plugins": [
+          "transform-decorators-legacy",
+          "transform-runtime"
+        ],
+        "presets": [
+          "react",
+          "es2015",
+          "stage-0"
+        ]
       }
     }
   },
