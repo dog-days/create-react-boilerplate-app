@@ -7,9 +7,8 @@
     "packages/react-boilerplates"
   ],
   "publish": {
-    "allowBranch": [
-      "master"
-    ]
+    "allowBranch": ["master"],
+    "ignoreChanges": ["*.md"]
   },
   "version": "independent"
 }
