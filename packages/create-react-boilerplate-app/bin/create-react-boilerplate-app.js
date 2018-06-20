@@ -205,7 +205,7 @@ class CreateApp {
         case 'react-boilerplate-app-utils':
         case 'react-boilerplate-app-scripts':
         case 'react-boilerplates':
-          if (fs.exists(path.resolve(__dirname, '../../packages'))) {
+          if (fs.existsSync(path.resolve(__dirname, '../../packages'))) {
             const targetPath = path.resolve(__dirname, '../../', dependency);
             //非安装环境使用当前的packages/xxx，不使用远程的。
             return targetPath;
