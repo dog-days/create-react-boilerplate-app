@@ -15,7 +15,7 @@ try {
   execSync('rm -rf tempTestCreate && mkdir tempTestCreate');
   const child = spawn('node', ['../bin/index.js', '-b', boilerplate, 'test'], {
     stdio: 'inherit',
-    cwd: path.resolve(process.cwd(), 'tempTestCreate'),
+    cwd: path.resolve(__dirname, '../tempTestCreate'),
   });
   child.on('close', code => {
     if (code !== 0) {
