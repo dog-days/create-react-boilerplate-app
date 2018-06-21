@@ -34,13 +34,12 @@
   "license": "ISC",
   "dependencies": {
     "archiver": "^2.1.1",
-    "babel-cli": "^6.26.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.26.0",
@@ -122,12 +121,7 @@
       "development": {
         "presets": [
           "react",
-          [
-            "es2015",
-            {
-              "modules": false
-            }
-          ],
+          "env",
           "stage-0"
         ],
         "plugins": [

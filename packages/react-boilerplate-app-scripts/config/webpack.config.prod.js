@@ -153,7 +153,7 @@ var config = {
         //确保在babel转换前执行
         enforce: 'pre',
         test: /\.js[x]?$/,
-        //之所以不用include是因为，如果单独是用react-boilerplate-app-scirpts，
+        //之所以不用include是因为，如果单独使用react-boilerplate-app-scirpts，
         //修改了paths.src的路径，但是还是想检查其他的目录，这就会有问题。
         exclude,
         loader: 'eslint-loader',
@@ -165,7 +165,7 @@ var config = {
         options: {
           cacheDirectory: true,
         },
-        //之所以不用include是因为，如果单独是用react-boilerplate-app-scirpts，
+        //之所以不用include是因为，如果单独使用react-boilerplate-app-scirpts，
         //修改了paths.src的路径，但是还是想检查其他的目录，这就会有问题。
         exclude,
       },
