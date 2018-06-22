@@ -20,6 +20,7 @@ if (!cwdPackageJsonConfig.dll || !cwdPackageJsonConfig.dll[0]) {
 
 //webpack配置项
 var config = {
+  mode: 'production',
   //任何错误立即终止
   bail: true,
   devtool: 'source-map',

@@ -91,6 +91,7 @@ const exclude = [
 ];
 //webpack配置项
 var config = {
+  mode: 'development',
   devtool: 'cheap-module-source-map',
   //隐藏终端的warning信息
   performance: {

@@ -79,6 +79,7 @@ const exclude = [
 ];
 //webpack配置项
 var config = {
+  mode: 'development',
   //任何错误立即终止
   bail: true,
   devtool: 'source-map',
