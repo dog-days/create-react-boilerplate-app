@@ -151,15 +151,6 @@ var config = {
         },
       },
       {
-        //确保在babel转换前执行
-        enforce: 'pre',
-        test: /\.js[x]?$/,
-        //之所以不用include是因为，如果单独使用react-boilerplate-app-scirpts，
-        //修改了paths.src的路径，但是还是想检查其他的目录，这就会有问题。
-        exclude,
-        loader: 'eslint-loader',
-      },
-      {
         //匹配.js或.jsx后缀名的文件
         test: /\.js[x]?$/,
         loader: 'babel-loader',
@@ -264,6 +255,35 @@ if (cwdPackageJsonConfig.dll) {
       ],
     })
   );
+}
+//使用typescript配置
+if (cwdPackageJsonConfig.typescript) {
+  config.module.rules.push({
+    //匹配.ts或.tsx后缀名的文件
+    test: /\.ts[x]?$/,
+    use: [
+      {
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+        },
+      },
+      {
+        loader: 'ts-loader',
+      },
+    ],
+    exclude,
+  });
+} else {
+  config.module.rules.push({
+    //确保在babel转换前执行
+    enforce: 'pre',
+    test: /\.js[x]?$/,
+    //之所以不用include是因为，如果单独使用react-boilerplate-app-scirpts，
+    //修改了paths.src的路径，但是还是想检查其他的目录，这就会有问题。
+    exclude,
+    loader: 'eslint-loader',
+  });
 }
 //使用sass配置
 if (useSass) {

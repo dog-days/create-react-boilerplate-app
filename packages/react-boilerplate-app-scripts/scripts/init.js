@@ -92,7 +92,10 @@ class Init extends Basic {
     }
     return scripts;
   }
-  writePackageJson() {
+  /**
+   * @param {string} boilerplate 模板名
+   */
+  writePackageJson(boilerplate) {
     let pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
     let cwdPackageJson = fs.readJsonSync(pacakgeJsonPath);
     let currentPackageJson = this.packageJson;
@@ -154,6 +157,9 @@ class Init extends Basic {
         //不做处理
       }
     }
+    if (!!~boilerplate.indexOf('-ts')) {
+      cwdPackageJson[scriptsPackagename].typescript = true;
+    }
     //整合boilerplate中的config.json，覆盖配置，除了自定义的。
     fs.writeFileSync(pacakgeJsonPath, JSON.stringify(cwdPackageJson, null, 2));
   }
@@ -196,6 +202,10 @@ class Init extends Basic {
         if (!!~filePath.indexOf('dll-compare.json')) {
           return false;
         }
+        /* eslint-disable no-extra-boolean-cast */
+        if (!!~filePath.indexOf('pacakge.json')) {
+          return false;
+        }
         return true;
       },
     });
@@ -207,7 +217,7 @@ class Init extends Basic {
     let boilerplate = this.program.boilerplate;
     let savePath = this.coypTemplateDir(boilerplate);
     fs.removeSync(path.resolve(savePath, 'config.json'));
-    this.writePackageJson();
+    this.writePackageJson(boilerplate);
     this.instruction();
   }
 

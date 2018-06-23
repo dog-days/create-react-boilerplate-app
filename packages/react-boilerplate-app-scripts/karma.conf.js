@@ -13,7 +13,7 @@ const webpackConfig = require(util.pathResolve(
 const rules = [
   {
     enforce: 'post',
-    test: /\.js[x]?$/,
+    test: /\.(js|jsx|ts|tsx)$/,
     include: new RegExp(paths.src),
     loader: 'istanbul-instrumenter-loader',
   },

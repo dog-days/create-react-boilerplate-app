@@ -215,7 +215,6 @@ class CreateApp {
           return dependency;
       }
     });
-    console.log('Installing packages. This might take a couple minutes.');
     util.installPackages(allDependencies).then(() => {
       try {
         this.installConfigJsonPackages();

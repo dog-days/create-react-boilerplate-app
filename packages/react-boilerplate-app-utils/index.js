@@ -169,7 +169,7 @@ module.exports = {
         //routesPath: '${src}/.routes.js',
         //reducersPath: '${src}/.reducers.js',
         //app 程序入口js文件
-        appEntryPath: '${src}/index.jsx',
+        appEntryPath: '${src}',
         //dev server静态资源访问目录
         appPublicPath: 'public',
         //多语言文件夹
@@ -260,7 +260,11 @@ module.exports = {
       if (!dependencies[0]) {
         resolve();
         return;
+      } else {
+        console.log('Nothing to install.');
       }
+      console.log(`Installing ${dependencies} packages.`);
+      console.log('This might take a couple minutes.');
       var command;
       var args;
       if (useYarn) {

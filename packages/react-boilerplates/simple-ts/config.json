@@ -1,0 +1,8 @@
+{
+  "devDependencies": [
+    "ts-loader",
+    "typescript",
+    "@types/react",
+    "@types/react-dom"
+  ]
+}

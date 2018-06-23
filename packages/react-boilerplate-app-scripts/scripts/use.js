@@ -26,8 +26,9 @@ class Use extends Basic {
     this.program = program;
     if (program.list) {
       console.log();
-      console.log(' ' + 'less');
-      console.log(' ' + 'sass');
+      console.log(' ' + chalk.cyan('less'));
+      console.log(' ' + chalk.cyan('sass'));
+      console.log(' ' + chalk.cyan('typescript'));
       console.log();
       process.exit();
     }
@@ -58,13 +59,15 @@ class Use extends Basic {
   }
   /**
    * 获取需要安装的包
+   * @param { string } type 模板名称
+   * @param { object } pacakageJson 当前输入目录的pacakge.json对象
    * @return { array }
    *  [
    *    dependencies,
    *    devDependencies,
    *  ]
    */
-  getDependencies(type) {
+  getDependencies(type, packageJson) {
     let dependencies = [];
     let devDependencies = [];
     switch (type) {
@@ -75,6 +78,17 @@ class Use extends Basic {
       case 'sass':
         dependencies = [];
         devDependencies = ['node-sass', 'sass-loader'];
+        break;
+      case 'typescript':
+        dependencies = [];
+        devDependencies = [
+          'typescript',
+          'ts-loader',
+          '@types/react',
+          '@types/react-dom',
+        ];
+        //标记typescript开启，wepack配置会读取这个信息
+        packageJson[util.scriptsPackagename].typescript = true;
         break;
       default:
         console.log();
@@ -114,9 +128,9 @@ class Use extends Basic {
   }
 
   run() {
-    let dependencies = this.getDependencies(this.featureName);
-    let allDependencies = [].concat(dependencies[0]).concat(dependencies[1]);
     let packageJson = util.getCwdPackageJson();
+    let dependencies = this.getDependencies(this.featureName, packageJson);
+    let allDependencies = [].concat(dependencies[0]).concat(dependencies[1]);
     if (!packageJson.devDependencies) {
       packageJson.devDependencies = {};
     }
@@ -128,7 +142,7 @@ class Use extends Basic {
       .then(() => {
         this.writeNewPackageJson(packageJson, dependencies[0], dependencies[1]);
         console.log();
-        console.log('Restart the dev server,then it will work.');
+        console.log(chalk.cyan('Restart the dev server,then it will work.'));
       })
       .catch(function(e) {
         console.error(e);
