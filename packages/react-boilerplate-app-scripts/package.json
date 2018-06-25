@@ -1,6 +1,6 @@
 {
   "name": "react-boilerplate-app-scripts",
-  "version": "0.2.12-beta.1",
+  "version": "0.2.12-beta.2",
   "description": "react-boilerplate-app-scripts",
   "repository": {
     "type": "git",
@@ -19,16 +19,17 @@
   },
   "scripts": {
     "test": "karma start",
-    "start":
-      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
-    "build":
-      "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
+    "start": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js start",
+    "build": "npm run build-dll hide-message && node ./bin/react-boilerplate-app-scripts.js build",
     "build-dll": "node ./bin/react-boilerplate-app-scripts.js build-dll",
     "cover": "node ./bin/react-boilerplate-app-scripts.js cover",
     "use": "node ./bin/react-boilerplate-app-scripts.js use",
     "serve-build": "node ./bin/react-boilerplate-app-scripts.js serve-build"
   },
-  "keywords": ["react", "react-boilerplate-app-scripts"],
+  "keywords": [
+    "react",
+    "react-boilerplate-app-scripts"
+  ],
   "author": "xianshannan",
   "license": "ISC",
   "dependencies": {
@@ -80,7 +81,7 @@
     "postcss-loader": "2.1.5",
     "progress-bar-webpack-plugin": "1.11.0",
     "promise": "8.0.1",
-    "react-boilerplate-app-utils": "^0.0.25-beta.1",
+    "react-boilerplate-app-utils": "^0.0.25-beta.2",
     "react-dev-utils": "5.0.1",
     "react-hot-loader": "3.0.0-beta.6",
     "relative": "3.0.2",
@@ -108,7 +109,11 @@
     "react-router-controller-cli": "0.0.1"
   },
   "react-boilerplate-app-scripts": {
-    "dll": ["react", "react-dom", "prop-types"],
+    "dll": [
+      "react",
+      "react-dom",
+      "prop-types"
+    ],
     "appSrcPath": "template/simple-ts/src",
     "appPublicPath": "template/simple-ts/public",
     "mock": {
@@ -119,7 +124,11 @@
   "babel": {
     "env": {
       "development": {
-        "presets": ["react", "env", "stage-0"],
+        "presets": [
+          "react",
+          "env",
+          "stage-0"
+        ],
         "plugins": [
           "transform-decorators-legacy",
           "transform-runtime",
@@ -127,8 +136,15 @@
         ]
       },
       "production": {
-        "presets": ["react", "env", "stage-0"],
-        "plugins": ["transform-decorators-legacy", "transform-runtime"]
+        "presets": [
+          "react",
+          "env",
+          "stage-0"
+        ],
+        "plugins": [
+          "transform-decorators-legacy",
+          "transform-runtime"
+        ]
       }
     }
   },
