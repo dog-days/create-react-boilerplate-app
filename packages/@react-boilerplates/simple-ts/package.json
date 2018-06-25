@@ -1,6 +1,9 @@
 {
   "name": "@react-boilerplates/simple-ts",
   "version": "0.0.2-beta.2",
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://github.com/dog-days/create-react-boilerplate-app",
   "repository": {
     "type": "git",
