@@ -21,9 +21,15 @@ try {
     if (code !== 0) {
       throw new Error('error:' + code);
     }
+    execSync(
+      'node ../react-boilerplate-app-scripts/scripts/link-react-boilerplates.js'
+    );
     execSync('rm -rf ./tempTestCreate');
   });
 } catch (e) {
   console.error(chalk.red(e));
+  execSync(
+    'node ../react-boilerplate-app-scripts/scripts/link-react-boilerplates.js'
+  );
   execSync('rm -rf ./tempTestCreate');
 }

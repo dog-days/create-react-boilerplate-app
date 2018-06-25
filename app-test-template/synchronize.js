@@ -6,6 +6,8 @@ const path = require('path');
 
 let cwdPackageJson = fs.readJsonSync(path.resolve(__dirname, 'package.json'));
 cwdPackageJson.scripts = {};
+cwdPackageJson.dependencies = {};
+cwdPackageJson.devDependencies = {};
 let scriptsPackageJson = fs.readJsonSync(
   path.resolve(__dirname, '../react-boilerplate-app-scripts', 'package.json')
 );

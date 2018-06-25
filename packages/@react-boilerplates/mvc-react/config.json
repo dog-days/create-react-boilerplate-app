@@ -14,6 +14,9 @@
   "dependencies": ["mvc-react"],
   "devDependencies": ["react-router-controller-cli"],
   "dll": [
+    "react",
+    "react-dom",
+    "prop-types",
     "lodash",
     "react-router",
     "react-router-dom",

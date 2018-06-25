@@ -148,7 +148,7 @@ var config = {
       },
       //limit是base64转换最大限制，小于设置值，都会转为base64格式
       //name是在css中提取图片的命名方式
-      //目前设置.bmp、.git、.jpe(g)、.png转换
+      //目前设置.bmp、.git、.jp(e)g、.png转换
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg/, /\.webp$/],
         //[path]是以publicPath为准

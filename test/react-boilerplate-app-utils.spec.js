@@ -65,7 +65,7 @@ describe('react-boilerplate-app-utils', function() {
       appSrcPath: 'src',
       host: 'localhost',
       port: 8888,
-      appEntryPath: 'src/index.jsx',
+      appEntryPath: 'src',
       appPublicPath: 'public',
       appLocalePath: 'src/i18n',
       index: 'index.html',

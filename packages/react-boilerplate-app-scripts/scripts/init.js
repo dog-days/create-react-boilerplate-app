@@ -98,6 +98,7 @@ class Init extends Basic {
   writePackageJson(boilerplate) {
     let pacakgeJsonPath = path.resolve(process.cwd(), 'package.json');
     let cwdPackageJson = fs.readJsonSync(pacakgeJsonPath);
+
     let currentPackageJson = this.packageJson;
     //适配scripts，针对当前项目的package.json中的scripts，去除部分信息
     cwdPackageJson.scripts = {};
@@ -203,7 +204,14 @@ class Init extends Basic {
           return false;
         }
         /* eslint-disable no-extra-boolean-cast */
-        if (!!~filePath.indexOf('pacakge.json')) {
+        if (
+          !!~filePath.indexOf('config.json') &&
+          !~filePath.indexOf('tsconfig.json')
+        ) {
+          return false;
+        }
+        /* eslint-disable no-extra-boolean-cast */
+        if (!!~filePath.indexOf('package.json')) {
           return false;
         }
         return true;
@@ -215,8 +223,7 @@ class Init extends Basic {
   run() {
     this.checkCurrentDirIsValid();
     let boilerplate = this.program.boilerplate;
-    let savePath = this.coypTemplateDir(boilerplate);
-    fs.removeSync(path.resolve(savePath, 'config.json'));
+    this.coypTemplateDir(boilerplate);
     this.writePackageJson(boilerplate);
     this.instruction();
   }

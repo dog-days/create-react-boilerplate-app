@@ -259,9 +259,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       if (!dependencies[0]) {
         resolve();
-        return;
-      } else {
         console.log('Nothing to install.');
+        return;
       }
       console.log(`Installing ${dependencies} packages.`);
       console.log('This might take a couple minutes.');
@@ -300,6 +299,24 @@ module.exports = {
   },
   /**
    * 根据包名获取node_modules中包版本
+   * @param {string} packageName 依赖包名eg. test@1.2.1
+   * @return { string } package name 适配后只给package.json使用的package name，去掉version
+   */
+  packageNameAdapter(packageName) {
+    let packageNameWithoutVerison;
+    const splitPackageName = packageName.split('@');
+    if (packageName.indexOf('@') === 0) {
+      //如@react-boilerplates/simple@1.1.1
+      packageNameWithoutVerison =
+        '@' + splitPackageName[0] + splitPackageName[1];
+    } else {
+      packageNameWithoutVerison = splitPackageName[0];
+    }
+    return packageNameWithoutVerison;
+  },
+  /**
+   * 根据包名获取node_modules中包版本
+   * @param {string} packageName 依赖包名
    * @return { string } version
    */
   getVersionOfPackage(packageName) {
@@ -310,6 +327,7 @@ module.exports = {
           packageName + ' is not existed in current node_modules folder.'
         )
       );
+      console.trace();
       process.exit(1);
     }
     var packageJson = require(packageJsonPath);

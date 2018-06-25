@@ -12,6 +12,8 @@ const scriptsPackagename = 'react-boilerplate-app-scripts';
 class CreateApp {
   constructor() {
     this.program = this.commandSetting();
+    const boilerplate = this.program.boilerplate;
+    this.boilerplatePacakgeName = '@react-boilerplates/' + boilerplate;
     // var boilerplateJson = this.getBoilerpalteJson();
     this.packageJson = {
       version: '0.0.1',
@@ -23,8 +25,9 @@ class CreateApp {
     this.devDependencies = [
       'react-boilerplate-app-utils',
       'react-boilerplate-app-scripts',
-      'react-boilerplates',
+      this.boilerplatePacakgeName,
     ];
+
     this.allDependencies = []
       .concat(this.dependencies)
       .concat(this.devDependencies);
@@ -78,15 +81,20 @@ class CreateApp {
   //获取当前模板的config.json
   getConfigJson() {
     try {
-      const boilerplate = this.program.boilerplate;
       const node_modules = path.resolve(process.cwd(), 'node_modules');
       let configPath = path.resolve(
         node_modules,
-        'react-boilerplates',
-        boilerplate,
+        this.boilerplatePacakgeName,
         'config.json'
       );
-      return fs.readJsonSync(configPath);
+      const configJson = fs.readJsonSync(configPath);
+      if (!configJson.dependencies) {
+        configJson.dependencies = [];
+      }
+      if (!configJson.devDependencies) {
+        configJson.devDependencies = [];
+      }
+      return configJson;
     } catch (e) {
       return {};
     }
@@ -116,15 +124,16 @@ class CreateApp {
   }
   //成功安装后的的package.json
   writeResultPackageJson() {
-    this.dependencies.forEach(v => {
-      v = v.split('@')[0];
-      let version = util.getVersionOfPackage(v);
-      this.packageJson.dependencies[v] = '^' + version;
+    this.dependencies.forEach(packageName => {
+      const packageNameWithoutVersion = util.packageNameAdapter(packageName);
+      let version = util.getVersionOfPackage(packageNameWithoutVersion);
+      this.packageJson.dependencies[packageNameWithoutVersion] = '^' + version;
     });
-    this.devDependencies.forEach(v => {
-      v = v.split('@')[0];
-      let version = util.getVersionOfPackage(v);
-      this.packageJson.devDependencies[v] = '^' + version;
+    this.devDependencies.forEach(packageName => {
+      const packageNameWithoutVersion = util.packageNameAdapter(packageName);
+      let version = util.getVersionOfPackage(packageNameWithoutVersion);
+      this.packageJson.devDependencies[packageNameWithoutVersion] =
+        '^' + version;
     });
     fs.writeFileSync(
       path.resolve(this.appPath, './package.json'),
@@ -172,7 +181,7 @@ class CreateApp {
     );
     fs.removeSync(symlinkPath);
     fs.symlinkSync(
-      path.resolve(node_modules, 'react-boilerplates'),
+      path.resolve(node_modules, '@react-boilerplates'),
       symlinkPath,
       'dir'
     );
@@ -180,13 +189,17 @@ class CreateApp {
   /**
    * 安装boilerpalte中config.json的dependencies
    */
-  installConfigJsonPackages() {
+  installConfigJsonPackages(allDependencies) {
+    if (!fs.existsSync(path.resolve(__dirname, '../../../packages'))) {
+      //远程的包，不需要重复安装，本地的package/xxx需要重新安装，要不会报错。
+      allDependencies = [];
+    }
     const configJson = this.getConfigJson();
-    this.dependencies = this.dependencies.concat(configJson.dependencies || []);
+    this.dependencies = this.dependencies.concat(configJson.dependencies);
     this.devDependencies = this.devDependencies.concat(
-      configJson.devDependencies || []
+      configJson.devDependencies
     );
-    const allConfigDependencies = []
+    const allConfigDependencies = allDependencies
       .concat(configJson.dependencies)
       .concat(configJson.devDependencies);
     util.installPackages(allConfigDependencies).then(() => {
@@ -201,23 +214,36 @@ class CreateApp {
   }
   installPackages(allDependencies) {
     allDependencies = allDependencies.map(dependency => {
-      switch (dependency) {
-        case 'react-boilerplate-app-utils':
-        case 'react-boilerplate-app-scripts':
-        case 'react-boilerplates':
-          if (fs.existsSync(path.resolve(__dirname, '../../../packages'))) {
-            const targetPath = path.resolve(__dirname, '../../', dependency);
-            //非安装环境使用当前的packages/xxx，不使用远程的。
-            return targetPath;
-          }
-          return dependency;
-        default:
-          return dependency;
+      if (
+        dependency === this.boilerplatePacakgeName &&
+        fs.existsSync(path.resolve(__dirname, '../../../packages'))
+      ) {
+        //处理@react-boilerplates/xxx的情况
+        //非安装环境使用当前的packages/xxx，不使用远程的。
+        const targetPath = path.resolve(
+          __dirname,
+          '../../',
+          this.boilerplatePacakgeName
+        );
+        return targetPath;
+      } else {
+        switch (dependency) {
+          case 'react-boilerplate-app-utils':
+          case 'react-boilerplate-app-scripts':
+            if (fs.existsSync(path.resolve(__dirname, '../../../packages'))) {
+              const targetPath = path.resolve(__dirname, '../../', dependency);
+              //非安装环境使用当前的packages/xxx，不使用远程的。
+              return targetPath;
+            }
+            return dependency;
+          default:
+            return dependency;
+        }
       }
     });
     util.installPackages(allDependencies).then(() => {
       try {
-        this.installConfigJsonPackages();
+        this.installConfigJsonPackages(allDependencies);
       } catch (e) {
         console.log(e);
       }

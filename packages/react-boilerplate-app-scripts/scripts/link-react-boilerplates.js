@@ -8,7 +8,7 @@ if (fs.existsSync(symlinkPath)) {
   fs.unlinkSync(symlinkPath);
 }
 fs.symlinkSync(
-  path.resolve(__dirname, '../../react-boilerplates'),
+  path.resolve(__dirname, '../../@react-boilerplates'),
   symlinkPath,
   'dir'
 );
