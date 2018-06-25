@@ -36,7 +36,7 @@ class CreateApp {
 
   readCurrentProjectPackageJSON() {
     var packageJsonPath = path.resolve(__dirname, '../package.json');
-    var json = fs.readJsonSync(packageJsonPath);
+    var json = require(packageJsonPath);
     return json;
   }
 
@@ -80,6 +80,7 @@ class CreateApp {
   }
   //获取当前模板的config.json
   getConfigJson() {
+    let configJson = {};
     try {
       const node_modules = path.resolve(process.cwd(), 'node_modules');
       let configPath = path.resolve(
@@ -87,17 +88,17 @@ class CreateApp {
         this.boilerplatePacakgeName,
         'config.json'
       );
-      const configJson = fs.readJsonSync(configPath);
-      if (!configJson.dependencies) {
-        configJson.dependencies = [];
-      }
-      if (!configJson.devDependencies) {
-        configJson.devDependencies = [];
-      }
-      return configJson;
+      configJson = require(configPath);
     } catch (e) {
-      return {};
+      /**noop**/
     }
+    if (!configJson.dependencies) {
+      configJson.dependencies = [];
+    }
+    if (!configJson.devDependencies) {
+      configJson.devDependencies = [];
+    }
+    return configJson;
   }
 
   //检测appName是否合法
