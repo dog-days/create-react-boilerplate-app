@@ -1,9 +1,7 @@
 const chai = require('chai');
 const path = require('path');
-const chalk = require('chalk');
 const execSync = require('child_process').execSync;
 const spawn = require('cross-spawn');
-const semver = require('semver');
 const chaiAsPromised = require('chai-as-promised');
 const utils = require('../packages/react-boilerplate-app-utils');
 
@@ -11,54 +9,29 @@ const utils = require('../packages/react-boilerplate-app-utils');
 chai.use(chaiAsPromised);
 utils.checkNodeVersion('v6.0.0').should.true;
 
+const boilerplateAppPath = path.resolve(
+  process.cwd(),
+  'packages/create-react-boilerplate-app'
+);
 describe('create-react-boilerplate-app', function() {
   this.timeout(0);
-  it(`create mvc-react`, function(done) {
-    execSync('rm -rf tempTestCreate && mkdir tempTestCreate');
-    const child = spawn(
-      'node',
-      [
-        '../packages/create-react-boilerplate-app/bin/index.js',
-        '-b',
-        'mvc-react',
-        'test',
-      ],
-      {
+  function testTemplate(boilerplateName) {
+    it(`create ${boilerplateName}`, function(done) {
+      const child = spawn('npm', ['run', 'test', boilerplateName], {
         stdio: 'inherit',
-        cwd: path.resolve(process.cwd(), 'tempTestCreate'),
-      }
-    );
-    child.on('close', code => {
-      if (code !== 0) {
-        throw new Error('error:' + code);
-        return;
-      }
-      execSync('rm -rf ./tempTestCreate');
-      done();
+        cwd: boilerplateAppPath,
+      });
+      child.on('close', code => {
+        if (code !== 0) {
+          throw new Error('error:' + code);
+          return;
+        }
+        done();
+      });
     });
-  });
-  it(`create simple`, function(done) {
-    execSync('rm -rf tempTestCreate && mkdir tempTestCreate');
-    const child = spawn(
-      'node',
-      [
-        '../packages/create-react-boilerplate-app/bin/index.js',
-        '-b',
-        'simple',
-        'test',
-      ],
-      {
-        stdio: 'inherit',
-        cwd: path.resolve(process.cwd(), 'tempTestCreate'),
-      }
-    );
-    child.on('close', code => {
-      if (code !== 0) {
-        throw new Error('error:' + code);
-        return;
-      }
-      execSync('rm -rf ./tempTestCreate');
-      done();
-    });
+  }
+  const boilerplates = ['simple', 'simple-ts', 'mvc-react'];
+  boilerplates.forEach(function(boilerplate) {
+    testTemplate(boilerplate);
   });
 });
