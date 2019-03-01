@@ -1,5 +1,7 @@
 # Create React Boilerplate App 
 
+废弃了，有时间重构。
+
 使用样板创建React应用程序，这里会逐渐提供各种各样的样板。
 
 创建React样板应用程序适用于MacOS，Windows和Linux。
